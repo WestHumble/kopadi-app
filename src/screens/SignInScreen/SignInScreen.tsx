@@ -4,6 +4,7 @@ import {
   Image,
   StyleSheet,
   useWindowDimensions,
+  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
 import Logo from "../../../assets/images/Logo-Test.png";
@@ -15,6 +16,7 @@ const SignInScreen = () => {
   const [password, setPassword] = useState("");
 
   const { height } = useWindowDimensions();
+
   const onSignInPressed = () => {
     console.warn("Kliknięto zalogowanie");
   };
@@ -32,47 +34,49 @@ const SignInScreen = () => {
   };
 
   return (
-    <View style={styles.root}>
-      <Image
-        source={Logo}
-        style={(styles.logo, { height: height * 0.3 })}
-        resizeMode="contain"
-      />
-      <CustomInput
-        placeholder="Nazwa użytkownika"
-        value={username}
-        setValue={setUsername}
-      />
-      <CustomInput
-        placeholder="Hasło"
-        value={password}
-        setValue={setPassword}
-        secureTextEntry
-      />
-      <CustomButton text="Zaloguj" onPress={onSignInPressed} type="PRIMARY" />
-      <CustomButton
-        text="Zapomniałem hasła"
-        onPress={onForgotPressed}
-        type="TERTIARY"
-      />
-      <CustomButton
-        text="Zaloguj się za pomocą Facebooka"
-        onPress={onSignInFacebookPressed}
-        bgColor={"#3b5998"}
-        fgColor={"white"}
-      />
-      <CustomButton
-        text="Zaloguj się za pomocą Google"
-        onPress={onSignInGooglePressed}
-        bgColor={"#db4437"}
-        fgColor={"white"}
-      />
-      <CustomButton
-        text="Nie mam konta - zarejestruj się"
-        onPress={onCreateAccPressed}
-        type="TERTIARY"
-      />
-    </View>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <View style={styles.root}>
+        <Image
+          source={Logo}
+          style={(styles.logo, { height: height * 0.3 })}
+          resizeMode="contain"
+        />
+        <CustomInput
+          placeholder="Nazwa użytkownika"
+          value={username}
+          setValue={setUsername}
+        />
+        <CustomInput
+          placeholder="Hasło"
+          value={password}
+          setValue={setPassword}
+          secureTextEntry
+        />
+        <CustomButton text="Zaloguj" onPress={onSignInPressed} type="PRIMARY" />
+        <CustomButton
+          text="Zapomniałem hasła"
+          onPress={onForgotPressed}
+          type="TERTIARY"
+        />
+        <CustomButton
+          text="Zaloguj się za pomocą Facebooka"
+          onPress={onSignInFacebookPressed}
+          bgColor={"#3b5998"}
+          fgColor={"white"}
+        />
+        <CustomButton
+          text="Zaloguj się za pomocą Google"
+          onPress={onSignInGooglePressed}
+          bgColor={"#db4437"}
+          fgColor={"white"}
+        />
+        <CustomButton
+          text="Nie mam konta - zarejestruj się"
+          onPress={onCreateAccPressed}
+          type="TERTIARY"
+        />
+      </View>
+    </ScrollView>
   );
 };
 
