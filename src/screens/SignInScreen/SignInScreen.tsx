@@ -5,16 +5,22 @@ import {
   StyleSheet,
   useWindowDimensions,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import Logo from "../../../assets/images/Logo-Test.png";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import SocialSignInButtons from "../../components/SocialSignInButtons";
 import { useNavigation } from "@react-navigation/native";
-
+import axios from "axios";
 const SignInScreen = () => {
   const [email, setEmail] = useState("");
+  
+  const {login, logout, isLoading, userToken} = useContext(AuthContext);
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const { height } = useWindowDimensions();
@@ -23,6 +29,9 @@ const SignInScreen = () => {
   const onSignInPressed = () => {
     //Validacja logowania usera
     navigation.navigate("Home");
+
+    console.warn("Kliknięto zalogowanie");
+    login(email, password)
   };
   const onForgotPressed = () => {
     console.warn("Klikniecie zapomniałem hasła");
@@ -30,6 +39,24 @@ const SignInScreen = () => {
   const onCreateAccPressed = () => {
     navigation.navigate("SignUp");
   };
+  const onPingPressed = () => {
+    axios.get(`http://localhost:81/api/ping`, {
+      headers: 
+      {
+        "Authorization" : `Bearer ${userToken}`
+      }
+    }).then(res => {
+        console.log(res.data)
+    }).catch(res => {
+        console.error(res) 
+    })
+  };
+
+  if (isLoading) {
+    return (<View style={{flex:1, justifyContent:'center',alignItems:'center'}}>
+      <ActivityIndicator size={'large'}/>
+    </View>);
+  }
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -39,6 +66,7 @@ const SignInScreen = () => {
           style={(styles.logo, { height: height * 0.3 })}
           resizeMode="contain"
         />
+        <Text>{userToken ? 'logged in :>':'logged out :<'}</Text>
         <CustomInput
           placeholder="Podaj adres e-mail"
           value={email}
@@ -58,6 +86,9 @@ const SignInScreen = () => {
           bgColor={undefined}
           fgColor={undefined}
         />
+        <CustomButton text="Wyloguj" onPress={logout} type="PRIMARY" />
+        <CustomButton text="Ping" onPress={onPingPressed} type="PRIMARY" />
+
         <CustomButton
           text="Zapomniałem hasła"
           onPress={onForgotPressed}
