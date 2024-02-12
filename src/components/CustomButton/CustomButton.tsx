@@ -39,10 +39,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   container_PRIMARY: {
-    backgroundColor: "#3b71f3",
+    backgroundColor: "#F2B138",
   },
   container_SECONDARY: {
-    backgroundColor: "#f3f3f3",
+    backgroundColor: "#003f63",
   },
   container_TERTIARY: {
     backgroundColor: "transparent",

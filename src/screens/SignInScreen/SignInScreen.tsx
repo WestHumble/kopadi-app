@@ -10,27 +10,25 @@ import React, { useState } from "react";
 import Logo from "../../../assets/images/Logo-Test.png";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
+import SocialSignInButtons from "../../components/SocialSignInButtons";
+import { useNavigation } from "@react-navigation/native";
 
 const SignInScreen = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const { height } = useWindowDimensions();
+  const navigation = useNavigation();
 
   const onSignInPressed = () => {
-    console.warn("Kliknięto zalogowanie");
+    //Validacja logowania usera
+    navigation.navigate("Home");
   };
   const onForgotPressed = () => {
     console.warn("Klikniecie zapomniałem hasła");
   };
-  const onSignInFacebookPressed = () => {
-    console.warn("Kliknięto zalogowanie facebook");
-  };
-  const onSignInGooglePressed = () => {
-    console.warn("Kliknięto zalogowanie google");
-  };
   const onCreateAccPressed = () => {
-    console.warn("Założenie konta");
+    navigation.navigate("SignUp");
   };
 
   return (
@@ -42,9 +40,10 @@ const SignInScreen = () => {
           resizeMode="contain"
         />
         <CustomInput
-          placeholder="Nazwa użytkownika"
-          value={username}
-          setValue={setUsername}
+          placeholder="Podaj adres e-mail"
+          value={email}
+          setValue={setEmail}
+          secureTextEntry={undefined}
         />
         <CustomInput
           placeholder="Hasło"
@@ -52,28 +51,27 @@ const SignInScreen = () => {
           setValue={setPassword}
           secureTextEntry
         />
-        <CustomButton text="Zaloguj" onPress={onSignInPressed} type="PRIMARY" />
+        <CustomButton
+          text="Zaloguj"
+          onPress={onSignInPressed}
+          type="PRIMARY"
+          bgColor={undefined}
+          fgColor={undefined}
+        />
         <CustomButton
           text="Zapomniałem hasła"
           onPress={onForgotPressed}
           type="TERTIARY"
+          bgColor={undefined}
+          fgColor={undefined}
         />
-        <CustomButton
-          text="Zaloguj się za pomocą Facebooka"
-          onPress={onSignInFacebookPressed}
-          bgColor={"#3b5998"}
-          fgColor={"white"}
-        />
-        <CustomButton
-          text="Zaloguj się za pomocą Google"
-          onPress={onSignInGooglePressed}
-          bgColor={"#db4437"}
-          fgColor={"white"}
-        />
+        <SocialSignInButtons />
         <CustomButton
           text="Nie mam konta - zarejestruj się"
           onPress={onCreateAccPressed}
           type="TERTIARY"
+          bgColor={undefined}
+          fgColor={undefined}
         />
       </View>
     </ScrollView>
