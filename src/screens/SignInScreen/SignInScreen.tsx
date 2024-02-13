@@ -18,8 +18,8 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 const SignInScreen = () => {
   const [email, setEmail] = useState("");
-  
-  const {login, logout, isLoading, userToken} = useContext(AuthContext);
+
+  const { login, logout, isLoading, userToken } = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -31,31 +31,35 @@ const SignInScreen = () => {
     navigation.navigate("Home");
 
     console.warn("Kliknięto zalogowanie");
-    login(email, password)
+    login(email, password);
   };
   const onForgotPressed = () => {
-    console.warn("Klikniecie zapomniałem hasła");
+    navigation.navigate("ForgotPassword");
   };
   const onCreateAccPressed = () => {
     navigation.navigate("SignUp");
   };
   const onPingPressed = () => {
-    axios.get(`http://localhost:81/api/ping`, {
-      headers: 
-      {
-        "Authorization" : `Bearer ${userToken}`
-      }
-    }).then(res => {
-        console.log(res.data)
-    }).catch(res => {
-        console.error(res) 
-    })
+    axios
+      .get(`http://localhost:81/api/ping`, {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((res) => {
+        console.error(res);
+      });
   };
 
   if (isLoading) {
-    return (<View style={{flex:1, justifyContent:'center',alignItems:'center'}}>
-      <ActivityIndicator size={'large'}/>
-    </View>);
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size={"large"} />
+      </View>
+    );
   }
 
   return (
@@ -66,7 +70,7 @@ const SignInScreen = () => {
           style={(styles.logo, { height: height * 0.3 })}
           resizeMode="contain"
         />
-        <Text>{userToken ? 'logged in :>':'logged out :<'}</Text>
+        <Text>{userToken ? "logged in :>" : "logged out :<"}</Text>
         <CustomInput
           placeholder="Podaj adres e-mail"
           value={email}

@@ -11,19 +11,15 @@ import CustomButton from "../../components/CustomButton";
 import SocialSignInButtons from "../../components/SocialSignInButtons";
 import { useNavigation } from "@react-navigation/native";
 
-const SignUpScreen = () => {
-  const [userFullName, setUserFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordRepeat, setPasswordRepeat] = useState("");
+const ConfirmEmailScreen = () => {
+  const [emailConfirmCode, setEmailConfirmCode] = useState("");
   const navigation = useNavigation();
 
   const onRegisterPressed = () => {
-    navigation.navigate("ConfirmEmail");
     console.warn("Kliknięto rejestrację");
   };
-  const onTermsOfUsePressed = () => {
-    console.warn("Kliknięto warunki użytkowania");
+  const onResendPressed = () => {
+    console.warn("Kliknięto wyślij ponownie");
   };
   const onPrivatePolicyPressed = () => {
     console.warn("Kliknięto politykę prywatności");
@@ -36,52 +32,31 @@ const SignUpScreen = () => {
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.root}>
         <Text style={styles.title} resizeMode="contain">
-          Utwórz konto
+          Potwierdź swój adres e-mail
         </Text>
         <CustomInput
-          placeholder="Podaj Imię i Nazwisko"
-          value={userFullName}
-          setValue={setUserFullName}
+          placeholder="Podaj kod potwierdzający"
+          value={emailConfirmCode}
+          setValue={setEmailConfirmCode}
           secureTextEntry={undefined}
-        />
-        <CustomInput
-          placeholder="Podaj adres e-mail"
-          value={email}
-          setValue={setEmail}
-          secureTextEntry={undefined}
-        />
-        <CustomInput
-          placeholder="Podaj hasło"
-          value={password}
-          setValue={setPassword}
-          secureTextEntry
-        />
-        <CustomInput
-          placeholder="Powtórz hasło"
-          value={passwordRepeat}
-          setValue={setPasswordRepeat}
-          secureTextEntry
         />
         <CustomButton
-          text="Zarejestruj"
+          text="Potwierdź adres e-mail"
           onPress={onRegisterPressed}
           type="PRIMARY"
           bgColor={undefined}
           fgColor={undefined}
         />
-        <Text style={styles.text}>
-          Rejestrując się, potwierdzasz, że akceptujesz{" "}
-          <Text style={styles.link} onPress={onTermsOfUsePressed}>
-            Warunki użytkowania
-          </Text>{" "}
-          i{" "}
-          <Text style={styles.link} onPress={onPrivatePolicyPressed}>
-            Politykę prywatności
-          </Text>
-        </Text>
-        <SocialSignInButtons />
+
         <CustomButton
-          text="Masz konto? - przejdź do logowania"
+          text="Wyślij ponownie kod potwierdzający"
+          onPress={onResendPressed}
+          type="SECONDARY"
+          bgColor={undefined}
+          fgColor={"white"}
+        />
+        <CustomButton
+          text="Cofnięcie do logowania"
           onPress={onBackToLoginPressed}
           type="TERTIARY"
           bgColor={undefined}
@@ -114,4 +89,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUpScreen;
+export default ConfirmEmailScreen;
