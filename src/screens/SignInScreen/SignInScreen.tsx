@@ -11,27 +11,23 @@ import React, { useState } from "react";
 import Logo from "../../../assets/images/Logo-Test.png";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
+import { ping } from "../../components/Api/pingAuth";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import SocialSignInButtons from "../../components/SocialSignInButtons";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
+
 const SignInScreen = () => {
   const [email, setEmail] = useState("");
-
   const { login, logout, isLoading, userToken } = useContext(AuthContext);
-  const [username, setUsername] = useState("");
+
   const [password, setPassword] = useState("");
 
   const { height } = useWindowDimensions();
   const navigation = useNavigation();
 
   const onSignInPressed = () => {
-    //Validacja logowania usera
-    navigation.navigate("Home");
-
-    console.warn("Kliknięto zalogowanie");
-    login(email, password);
+    login(email, password)
   };
   const onForgotPressed = () => {
     navigation.navigate("ForgotPassword");
@@ -39,21 +35,10 @@ const SignInScreen = () => {
   const onCreateAccPressed = () => {
     navigation.navigate("SignUp");
   };
-  const onPingPressed = () => {
-    axios
-      .get(`http://localhost:81/api/ping`, {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((res) => {
-        console.error(res);
-      });
-  };
 
+  const onPingPressed = async () => {
+    console.log(await ping())
+  };
   if (isLoading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
