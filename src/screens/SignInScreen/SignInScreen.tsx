@@ -37,7 +37,7 @@ const SignInScreen = () => {
   };
 
   const onPingPressed = async () => {
-    console.log(await ping())
+    console.log(await (await ping()).data)
   };
   if (isLoading) {
     return (

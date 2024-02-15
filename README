@@ -5,3 +5,13 @@ This repository contains code examples and documentation for React EXPO, a frame
 # React Navigation
 
 This repository contains code examples and documentation for React Navigation, a popular navigation library for React Native.
+
+# Tunnel setup
+
+If expo is not working normally you can use its tunnelling feature
+Open local tunnel to server port: lt --port 81
+Copy name and place it in src/components/Api/apiRequest.txs:API_ADDRESS
+Init expo with tunnel: yarn expo start --tunnel
+
+IF STILL DOESN'T WORK:
+enter the link and fill in you ip address to allow trafic (there is a link providing your ip)
