@@ -10,6 +10,7 @@ import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import SocialSignInButtons from "../../components/SocialSignInButtons";
 import { useNavigation } from "@react-navigation/native";
+import { register } from "../../components/Api/register";
 
 const SignUpScreen = () => {
   const [userFullName, setUserFullName] = useState("");
@@ -19,8 +20,7 @@ const SignUpScreen = () => {
   const navigation = useNavigation();
 
   const onRegisterPressed = () => {
-    navigation.navigate("ConfirmEmail");
-    console.warn("Kliknięto rejestrację");
+    register(email, password).then(()=>{navigation.navigate("ConfirmEmail")})
   };
   const onTermsOfUsePressed = () => {
     console.warn("Kliknięto warunki użytkowania");

@@ -1,8 +1,13 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const API_ADDRESS = 'https://silly-dancers-ask.loca.lt'
+const API_ADDRESS = 'https://warm-turtles-wink.loca.lt';
 
-async function getInstance() {
+async function getInstance(noAuth) {
+    if (noAuth) {
+        return axios.create({
+            baseURL: `${API_ADDRESS}`,
+        })
+    }
     return axios.create({
         baseURL: `${API_ADDRESS}`,
         headers: {
@@ -10,10 +15,10 @@ async function getInstance() {
         }
     })
 }
-export async function post (endpoint, body = null) {
-    return (await getInstance()).post(`/api/${endpoint}`, body)
+export async function post (endpoint, body, noAuth = false) {
+    return (await getInstance(noAuth)).post(`/api/${endpoint}`, body)
 }
 
-export async function get (endpoint) {
-    return (await getInstance()).get(`/api/${endpoint}`)
+export async function get (endpoint, noAuth = false) {
+    return (await getInstance(noAuth)).get(`/api/${endpoint}`)
 }
