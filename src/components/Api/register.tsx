@@ -1,8 +1,10 @@
 import { post } from './apiRequest';
 
-export const register = async (email, password) => {
+export const register = async (email, password, name, surname) => {
     return await post('register', {
-            email,
-            password
-        });
+        email,
+        password,
+        name,
+        surname
+    });
 }

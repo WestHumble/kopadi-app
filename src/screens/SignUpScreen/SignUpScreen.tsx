@@ -13,14 +13,15 @@ import { useNavigation } from "@react-navigation/native";
 import { register } from "../../components/Api/register";
 
 const SignUpScreen = () => {
-  const [userFullName, setUserFullName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
   const navigation = useNavigation();
 
   const onRegisterPressed = () => {
-    register(email, password).then(()=>{navigation.navigate("ConfirmEmail")})
+    register(email, password, name, surname).then(()=>{navigation.navigate("ConfirmEmail")})
   };
   const onTermsOfUsePressed = () => {
     console.warn("Kliknięto warunki użytkowania");
@@ -39,10 +40,16 @@ const SignUpScreen = () => {
           Utwórz konto
         </Text>
         <CustomInput
-          placeholder="Podaj Imię i Nazwisko"
-          value={userFullName}
-          setValue={setUserFullName}
-          secureTextEntry={undefined}
+            placeholder="Podaj Imię"
+            value={name}
+            setValue={setName}
+            secureTextEntry={undefined}
+        />
+        <CustomInput
+            placeholder="Podaj Nazwisko"
+            value={surname}
+            setValue={setSurname}
+            secureTextEntry={undefined}
         />
         <CustomInput
           placeholder="Podaj adres e-mail"
