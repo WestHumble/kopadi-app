@@ -10,7 +10,7 @@ This repository contains code examples and documentation for React Navigation, a
 
 If expo is not working normally you can use its tunnelling feature
 Open local tunnel to server port: lt --port 81
-Copy name and place it in src/components/Api/apiRequest.txs:API_ADDRESS
+Copy name and place it in .env under EXPO_PUBLIC_API_URL
 Init expo with tunnel: yarn expo start --tunnel
 
 IF STILL DOESN'T WORK:

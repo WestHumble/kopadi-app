@@ -1,8 +1,9 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const API_ADDRESS = 'https://warm-turtles-wink.loca.lt';
+const API_ADDRESS = process.env.EXPO_PUBLIC_API_URL;
 
 async function getInstance(noAuth) {
+    console.log(API_ADDRESS)
     if (noAuth) {
         return axios.create({
             baseURL: `${API_ADDRESS}`,
