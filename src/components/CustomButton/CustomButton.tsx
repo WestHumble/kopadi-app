@@ -7,6 +7,7 @@ const CustomButton = ({
   type = "PRIMARY",
   bgColor,
   fgColor,
+  additionalStyles,
 }) => {
   return (
     <Pressable
@@ -15,6 +16,7 @@ const CustomButton = ({
         styles.container,
         styles[`container_${type}`],
         bgColor ? { backgroundColor: bgColor } : {},
+        additionalStyles,
       ]}
     >
       <Text

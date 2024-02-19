@@ -27,7 +27,7 @@ const SignInScreen = () => {
   const navigation = useNavigation();
 
   const onSignInPressed = () => {
-    login(email, password)
+    login(email, password);
   };
   const onForgotPressed = () => {
     navigation.navigate("ForgotPassword");
@@ -37,7 +37,10 @@ const SignInScreen = () => {
   };
 
   const onPingPressed = async () => {
-    console.log(await (await ping()).data)
+    console.log(await (await ping()).data);
+  };
+  const onMapPressed = () => {
+    navigation.navigate("Home");
   };
   if (isLoading) {
     return (
@@ -77,6 +80,13 @@ const SignInScreen = () => {
         />
         <CustomButton text="Wyloguj" onPress={logout} type="PRIMARY" />
         <CustomButton text="Ping" onPress={onPingPressed} type="PRIMARY" />
+        <CustomButton
+          text="Mapa"
+          onPress={onMapPressed}
+          type="PRIMARY"
+          bgColor={undefined}
+          fgColor={undefined}
+        />
 
         <CustomButton
           text="Zapomniałem hasła"
