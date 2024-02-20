@@ -5,18 +5,27 @@ import {
   useWindowDimensions,
   ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React, {useContext, useState} from "react";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
+import {AuthContext} from "../../context/AuthContext";
+import {resetPasswordHandle} from "../../components/Api/resetPassword";
 
 const ResetPasswordScreen = () => {
+  const [resetPasswordCode, setResetPasswordCode] = useState("");
   const [resetPassword, setResetPassword] = useState("");
   const [resetPasswordConfirm, setResetPasswordConfirm] = useState("");
   const navigation = useNavigation();
+  const { resetPasswordToken } = useContext(AuthContext);
 
   const onSetNewPasswordPressed = () => {
-    console.warn("Kliknięto wyślij ponownie");
+    resetPasswordHandle(resetPasswordToken, resetPassword, resetPasswordCode)
+        .then(()=>{navigation.navigate("SignIn")})
+        .catch(()=>{
+          console.error("Reset password failed")
+          navigation.navigate("SignIn")
+        })
   };
   const onBackToLoginPressed = () => {
     navigation.navigate("SignIn");
@@ -28,6 +37,12 @@ const ResetPasswordScreen = () => {
         <Text style={styles.title} resizeMode="contain">
           Zresetuj swoje hasło
         </Text>
+        <CustomInput
+            placeholder="Podaj kod z maila"
+            value={resetPasswordCode}
+            setValue={setResetPasswordCode}
+            secureTextEntry={undefined}
+        />
         <CustomInput
           placeholder="Podaj hasło"
           value={resetPassword}

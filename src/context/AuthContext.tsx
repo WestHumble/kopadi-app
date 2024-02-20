@@ -1,15 +1,18 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
 import React, {createContext, useEffect, useState} from 'react';
 import { login as loginPost } from "../components/Api/login";
-
+import uuid from 'react-native-uuid';
 
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({children}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [userToken, setUserToken] = useState<string>();
+    const [resetPasswordToken, setResetPasswordToken] = useState<string>();
 
+    const resetPasswordTokenInit = () => {
+        setResetPasswordToken(uuid.v4().toString())
+    }
     const login = (email: string, password: string) => {
         setIsLoading(true)
         loginPost(email, password).then(res => {
@@ -20,17 +23,6 @@ export const AuthProvider = ({children}) => {
             console.error(res) 
             setIsLoading(false)
         })
-        // axios.post(`http://localhost:81/api/login`, {
-        //     email,
-        //     password
-        // }).then(res => {
-        //     setUserToken(res.data.token)
-        //     AsyncStorage.setItem('userToken', res.data.token) 
-        //     setIsLoading(false)
-        // }).catch(res => {
-        //     console.error(res) 
-        //     setIsLoading(false)
-        // })
     }
 
     const logout = () => {
@@ -57,7 +49,7 @@ export const AuthProvider = ({children}) => {
     }, [])
 
     return (
-        <AuthContext.Provider value={{login, logout, isLoading, userToken}}>
+        <AuthContext.Provider value={{login, logout, isLoading, userToken, resetPasswordToken, resetPasswordTokenInit}}>
             {children}
         </AuthContext.Provider>
     );
