@@ -6,5 +6,5 @@ export const register = async (email, password, name, surname) => {
         password,
         name,
         surname
-    });
+    }, true);
 }

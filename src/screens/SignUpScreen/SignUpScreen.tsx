@@ -22,6 +22,7 @@ const SignUpScreen = () => {
 
   const onRegisterPressed = () => {
     register(email, password, name, surname).then(()=>{navigation.navigate("ConfirmEmail")})
+        .catch((error)=>{console.log(error.response.data)})
   };
   const onTermsOfUsePressed = () => {
     console.warn("Kliknięto warunki użytkowania");
