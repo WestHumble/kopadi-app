@@ -1,8 +1,10 @@
 import { View, Text, StyleSheet } from "react-native";
 import React, { useRef, useEffect, useState } from "react";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, {LatLng, Marker, PROVIDER_GOOGLE} from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../../components/CustomButton";
+import { getLocation, setLocation } from "../../components/Api/location";
+import {MarkerData} from "../../types/marker";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -13,21 +15,38 @@ const HomeScreen = () => {
     latitudeDelta: 0.14,
     longitudeDelta: 0.16,
   });
+  const [userLocation, setUserLocation] = useState<LatLng>(null);
+  const [markers, setMarkers] = useState<MarkerData[]>([]);
 
-  const markers = [
-    {
-      latlng: { latitude: 52.4064, longitude: 16.9252 },
-      title: "Marker 1",
-      description: "Opis Marker 1",
-    },
-    // Dodaj więcej markerów według potrzeb
-  ];
+    const onSetLocationPressed = async () => {
+        setUserLocation({
+            longitude: 16.9252 + Math.random(),
+            latitude: 52.4064 + Math.random()
+        })
+    };
 
   useEffect(() => {
     if (mapViewRef.current) {
       mapViewRef.current.animateToRegion(region, 1000);
     }
+    if (!userLocation){
+        getLocation().then((data)=>{
+            setUserLocation(data.data)
+        })
+    }
   }, []);
+
+    useEffect(() => {
+        if (userLocation){
+            setMarkers([
+                {
+                    latlng: { latitude: userLocation.latitude, longitude: userLocation.longitude },
+                    title: "User",
+                    description: "Opis User 1",
+                },
+            ]);
+        }
+    }, [userLocation]);
 
   const onRegionChange = (newRegion) => {
     // Dodaj dowolną logikę, jeśli potrzebujesz reagować na zmiany regionu mapy
@@ -64,7 +83,7 @@ const HomeScreen = () => {
           position: "absolute",
           top: "89%",
           left: 0,
-          width: "65%",
+          width: "20%",
           marginHorizontal: "5%",
         }}
         text="Cofnij"
@@ -73,6 +92,20 @@ const HomeScreen = () => {
         bgColor={undefined}
         fgColor={undefined}
       />
+        <CustomButton
+            additionalStyles={{
+                position: "absolute",
+                top: "89%",
+                left: 100,
+                width: "20%",
+                marginHorizontal: "5%",
+            }}
+            text="New location"
+            onPress={onSetLocationPressed}
+            type="PRIMARY"
+            bgColor={undefined}
+            fgColor={undefined}
+        />
     </View>
   );
 };

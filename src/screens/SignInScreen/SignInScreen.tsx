@@ -16,7 +16,6 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import SocialSignInButtons from "../../components/SocialSignInButtons";
 import { useNavigation } from "@react-navigation/native";
-import { getLocation, setLocation } from "../../components/Api/location";
 
 const SignInScreen = () => {
   const [email, setEmail] = useState("");
@@ -41,12 +40,6 @@ const SignInScreen = () => {
     console.log(await (await ping()).data);
   };
 
-  const onGetLocationPressed = async () => {
-    console.log(await (await getLocation()).data);
-  };
-  const onSetLocationPressed = async () => {
-    console.log(await (await setLocation(51.123, 15.145)).data);
-  };
   const onMapPressed = () => {
     navigation.navigate("Home");
   };
@@ -88,8 +81,6 @@ const SignInScreen = () => {
         />
         <CustomButton text="Wyloguj" onPress={logout} type="PRIMARY" />
         <CustomButton text="Ping" onPress={onPingPressed} type="PRIMARY" />
-        <CustomButton text="Get Location" onPress={onGetLocationPressed} type="PRIMARY" />
-        <CustomButton text="Set Location" onPress={onSetLocationPressed} type="PRIMARY" />
         <CustomButton
           text="Mapa"
           onPress={onMapPressed}
