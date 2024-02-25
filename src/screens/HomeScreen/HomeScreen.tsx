@@ -16,7 +16,14 @@ const HomeScreen = () => {
     longitudeDelta: 0.16,
   });
   const [userLocation, setUserLocation] = useState<LatLng>(null);
-  const [markers, setMarkers] = useState<MarkerData[]>([]);
+    const [markers, setMarkers] = useState<MarkerData[]>([
+        {
+            latlng: { latitude: 52.4064, longitude: 16.9252 },
+            title: "Biba 1",
+            description: "Opis biba 1",
+        }
+    ]);
+    const [userMarker, setUserMarker] = useState<MarkerData>(null);
 
     const onSetLocationPressed = async () => {
         setUserLocation({
@@ -29,7 +36,7 @@ const HomeScreen = () => {
     if (mapViewRef.current) {
       mapViewRef.current.animateToRegion(region, 1000);
     }
-    if (!userLocation){
+    if (!userLocation) {
         getLocation().then((data)=>{
             setUserLocation(data.data)
         })
@@ -38,13 +45,13 @@ const HomeScreen = () => {
 
     useEffect(() => {
         if (userLocation){
-            setMarkers([
+            setUserMarker(
                 {
                     latlng: { latitude: userLocation.latitude, longitude: userLocation.longitude },
-                    title: "User",
+                    title: "User 1",
                     description: "Opis User 1",
                 },
-            ]);
+            );
         }
     }, [userLocation]);
 
@@ -77,6 +84,13 @@ const HomeScreen = () => {
             description={marker.description}
           />
         ))}
+      {userMarker && (
+          <Marker
+              coordinate={userMarker.latlng}
+              title={userMarker.title}
+              description={userMarker.description}
+          />
+      )}
       </MapView>
       <CustomButton
         additionalStyles={{
