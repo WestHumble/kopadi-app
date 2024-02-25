@@ -3,8 +3,8 @@ import React, { useRef, useEffect, useState } from "react";
 import MapView, {LatLng, Marker, PROVIDER_GOOGLE} from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../../components/CustomButton";
-import { getLocation, setLocation } from "../../components/Api/location";
 import {MarkerData} from "../../types/marker";
+import {getLocation, setLocation} from "../../components/Api/location";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -15,7 +15,6 @@ const HomeScreen = () => {
     latitudeDelta: 0.14,
     longitudeDelta: 0.16,
   });
-  const [userLocation, setUserLocation] = useState<LatLng>(null);
     const [markers, setMarkers] = useState<MarkerData[]>([
         {
             latlng: { latitude: 52.4064, longitude: 16.9252 },
@@ -23,44 +22,18 @@ const HomeScreen = () => {
             description: "Opis biba 1",
         }
     ]);
-    const [userMarker, setUserMarker] = useState<MarkerData>(null);
-
-    const onSetLocationPressed = async () => {
-        setUserLocation({
-            longitude: 16.9252 + Math.random(),
-            latitude: 52.4064 + Math.random()
-        })
-    };
 
   useEffect(() => {
     if (mapViewRef.current) {
       mapViewRef.current.animateToRegion(region, 1000);
     }
-    if (!userLocation) {
-        getLocation().then((data)=>{
-            setUserLocation(data.data)
-        })
-    }
   }, []);
-
-    useEffect(() => {
-        if (userLocation){
-            setUserMarker(
-                {
-                    latlng: { latitude: userLocation.latitude, longitude: userLocation.longitude },
-                    title: "User 1",
-                    description: "Opis User 1",
-                },
-            );
-        }
-    }, [userLocation]);
 
   const onRegionChange = (newRegion) => {
     // Dodaj dowolną logikę, jeśli potrzebujesz reagować na zmiany regionu mapy
     // Consol loguje informacje o zmianie regionu
     // console.log("Region changed:", newRegion);
   };
-
   const onBackToLoginPress = () => {
     navigation.navigate("SignIn");
   };
@@ -84,13 +57,6 @@ const HomeScreen = () => {
             description={marker.description}
           />
         ))}
-      {userMarker && (
-          <Marker
-              coordinate={userMarker.latlng}
-              title={userMarker.title}
-              description={userMarker.description}
-          />
-      )}
       </MapView>
       <CustomButton
         additionalStyles={{
@@ -106,20 +72,6 @@ const HomeScreen = () => {
         bgColor={undefined}
         fgColor={undefined}
       />
-        <CustomButton
-            additionalStyles={{
-                position: "absolute",
-                top: "89%",
-                left: 100,
-                width: "20%",
-                marginHorizontal: "5%",
-            }}
-            text="New location"
-            onPress={onSetLocationPressed}
-            type="PRIMARY"
-            bgColor={undefined}
-            fgColor={undefined}
-        />
     </View>
   );
 };

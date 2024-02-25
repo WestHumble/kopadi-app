@@ -4,14 +4,17 @@ import { StatusBar } from "expo-status-bar";
 import { View, StyleSheet } from "react-native";
 import Navigation from "./src/navigation";
 import { AuthProvider } from "./src/context/AuthContext";
+import {LocationProvider} from "./src/context/LocationContext";
 
 const App = () => {
   return (
   <AuthProvider>
-    <View style={styles.root}>
-      <Navigation />
-      <StatusBar style="auto" />
-    </View>
+    <LocationProvider>
+      <View style={styles.root}>
+        <Navigation />
+        <StatusBar style="auto" />
+      </View>
+    </LocationProvider>
   </AuthProvider>
   );
 };
