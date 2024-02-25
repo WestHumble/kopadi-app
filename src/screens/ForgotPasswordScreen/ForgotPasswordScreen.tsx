@@ -5,23 +5,29 @@ import {
   useWindowDimensions,
   ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
+import {AuthContext} from "../../context/AuthContext";
+import {resetPasswordInit} from "../../components/Api/resetPassword";
 
 const ForgotPasswordScreen = () => {
   const [emailToResetPassword, setEmailToResetPassword] = useState("");
   const navigation = useNavigation();
-
+  const { resetPasswordToken, resetPasswordTokenInit } = useContext(AuthContext);
   const onResetPasswordPressed = () => {
-    navigation.navigate("ResetPassword");
-    console.warn("Kliknięto resetuj hasło");
+    resetPasswordInit(emailToResetPassword, resetPasswordToken)
+        .then(navigation.navigate("ResetPassword"))
+        .catch((e)=>{console.error(e)})
   };
   const onBackToLoginPressed = () => {
     navigation.navigate("SignIn");
   };
 
+  useEffect(() => {
+    resetPasswordTokenInit()
+  }, []);
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.root}>
