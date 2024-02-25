@@ -16,10 +16,12 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import SocialSignInButtons from "../../components/SocialSignInButtons";
 import { useNavigation } from "@react-navigation/native";
+import {LocationContext} from "../../context/LocationContext";
 
 const SignInScreen = () => {
   const [email, setEmail] = useState("");
   const { login, logout, isLoading, userToken } = useContext(AuthContext);
+  const { userLocation } = useContext(LocationContext);
 
   const [password, setPassword] = useState("");
 
@@ -59,7 +61,7 @@ const SignInScreen = () => {
           style={(styles.logo, { height: height * 0.3 })}
           resizeMode="contain"
         />
-        <Text>{userToken ? "logged in :>" : "logged out :<"}</Text>
+        {userLocation && (<Text>{userLocation.coords.latitude} {userLocation.coords.longitude}</Text>)}
         <CustomInput
           placeholder="Podaj adres e-mail"
           value={email}

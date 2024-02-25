@@ -1,17 +1,14 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {createContext, useEffect, useState} from 'react';
-import { login as loginPost } from "../components/Api/login";
-import uuid from 'react-native-uuid';
-import {MarkerData} from "../types/marker";
 import * as Location from "expo-location";
 import {setLocation} from "../components/Api/location";
 
 export const LocationContext = createContext(null);
 
 export const LocationProvider = ({children}) => {
-    const [userLocation, setUserLocation] = useState(null);
     const [shareLocation, setShareLocation] = useState(false);
+    const [userLocation, setUserLocation] = useState(null);
 
+    let lastUpdateDate = null
     useEffect(() => {
         const interval = setInterval(() => {
             (async () => {
@@ -23,27 +20,16 @@ export const LocationProvider = ({children}) => {
 
                 let location = await Location.getCurrentPositionAsync({});
                 setUserLocation(location);
-                console.log('Got location')
-                console.log(location)
+                if (null === lastUpdateDate || ((new Date()) - lastUpdateDate) > 11000) {
+                    lastUpdateDate = new Date()
+                    setLocation(location.coords.longitude, location.coords.latitude).catch((error)=>{
+                        console.error(error)
+                    });
+                }
             })();
         }, 5000);
         return () => clearInterval(interval);
     }, []);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            // if (!shareLocation) {
-            //     return
-            // }
-            console.log('Updated location')
-            console.log(userLocation)
-            setLocation(userLocation.coords.longitude, userLocation.coords.latitude).catch((error)=>{
-                console.error(error)
-            });
-        }, 10000);
-        return () => clearInterval(interval);
-    }, []);
-
 
     useEffect(() => {
         console.log(shareLocation)
