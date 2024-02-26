@@ -88,8 +88,16 @@ const SignInScreen = () => {
         />
         <CustomButton text="Wyloguj" onPress={logout} type="PRIMARY" />
         <CustomButton text="Ping" onPress={onPingPressed} type="PRIMARY" />
-        <CustomButton text="Get Location" onPress={onGetLocationPressed} type="PRIMARY" />
-        <CustomButton text="Set Location" onPress={onSetLocationPressed} type="PRIMARY" />
+        <CustomButton
+          text="Get Location"
+          onPress={onGetLocationPressed}
+          type="PRIMARY"
+        />
+        <CustomButton
+          text="Set Location"
+          onPress={onSetLocationPressed}
+          type="PRIMARY"
+        />
         <CustomButton
           text="Mapa"
           onPress={onMapPressed}
@@ -122,6 +130,7 @@ const styles = StyleSheet.create({
   root: {
     alignItems: "center",
     padding: 20,
+    height: "80%",
   },
   logo: {
     width: "70%",
