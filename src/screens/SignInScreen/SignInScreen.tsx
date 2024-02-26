@@ -19,14 +19,14 @@ import { useNavigation } from "@react-navigation/native";
 import {LocationContext} from "../../context/LocationContext";
 
 const SignInScreen = () => {
-  const [email, setEmail] = useState("");
   const { login, logout, isLoading, userToken } = useContext(AuthContext);
+  const navigation = useNavigation();
+  const [email, setEmail] = useState("");
   const { userLocation } = useContext(LocationContext);
 
   const [password, setPassword] = useState("");
 
   const { height } = useWindowDimensions();
-  const navigation = useNavigation();
 
   const onSignInPressed = () => {
     login(email, password);
@@ -45,6 +45,7 @@ const SignInScreen = () => {
   const onMapPressed = () => {
     navigation.navigate("Home");
   };
+
   if (isLoading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>

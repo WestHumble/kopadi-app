@@ -1,12 +1,14 @@
 import { View, Text, StyleSheet } from "react-native";
-import React, { useRef, useEffect, useState } from "react";
+import React, {useRef, useEffect, useState, useContext} from "react";
 import MapView, {LatLng, Marker, PROVIDER_GOOGLE} from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../../components/CustomButton";
 import {MarkerData} from "../../types/marker";
 import {getLocation, setLocation} from "../../components/Api/location";
+import {LocationContext} from "../../context/LocationContext";
 
 const HomeScreen = () => {
+    const {shareLocation, setShareLocation} = useContext(LocationContext)
   const navigation = useNavigation();
   const mapViewRef = useRef<MapView>(null);
   const [region, setRegion] = useState({
@@ -34,9 +36,12 @@ const HomeScreen = () => {
     // Consol loguje informacje o zmianie regionu
     // console.log("Region changed:", newRegion);
   };
-  const onBackToLoginPress = () => {
-    navigation.navigate("SignIn");
-  };
+    const onBackToLoginPress = () => {
+        navigation.navigate("SignIn");
+    };
+    const onShareLocationToggle = () => {
+        setShareLocation(!shareLocation)
+    };
   return (
     <View>
       <MapView
@@ -58,20 +63,34 @@ const HomeScreen = () => {
           />
         ))}
       </MapView>
-      <CustomButton
+        <CustomButton
+            additionalStyles={{
+                position: "absolute",
+                top: "89%",
+                left: 0,
+                width: "20%",
+                marginHorizontal: "5%",
+            }}
+            text="Cofnij"
+            onPress={onBackToLoginPress}
+            type="PRIMARY"
+            bgColor={undefined}
+            fgColor={undefined}
+        />
+        <CustomButton
         additionalStyles={{
-          position: "absolute",
-          top: "89%",
-          left: 0,
-          width: "20%",
-          marginHorizontal: "5%",
+            position: "absolute",
+            top: "89%",
+            left: "35%",
+            width: "20%",
+            marginHorizontal: "5%",
         }}
-        text="Cofnij"
-        onPress={onBackToLoginPress}
+        text={shareLocation ? "Sharing on": "Sharing off"}
+        onPress={onShareLocationToggle}
         type="PRIMARY"
         bgColor={undefined}
         fgColor={undefined}
-      />
+    />
     </View>
   );
 };
