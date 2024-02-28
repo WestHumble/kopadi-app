@@ -63,20 +63,6 @@ const MapViewComponent = () => {
         additionalStyles={{
           position: "absolute",
           top: "89%",
-          left: 0,
-          width: "20%",
-          marginHorizontal: "5%",
-        }}
-        text="Cofnij"
-        onPress={onBackToLoginPress}
-        type="PRIMARY"
-        bgColor={undefined}
-        fgColor={undefined}
-      />
-      <CustomButton
-        additionalStyles={{
-          position: "absolute",
-          top: "89%",
           left: "35%",
           width: "20%",
           marginHorizontal: "5%",
