@@ -1,7 +1,6 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { StyleSheet } from "react-native";
 import React, { useRef, useEffect, useState, useContext } from "react";
-import MapView, { LatLng, Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import { useNavigation } from "@react-navigation/native";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import CustomButton from "../../components/CustomButton";
 import { MarkerData } from "../../types/marker";
 import { LocationContext } from "../../context/LocationContext";
@@ -12,8 +11,8 @@ const MapViewComponent = () => {
     useContext(LocationContext);
   const mapViewRef = useRef<MapView>(null);
   const [region, setRegion] = useState({
-    latitude: userLocation?.coords.latitude,
-    longitude: userLocation?.coords.longitude,
+    latitude: userLocation?.coords.latitude ?? 52.4064,
+    longitude: userLocation?.coords.longitude ?? 16.9252,
     latitudeDelta: 0.14,
     longitudeDelta: 0.16,
   });
@@ -36,7 +35,7 @@ const MapViewComponent = () => {
     if (mapViewRef.current) {
       mapViewRef.current.animateToRegion(region, 1000);
     }
-  }, [region]);
+  }, []);
 
   return (
     <>
@@ -54,7 +53,7 @@ const MapViewComponent = () => {
           <Marker
             key={index}
             coordinate={marker.latlng}
-            title={marker.title}
+            title={marker.name}
             description={marker.description}
           />
         ))}
