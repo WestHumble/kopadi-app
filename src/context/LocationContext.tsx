@@ -30,7 +30,6 @@ export const LocationProvider = ({children}) => {
         let location = await Location.getCurrentPositionAsync({});
         setUserLocation(location);
         if (shareLocation && (null === lastUpdateDate || ((new Date()) - lastUpdateDate) > 11000)) {
-            console.log('update location');
             lastUpdateDate = new Date()
             setLocation(location.coords.longitude, location.coords.latitude).catch((error)=>{
                 console.error(error)

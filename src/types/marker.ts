@@ -1,7 +1,8 @@
 export type MarkerData = {
     latlng: LatLngData,
-    title: string,
+    name: string,
     description: string,
+    distanceInMeters: number,
 }
 
 export type LatLngData = {

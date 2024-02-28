@@ -15,10 +15,11 @@ async function getInstance(noAuth) {
         }
     })
 }
-export async function post (endpoint, body, noAuth = false) {
+export async function post (endpoint, body? = null, noAuth = false) {
     return (await getInstance(noAuth)).post(`/api/${endpoint}`, body)
 }
-
-export async function get (endpoint, noAuth = false) {
-    return (await getInstance(noAuth)).get(`/api/${endpoint}`)
+export async function get (endpoint, params? = null, noAuth = false) {
+    return (await getInstance(noAuth)).get(`/api/${endpoint}`, {
+        params: params
+    })
 }

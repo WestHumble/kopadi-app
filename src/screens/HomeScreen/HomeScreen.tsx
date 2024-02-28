@@ -1,29 +1,23 @@
-import { View, Text, StyleSheet } from "react-native";
+import {View, Text, StyleSheet, Image} from "react-native";
 import React, {useRef, useEffect, useState, useContext} from "react";
 import MapView, {LatLng, Marker, PROVIDER_GOOGLE} from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../../components/CustomButton";
 import {MarkerData} from "../../types/marker";
-import {getLocation, setLocation} from "../../components/Api/location";
 import {LocationContext} from "../../context/LocationContext";
+import {getCloseEvents} from "../../components/Api/event";
 
 const HomeScreen = () => {
-    const {shareLocation, setShareLocation} = useContext(LocationContext)
+  const { userLocation, shareLocation, setShareLocation } = useContext(LocationContext)
   const navigation = useNavigation();
   const mapViewRef = useRef<MapView>(null);
   const [region, setRegion] = useState({
-    latitude: 52.4064,
-    longitude: 16.9252,
+    latitude: userLocation?.coords.latitude,
+    longitude: userLocation?.coords.longitude,
     latitudeDelta: 0.14,
     longitudeDelta: 0.16,
   });
-    const [markers, setMarkers] = useState<MarkerData[]>([
-        {
-            latlng: { latitude: 52.4064, longitude: 16.9252 },
-            title: "Biba 1",
-            description: "Opis biba 1",
-        }
-    ]);
+    const [markers, setMarkers] = useState<MarkerData[]>([]);
 
   useEffect(() => {
     if (mapViewRef.current) {
@@ -32,15 +26,19 @@ const HomeScreen = () => {
   }, []);
 
   const onRegionChange = (newRegion) => {
-    // Dodaj dowolną logikę, jeśli potrzebujesz reagować na zmiany regionu mapy
-    // Consol loguje informacje o zmianie regionu
-    // console.log("Region changed:", newRegion);
+      setRegion(newRegion)
   };
     const onBackToLoginPress = () => {
         navigation.navigate("SignIn");
     };
     const onShareLocationToggle = () => {
         setShareLocation(!shareLocation)
+    };
+
+    const onLoadCloseEvents = () => {
+        getCloseEvents(region.latitude, region.longitude, 1000)
+            .then(res => setMarkers(res.data))
+            .catch(error => console.error(error))
     };
   return (
     <View>
@@ -53,12 +51,13 @@ const HomeScreen = () => {
         showsMyLocationButton={true}
         userInterfaceStyle="dark"
         followsUserLocation={true}
+
       >
         {markers.map((marker, index) => (
           <Marker
             key={index}
             coordinate={marker.latlng}
-            title={marker.title}
+            title={marker.name}
             description={marker.description}
           />
         ))}
@@ -91,6 +90,20 @@ const HomeScreen = () => {
         bgColor={undefined}
         fgColor={undefined}
     />
+        <CustomButton
+            additionalStyles={{
+                position: "absolute",
+                top: "89%",
+                left: "70%",
+                width: "20%",
+                marginHorizontal: "5%",
+            }}
+            text="Load close events"
+            onPress={onLoadCloseEvents}
+            type="PRIMARY"
+            bgColor={undefined}
+            fgColor={undefined}
+        />
     </View>
   );
 };
