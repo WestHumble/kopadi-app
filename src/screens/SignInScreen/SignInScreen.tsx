@@ -16,16 +16,17 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import SocialSignInButtons from "../../components/SocialSignInButtons";
 import { useNavigation } from "@react-navigation/native";
-import { getLocation, setLocation } from "../../components/Api/location";
+import { LocationContext } from "../../context/LocationContext";
 
 const SignInScreen = () => {
-  const [email, setEmail] = useState("");
   const { login, logout, isLoading, userToken } = useContext(AuthContext);
+  const navigation = useNavigation();
+  const [email, setEmail] = useState("");
+  const { userLocation } = useContext(LocationContext);
 
   const [password, setPassword] = useState("");
 
   const { height } = useWindowDimensions();
-  const navigation = useNavigation();
 
   const onSignInPressed = () => {
     login(email, password);
@@ -41,15 +42,10 @@ const SignInScreen = () => {
     console.log(await (await ping()).data);
   };
 
-  const onGetLocationPressed = async () => {
-    console.log(await (await getLocation()).data);
-  };
-  const onSetLocationPressed = async () => {
-    console.log(await (await setLocation(51.123, 15.145)).data);
-  };
   const onMapPressed = () => {
     navigation.navigate("Home");
   };
+
   if (isLoading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -66,7 +62,11 @@ const SignInScreen = () => {
           style={(styles.logo, { height: height * 0.3 })}
           resizeMode="contain"
         />
-        <Text>{userToken ? "logged in :>" : "logged out :<"}</Text>
+        {userLocation && (
+          <Text>
+            {userLocation.coords.latitude} {userLocation.coords.longitude}
+          </Text>
+        )}
         <CustomInput
           placeholder="Podaj adres e-mail"
           value={email}
@@ -88,16 +88,6 @@ const SignInScreen = () => {
         />
         <CustomButton text="Wyloguj" onPress={logout} type="PRIMARY" />
         <CustomButton text="Ping" onPress={onPingPressed} type="PRIMARY" />
-        <CustomButton
-          text="Get Location"
-          onPress={onGetLocationPressed}
-          type="PRIMARY"
-        />
-        <CustomButton
-          text="Set Location"
-          onPress={onSetLocationPressed}
-          type="PRIMARY"
-        />
         <CustomButton
           text="Mapa"
           onPress={onMapPressed}

@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {createContext, useEffect, useState} from 'react';
 import { login as loginPost } from "../components/Api/login";
 import uuid from 'react-native-uuid';
+import {ping} from "../components/Api/pingAuth";
 
 export const AuthContext = createContext(null);
 
@@ -36,9 +37,20 @@ export const AuthProvider = ({children}) => {
         try {
             setIsLoading(true)
             let userToken = await AsyncStorage.getItem('userToken')
-            setUserToken(userToken == 'null' ? null : userToken)
+
+            if (userToken) {
+                ping().then(() => {
+                    setUserToken(userToken == 'null' ? null : userToken)
+                    setIsLoading(false)
+                }).catch(res => {
+                    setUserToken(null)
+                    setIsLoading(false)
+                })
+                return
+            }
+
             setIsLoading(false)
-        } catch (e){
+        } catch (e) {
             console.log(`isLoggedIn error ${e}`)
         }
 
