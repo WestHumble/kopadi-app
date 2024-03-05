@@ -11,6 +11,7 @@ import CustomButton from "../../components/CustomButton";
 import SocialSignInButtons from "../../components/SocialSignInButtons";
 import { useNavigation } from "@react-navigation/native";
 import { register } from "../../components/Api/register";
+import { MapViewComponent } from "../../components/MapViewComponent";
 
 const SignUpScreen = () => {
   const [surname, setSurname] = useState("");
@@ -21,8 +22,13 @@ const SignUpScreen = () => {
   const navigation = useNavigation();
 
   const onRegisterPressed = () => {
-    register(email, password, name, surname).then(()=>{navigation.navigate("ConfirmEmail")})
-        .catch((error)=>{console.log(error.response.data)})
+    register(email, password, name, surname)
+      .then(() => {
+        navigation.navigate("ConfirmEmail");
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
   };
   const onTermsOfUsePressed = () => {
     console.warn("Kliknięto warunki użytkowania");
@@ -35,74 +41,90 @@ const SignUpScreen = () => {
   };
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <>
       <View style={styles.root}>
-        <Text style={styles.title} resizeMode="contain">
-          Utwórz konto
-        </Text>
-        <CustomInput
-            placeholder="Podaj Imię"
-            value={name}
-            setValue={setName}
-            secureTextEntry={undefined}
-        />
-        <CustomInput
-            placeholder="Podaj Nazwisko"
-            value={surname}
-            setValue={setSurname}
-            secureTextEntry={undefined}
-        />
-        <CustomInput
-          placeholder="Podaj adres e-mail"
-          value={email}
-          setValue={setEmail}
-          secureTextEntry={undefined}
-        />
-        <CustomInput
-          placeholder="Podaj hasło"
-          value={password}
-          setValue={setPassword}
-          secureTextEntry
-        />
-        <CustomInput
-          placeholder="Powtórz hasło"
-          value={passwordRepeat}
-          setValue={setPasswordRepeat}
-          secureTextEntry
-        />
-        <CustomButton
-          text="Zarejestruj"
-          onPress={onRegisterPressed}
-          type="PRIMARY"
-          bgColor={undefined}
-          fgColor={undefined}
-        />
-        <Text style={styles.text}>
-          Rejestrując się, potwierdzasz, że akceptujesz{" "}
-          <Text style={styles.link} onPress={onTermsOfUsePressed}>
-            Warunki użytkowania
-          </Text>{" "}
-          i{" "}
-          <Text style={styles.link} onPress={onPrivatePolicyPressed}>
-            Politykę prywatności
-          </Text>
-        </Text>
-        <SocialSignInButtons />
-        <CustomButton
-          text="Masz konto? - przejdź do logowania"
-          onPress={onBackToLoginPressed}
-          type="TERTIARY"
-          bgColor={undefined}
-          fgColor={undefined}
-        />
+        <View style={styles.windowTab}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <Text style={styles.title} resizeMode="contain">
+              Utwórz konto
+            </Text>
+            <CustomInput
+              placeholder="Podaj Imię"
+              value={name}
+              setValue={setName}
+              secureTextEntry={undefined}
+            />
+            <CustomInput
+              placeholder="Podaj Nazwisko"
+              value={surname}
+              setValue={setSurname}
+              secureTextEntry={undefined}
+            />
+            <CustomInput
+              placeholder="Podaj adres e-mail"
+              value={email}
+              setValue={setEmail}
+              secureTextEntry={undefined}
+            />
+            <CustomInput
+              placeholder="Podaj hasło"
+              value={password}
+              setValue={setPassword}
+              secureTextEntry
+            />
+            <CustomInput
+              placeholder="Powtórz hasło"
+              value={passwordRepeat}
+              setValue={setPasswordRepeat}
+              secureTextEntry
+            />
+            <CustomButton
+              text="Zarejestruj"
+              onPress={onRegisterPressed}
+              type="PRIMARY"
+              bgColor={undefined}
+              fgColor={undefined}
+            />
+            <Text style={styles.text}>
+              Rejestrując się, potwierdzasz, że akceptujesz{" "}
+              <Text style={styles.link} onPress={onTermsOfUsePressed}>
+                Warunki użytkowania
+              </Text>{" "}
+              i{" "}
+              <Text style={styles.link} onPress={onPrivatePolicyPressed}>
+                Politykę prywatności
+              </Text>
+            </Text>
+            <SocialSignInButtons />
+            <CustomButton
+              text="Masz konto? - przejdź do logowania"
+              onPress={onBackToLoginPressed}
+              type="TERTIARY"
+              bgColor={undefined}
+              fgColor={undefined}
+            />
+          </ScrollView>
+        </View>
+        <MapViewComponent />
       </View>
-    </ScrollView>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   root: {
     alignItems: "center",
+    padding: 0,
+    height: "100%",
+  },
+  windowTab: {
+    // right: "3%",
+    // left: "3%",
+    height: "75%",
+    width: "94%",
+    backgroundColor: "#1D1F24",
+    top: "7%",
+    borderRadius: 20,
     padding: 20,
   },
   text: {

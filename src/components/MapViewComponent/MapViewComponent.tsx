@@ -58,7 +58,7 @@ const MapViewComponent = () => {
           />
         ))}
       </MapView>
-      <CustomButton
+      {/* <CustomButton
         additionalStyles={{
           position: "absolute",
           top: "89%",
@@ -85,7 +85,7 @@ const MapViewComponent = () => {
         type="PRIMARY"
         bgColor={undefined}
         fgColor={undefined}
-      />
+      /> */}
     </>
   );
 };
@@ -94,6 +94,8 @@ const styles = StyleSheet.create({
   map: {
     width: "100%",
     height: "100%",
+    position: "absolute",
+    zIndex: -1,
   },
 });
 

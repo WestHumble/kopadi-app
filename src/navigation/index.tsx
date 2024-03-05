@@ -29,6 +29,7 @@ const screenOptions = {
     height: "10%",
     backgroundColor: "#1D1F24",
     borderRadius: 20,
+    zIndex: 999,
     ...Platform.select({
       ios: {
         shadowColor: "black",
@@ -72,7 +73,7 @@ const TabStackScreen = () => {
 const Navigation = () => {
   return (
     <NavigationContainer>
-      <Tab.Navigator screenOptions={screenOptions}>
+      <Tab.Navigator screenOptions={screenOptions} mode="modal">
         <Tab.Screen
           name="Home"
           component={HomeScreen}

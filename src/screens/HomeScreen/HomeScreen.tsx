@@ -3,18 +3,11 @@ import React, { useState } from "react";
 import { MapViewComponent } from "../../components/MapViewComponent";
 
 const HomeScreen = () => {
-  return (
-    <View>
-      <MapViewComponent />
-    </View>
-  );
+  return <View style={styles.root}>{/* <MapViewComponent /> */}</View>;
 };
 
 const styles = StyleSheet.create({
-  map: {
-    width: "100%",
-    height: "100%",
-  },
+  root: {},
 });
 
 export default HomeScreen;
