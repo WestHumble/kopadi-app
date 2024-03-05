@@ -12,7 +12,6 @@ const App = () => {
     <AuthProvider>
       <LocationProvider>
         <View style={styles.root}>
-          <MapViewComponent />
           <Navigation />
           <StatusBar style="auto" />
         </View>

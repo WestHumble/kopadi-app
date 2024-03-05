@@ -14,6 +14,7 @@ import HomeScreen from "../screens/HomeScreen";
 import ConfirmEmailScreen from "../screens/ConfirmEmailScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import ResetPasswordScreen from "../screens/ResetPasswordScreen";
+import { MapViewComponent } from "../components/MapViewComponent";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
