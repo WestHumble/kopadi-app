@@ -27,15 +27,19 @@ const screenOptions = {
     right: "3%",
     left: "3%",
     paddingBottom: 0,
+    paddingTop: 0,
     height: "10%",
+    margin: 0,
     backgroundColor: "#1D1F24",
     borderRadius: 20,
+    borderTopWidth: 0,
+    borderTopColor: "transparent",
     zIndex: 999,
     ...Platform.select({
       ios: {
         shadowColor: "black",
         shadowOffset: { width: 0, height: -3 },
-        shadowOpacity: 0.1,
+        shadowOpacity: 0.3,
         shadowRadius: 4,
       },
       android: {
@@ -44,9 +48,9 @@ const screenOptions = {
     }),
   },
 };
-const TabStackScreen = () => {
+const StackNavScreen = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{ headerShown: false }} mode="modal">
       <Stack.Screen
         name="Home"
         component={HomeScreen}
@@ -71,121 +75,125 @@ const TabStackScreen = () => {
   );
 };
 
+const TabNavScreen = () => {
+  return (
+    <Tab.Navigator screenOptions={screenOptions}>
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <Feather
+                  name="home"
+                  size={24}
+                  color={focused ? "#F2B138" : "#676D75"}
+                />
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: focused ? "#F2B138" : "#676D75",
+                  }}
+                >
+                  Home
+                </Text>
+              </View>
+            );
+          },
+        }}
+      />
+      <Tab.Screen
+        name="SignUp"
+        component={SignUpScreen}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <Ionicons
+                  name="search-outline"
+                  size={24}
+                  color={focused ? "#F2B138" : "#676D75"}
+                />
+
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: focused ? "#F2B138" : "#676D75",
+                  }}
+                >
+                  Wyszukaj
+                </Text>
+              </View>
+            );
+          },
+        }}
+      />
+
+      <Tab.Screen
+        name="ConfirmEmail"
+        component={ConfirmEmailScreen}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <Ionicons
+                  name="chatbox-outline"
+                  size={24}
+                  color={focused ? "#F2B138" : "#676D75"}
+                />
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: focused ? "#F2B138" : "#676D75",
+                  }}
+                >
+                  Chat
+                </Text>
+              </View>
+            );
+          },
+        }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate("ConfirmEmail");
+          },
+        })}
+      />
+      <Tab.Screen
+        name="SignIn"
+        component={SignInScreen}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <Ionicons
+                  name="person-outline"
+                  size={24}
+                  color={focused ? "#F2B138" : "#676D75"}
+                />
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: focused ? "#F2B138" : "#676D75",
+                  }}
+                >
+                  Profil
+                </Text>
+              </View>
+            );
+          },
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
 const Navigation = () => {
   return (
     <NavigationContainer>
-      <Tab.Navigator screenOptions={screenOptions} mode="modal">
-        <Tab.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            tabBarIcon: ({ focused }) => {
-              return (
-                <View
-                  style={{ alignItems: "center", justifyContent: "center" }}
-                >
-                  <Feather
-                    name="home"
-                    size={24}
-                    color={focused ? "#F2B138" : "#676D75"}
-                  />
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: focused ? "#F2B138" : "#676D75",
-                    }}
-                  >
-                    Home
-                  </Text>
-                </View>
-              );
-            },
-          }}
-        />
-        <Tab.Screen
-          name="SignUp"
-          component={SignUpScreen}
-          options={{
-            tabBarIcon: ({ focused }) => {
-              return (
-                <View
-                  style={{ alignItems: "center", justifyContent: "center" }}
-                >
-                  <Ionicons
-                    name="search-outline"
-                    size={24}
-                    color={focused ? "#F2B138" : "#676D75"}
-                  />
-
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: focused ? "#F2B138" : "#676D75",
-                    }}
-                  >
-                    Wyszukaj
-                  </Text>
-                </View>
-              );
-            },
-          }}
-        />
-
-        <Tab.Screen
-          name="ConfirmEmail"
-          component={ConfirmEmailScreen}
-          options={{
-            tabBarIcon: ({ focused }) => {
-              return (
-                <View
-                  style={{ alignItems: "center", justifyContent: "center" }}
-                >
-                  <Ionicons
-                    name="chatbox-outline"
-                    size={24}
-                    color={focused ? "#F2B138" : "#676D75"}
-                  />
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: focused ? "#F2B138" : "#676D75",
-                    }}
-                  >
-                    Chat
-                  </Text>
-                </View>
-              );
-            },
-          }}
-        />
-        <Tab.Screen
-          name="SignIn"
-          component={SignInScreen}
-          options={{
-            tabBarIcon: ({ focused }) => {
-              return (
-                <View
-                  style={{ alignItems: "center", justifyContent: "center" }}
-                >
-                  <Ionicons
-                    name="person-outline"
-                    size={24}
-                    color={focused ? "#F2B138" : "#676D75"}
-                  />
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: focused ? "#F2B138" : "#676D75",
-                    }}
-                  >
-                    Profil
-                  </Text>
-                </View>
-              );
-            },
-          }}
-        />
-      </Tab.Navigator>
+      <TabNavScreen />
     </NavigationContainer>
   );
 };

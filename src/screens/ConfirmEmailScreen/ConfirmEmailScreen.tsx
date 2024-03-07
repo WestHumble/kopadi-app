@@ -14,7 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 const ConfirmEmailScreen = () => {
   const [emailConfirmCode, setEmailConfirmCode] = useState("");
   const navigation = useNavigation();
-
+  const { height } = useWindowDimensions();
   const onRegisterPressed = () => {
     console.warn("Kliknięto rejestrację");
   };
@@ -30,7 +30,7 @@ const ConfirmEmailScreen = () => {
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={styles.root}>
+      <View style={[styles.root, { height: height * 1 }]}>
         <Text style={styles.title} resizeMode="contain">
           Potwierdź swój adres e-mail
         </Text>
@@ -71,6 +71,8 @@ const styles = StyleSheet.create({
   root: {
     alignItems: "center",
     padding: 20,
+    backgroundColor: "#131417",
+    flex: 1,
   },
   text: {
     color: "#999999",

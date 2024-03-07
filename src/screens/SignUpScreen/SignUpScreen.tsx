@@ -20,6 +20,7 @@ const SignUpScreen = () => {
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
   const navigation = useNavigation();
+  const { height } = useWindowDimensions();
 
   const onRegisterPressed = () => {
     register(email, password, name, surname)
@@ -42,7 +43,7 @@ const SignUpScreen = () => {
 
   return (
     <>
-      <View style={styles.root}>
+      <View style={[styles.root, { height: height * 1 }]}>
         <View style={styles.windowTab}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <Text style={styles.title} resizeMode="contain">
@@ -105,7 +106,7 @@ const SignUpScreen = () => {
             />
           </ScrollView>
         </View>
-        <MapViewComponent />
+        {/* <MapViewComponent /> */}
       </View>
     </>
   );
@@ -114,14 +115,15 @@ const SignUpScreen = () => {
 const styles = StyleSheet.create({
   root: {
     alignItems: "center",
-    padding: 0,
-    height: "100%",
+    padding: 20,
+    backgroundColor: "#131417",
+    flex: 1,
   },
   windowTab: {
     // right: "3%",
     // left: "3%",
     height: "75%",
-    width: "94%",
+    width: "100%",
     backgroundColor: "#1D1F24",
     top: "7%",
     borderRadius: 20,
@@ -140,7 +142,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
     marginTop: "15%",
-    color: "#003f63",
+    color: "#fff",
   },
 });
 
