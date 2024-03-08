@@ -29,7 +29,7 @@ export const LocationProvider = ({children}) => {
             return
         }
         getLocation(shareLocation);
-        const interval = setInterval(() => getLocation(shareLocation), 2000);
+        const interval = setInterval(() => getLocation(shareLocation), parseInt(process.env.EXPO_PUBLIC_LOCALIZATION_REFRESH_TIME));
         return () => clearInterval(interval);
     }, [userToken, shareLocation]);
 
@@ -42,7 +42,7 @@ export const LocationProvider = ({children}) => {
 
         let location = await Location.getCurrentPositionAsync({});
         setUserLocation(location);
-        if (shareLocation && (null === lastUpdateDate || ((new Date()) - lastUpdateDate) > 5000)) {
+        if (shareLocation && (null === lastUpdateDate || ((new Date()) - lastUpdateDate) >= parseInt(process.env.EXPO_PUBLIC_LOCALIZATION_UPDATE_TIME))) {
             lastUpdateDate = new Date()
             setLocation(location.coords.longitude, location.coords.latitude).catch((error)=>{
                 if (error.response.status == 404) {
@@ -51,6 +51,7 @@ export const LocationProvider = ({children}) => {
             });
         }
     }
+
 
     return (
         <LocationContext.Provider value={{userLocation, shareLocation, setShareLocation}}>

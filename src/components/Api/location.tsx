@@ -1,7 +1,7 @@
 import { get, post } from './apiRequest';
 
-export const getLocation = async () => {
-    return await get('user/location');
+export const getFriendsLocations = async () => {
+    return await get('user/location/get-friends');
 }
 export const initLocation = async () => {
     return await post('user/location/init');

@@ -2,9 +2,11 @@ import { StyleSheet } from "react-native";
 import React, { useRef, useEffect, useState, useContext } from "react";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import CustomButton from "../../components/CustomButton";
-import { MarkerData } from "../../types/marker";
+import {LatLngData, MarkerData} from "../../types/marker";
 import { LocationContext } from "../../context/LocationContext";
 import { getCloseEvents } from "../../components/Api/event";
+import {getFriendsLocations} from "../Api/location";
+import {AuthContext} from "../../context/AuthContext";
 
 const MapViewComponent = () => {
   const { userLocation, shareLocation, setShareLocation } =
@@ -17,7 +19,10 @@ const MapViewComponent = () => {
     longitudeDelta: 0.16,
   });
 
+  const {userToken} = useContext(AuthContext);
+
   const [markers, setMarkers] = useState<MarkerData[]>([]);
+  const [friendsMarkers, setFriendsMarkers] = useState<MarkerData[]>([]);
 
   const onRegionChange = (newRegion) => {
     setRegion(newRegion);
@@ -36,6 +41,29 @@ const MapViewComponent = () => {
       mapViewRef.current.animateToRegion(region, 1000);
     }
   }, []);
+
+  const updateFriendsMarkers = () => {
+      getFriendsLocations()
+          .then((res) => {
+              let latlngData : LatLngData
+              let newMarkers : MarkerData[] = []
+              for(var k in res.data) {
+                  latlngData = res.data[k]
+                  newMarkers.push({ latlng: latlngData, name: k, description: "friend" })
+              }
+              setFriendsMarkers(newMarkers)
+          })
+          .catch((error) => console.error(error));
+  }
+
+    useEffect(() => {
+        if (!userToken) {
+            return
+        }
+        updateFriendsMarkers();
+        const interval = setInterval(() => updateFriendsMarkers(), parseInt(process.env.EXPO_PUBLIC_LOCALIZATION_UPDATE_TIME));
+        return () => clearInterval(interval);
+    }, [userToken]);
 
   return (
     <>
@@ -57,6 +85,14 @@ const MapViewComponent = () => {
             description={marker.description}
           />
         ))}
+      {friendsMarkers.map((marker, index) => (
+          <Marker
+              key={index}
+              coordinate={marker.latlng}
+              title={marker.name}
+              description={marker.description}
+          />
+      ))}
       </MapView>
       <CustomButton
         additionalStyles={{
