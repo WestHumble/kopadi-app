@@ -46,7 +46,6 @@ export const LocationProvider = ({children}) => {
             lastUpdateDate = new Date()
             setLocation(location.coords.longitude, location.coords.latitude).catch((error)=>{
                 if (error.response.status == 404) {
-                    console.log('share off')
                     setShareLocation(false)
                 }
             });
