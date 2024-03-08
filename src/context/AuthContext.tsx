@@ -3,6 +3,7 @@ import React, {createContext, useEffect, useState} from 'react';
 import { login as loginPost } from "../components/Api/login";
 import uuid from 'react-native-uuid';
 import {ping} from "../components/Api/pingAuth";
+import {stopLocationSharing} from "../components/Api/location";
 
 export const AuthContext = createContext(null);
 
@@ -27,6 +28,9 @@ export const AuthProvider = ({children}) => {
     }
 
     const logout = () => {
+        stopLocationSharing().catch((error)=>{
+            console.error(error)
+        });
         setIsLoading(true)
         setUserToken(null)
         AsyncStorage.removeItem('userToken')

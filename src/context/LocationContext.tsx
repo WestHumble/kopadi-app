@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import * as Location from "expo-location";
-import {setLocation} from "../components/Api/location";
+import {setLocation, stopLocationSharing, initLocation} from "../components/Api/location";
 import {AuthContext} from "./AuthContext";
 
 export const LocationContext = createContext(null);
@@ -11,12 +11,25 @@ export const LocationProvider = ({children}) => {
     const {userToken} = useContext(AuthContext);
 
     let lastUpdateDate = null;
+
+    useEffect(() => {
+        if (shareLocation) {
+            initLocation().catch((error)=>{
+                console.error(error)
+            });
+        } else {
+            stopLocationSharing().catch((error)=>{
+                console.error(error)
+            });
+        }
+    }, [shareLocation]);
+
     useEffect(() => {
         if (!userToken) {
             return
         }
         getLocation(shareLocation);
-        const interval = setInterval(() => getLocation(shareLocation), 5000);
+        const interval = setInterval(() => getLocation(shareLocation), 2000);
         return () => clearInterval(interval);
     }, [userToken, shareLocation]);
 
@@ -29,18 +42,16 @@ export const LocationProvider = ({children}) => {
 
         let location = await Location.getCurrentPositionAsync({});
         setUserLocation(location);
-        if (shareLocation && (null === lastUpdateDate || ((new Date()) - lastUpdateDate) > 11000)) {
+        if (shareLocation && (null === lastUpdateDate || ((new Date()) - lastUpdateDate) > 5000)) {
             lastUpdateDate = new Date()
             setLocation(location.coords.longitude, location.coords.latitude).catch((error)=>{
-                console.error(error)
+                if (error.response.status == 404) {
+                    console.log('share off')
+                    setShareLocation(false)
+                }
             });
         }
     }
-    useEffect(() => {
-        if (!shareLocation) {
-            // TODO hide location
-        }
-    }, [shareLocation]);
 
     return (
         <LocationContext.Provider value={{userLocation, shareLocation, setShareLocation}}>

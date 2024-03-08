@@ -58,10 +58,10 @@ const MapViewComponent = () => {
           />
         ))}
       </MapView>
-      {/* <CustomButton
+      <CustomButton
         additionalStyles={{
           position: "absolute",
-          top: "89%",
+          top: "70%",
           left: "35%",
           width: "20%",
           marginHorizontal: "5%",
@@ -72,20 +72,20 @@ const MapViewComponent = () => {
         bgColor={undefined}
         fgColor={undefined}
       />
-      <CustomButton
-        additionalStyles={{
-          position: "absolute",
-          top: "89%",
-          left: "70%",
-          width: "20%",
-          marginHorizontal: "5%",
-        }}
-        text="Load close events"
-        onPress={onLoadCloseEvents}
-        type="PRIMARY"
-        bgColor={undefined}
-        fgColor={undefined}
-      /> */}
+      {/*<CustomButton*/}
+      {/*  additionalStyles={{*/}
+      {/*    position: "absolute",*/}
+      {/*    top: "89%",*/}
+      {/*    left: "70%",*/}
+      {/*    width: "20%",*/}
+      {/*    marginHorizontal: "5%",*/}
+      {/*  }}*/}
+      {/*  text="Load close events"*/}
+      {/*  onPress={onLoadCloseEvents}*/}
+      {/*  type="PRIMARY"*/}
+      {/*  bgColor={undefined}*/}
+      {/*  fgColor={undefined}*/}
+      {/*/>*/}
     </>
   );
 };
