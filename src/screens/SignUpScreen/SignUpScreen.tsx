@@ -5,13 +5,12 @@ import {
   useWindowDimensions,
   ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React, {useContext, useState} from "react";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import SocialSignInButtons from "../../components/SocialSignInButtons";
 import { useNavigation } from "@react-navigation/native";
-import { register } from "../../components/Api/register";
-import { MapViewComponent } from "../../components/MapViewComponent";
+import {ApiContext} from "../../context/ApiContext";
 
 const SignUpScreen = () => {
   const [surname, setSurname] = useState("");
@@ -21,15 +20,17 @@ const SignUpScreen = () => {
   const [passwordRepeat, setPasswordRepeat] = useState("");
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
+  const {post} = useContext(ApiContext)
 
   const onRegisterPressed = () => {
-    register(email, password, name, surname)
-      .then(() => {
-        navigation.navigate("ConfirmEmail");
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
+    post('register', {
+      email,
+      password,
+      name,
+      surname
+    }, () => {
+      navigation.navigate("ConfirmEmail");
+    }, null, true)
   };
   const onTermsOfUsePressed = () => {
     console.warn("Kliknięto warunki użytkowania");

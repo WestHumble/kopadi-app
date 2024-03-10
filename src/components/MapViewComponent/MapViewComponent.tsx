@@ -4,13 +4,12 @@ import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import CustomButton from "../../components/CustomButton";
 import {LatLngData, MarkerData} from "../../types/marker";
 import { LocationContext } from "../../context/LocationContext";
-import { getCloseEvents } from "../../components/Api/event";
-import {getFriendsLocations} from "../Api/location";
-import {AuthContext} from "../../context/AuthContext";
+import {ApiContext} from "../../context/ApiContext";
 
 const MapViewComponent = () => {
   const { userLocation, shareLocation, setShareLocation } =
     useContext(LocationContext);
+    const { get, post, userToken } = useContext(ApiContext);
   const mapViewRef = useRef<MapView>(null);
   const [region, setRegion] = useState({
     latitude: userLocation?.coords.latitude ?? 52.4064,
@@ -18,8 +17,6 @@ const MapViewComponent = () => {
     latitudeDelta: 0.14,
     longitudeDelta: 0.16,
   });
-
-  const {userToken} = useContext(AuthContext);
 
   const [markers, setMarkers] = useState<MarkerData[]>([]);
   const [friendsMarkers, setFriendsMarkers] = useState<MarkerData[]>([]);
@@ -31,9 +28,11 @@ const MapViewComponent = () => {
     setShareLocation(!shareLocation);
   };
   const onLoadCloseEvents = () => {
-    getCloseEvents(region.latitude, region.longitude, 1000)
-      .then((res) => setMarkers(res.data))
-      .catch((error) => console.error(error));
+      post('event/close-list', {
+          latitude: region.latitude,
+          longitude: region.longitude,
+          distanceInMeters: 1000
+      }, (res) => setMarkers(res.data))
   };
 
   useEffect(() => {
@@ -43,17 +42,15 @@ const MapViewComponent = () => {
   }, []);
 
   const updateFriendsMarkers = () => {
-      getFriendsLocations()
-          .then((res) => {
-              let latlngData : LatLngData
-              let newMarkers : MarkerData[] = []
-              for(var k in res.data) {
-                  latlngData = res.data[k]
-                  newMarkers.push({ latlng: latlngData, name: k, description: "friend" })
-              }
-              setFriendsMarkers(newMarkers)
-          })
-          .catch((error) => console.error(error));
+      get('user/location/get-friends', null, (res) => {
+          let latlngData : LatLngData
+          let newMarkers : MarkerData[] = []
+          for(var k in res.data) {
+              latlngData = res.data[k]
+              newMarkers.push({ latlng: latlngData, name: k, description: "friend" })
+          }
+          setFriendsMarkers(newMarkers)
+      })
   }
 
     useEffect(() => {

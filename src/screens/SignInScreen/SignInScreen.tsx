@@ -11,18 +11,19 @@ import React, { useState } from "react";
 import Logo from "../../../assets/images/Logo-Test.png";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
-import { ping } from "../../components/Api/pingAuth";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import SocialSignInButtons from "../../components/SocialSignInButtons";
 import { useNavigation } from "@react-navigation/native";
 import { LocationContext } from "../../context/LocationContext";
+import {ApiContext} from "../../context/ApiContext";
 
 const SignInScreen = () => {
-  const { login, logout, isLoading, userToken } = useContext(AuthContext);
+  const { login, logout, isLoading } = useContext(AuthContext);
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const { userLocation } = useContext(LocationContext);
+  const { get } = useContext(ApiContext);
 
   const [password, setPassword] = useState("");
 
@@ -39,7 +40,7 @@ const SignInScreen = () => {
   };
 
   const onPingPressed = async () => {
-    console.log(await (await ping()).data);
+    get('auth-ping', null, res => console.log(res.data), res => console.error(res))
   };
 
   const onMapPressed = () => {

@@ -10,16 +10,18 @@ import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import {AuthContext} from "../../context/AuthContext";
-import {resetPasswordInit} from "../../components/Api/resetPassword";
+import {ApiContext} from "../../context/ApiContext";
 
 const ForgotPasswordScreen = () => {
   const [emailToResetPassword, setEmailToResetPassword] = useState("");
   const navigation = useNavigation();
   const { resetPasswordToken, resetPasswordTokenInit } = useContext(AuthContext);
+  const {post} = useContext(ApiContext)
   const onResetPasswordPressed = () => {
-    resetPasswordInit(emailToResetPassword, resetPasswordToken)
-        .then(navigation.navigate("ResetPassword"))
-        .catch((e)=>{console.error(e)})
+    post('reset_password', {
+      email: emailToResetPassword,
+      token: resetPasswordToken
+    }, navigation.navigate("ResetPassword"), null, true)
   };
   const onBackToLoginPressed = () => {
     navigation.navigate("SignIn");

@@ -1,63 +1,70 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, {createContext, useEffect, useState} from 'react';
-import { login as loginPost } from "../components/Api/login";
+import React, {createContext, useContext, useEffect, useState} from 'react';
 import uuid from 'react-native-uuid';
-import {ping} from "../components/Api/pingAuth";
-import {stopLocationSharing} from "../components/Api/location";
+import {ApiContext} from "./ApiContext";
 
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({children}) => {
     const [isLoading, setIsLoading] = useState(false);
-    const [userToken, setUserToken] = useState<string>();
     const [resetPasswordToken, setResetPasswordToken] = useState<string>();
+    const {post, deleteInstances, setUserToken, setUserRefreshToken} = useContext(ApiContext)
 
     const resetPasswordTokenInit = () => {
         setResetPasswordToken(uuid.v4().toString())
     }
     const login = (email: string, password: string) => {
         setIsLoading(true)
-        loginPost(email, password).then(res => {
-            setUserToken(res.data.token)
-            AsyncStorage.setItem('userToken', res.data.token) 
-            setIsLoading(false)
-        }).catch(res => {
-            console.error(res) 
-            setIsLoading(false)
-        })
+        post('login', {
+                email,
+                password
+            },
+            res => {
+                setUserToken(res.data.token)
+                setUserRefreshToken(res.data.refresh_token)
+                AsyncStorage.setItem('userToken', res.data.token)
+                AsyncStorage.setItem('userRefreshToken', res.data.refresh_token)
+                deleteInstances()
+                setIsLoading(false)
+            },
+            res => {
+                console.error(res)
+                setIsLoading(false)
+            },
+            true
+        );
     }
 
-    const logout = () => {
-        stopLocationSharing().catch((error)=>{
-            console.error(error)
-        });
+    const logout = async () => {
         setIsLoading(true)
-        setUserToken(null)
-        AsyncStorage.removeItem('userToken')
+        post('user/location/stop', null
+        , ()=>{
+            setUserToken(null)
+            setUserRefreshToken(null)
+            AsyncStorage.removeItem('userToken')
+            AsyncStorage.removeItem('userRefreshToken')
+            deleteInstances()
+            setIsLoading(false)
+        }, ()=>{
+            setUserToken(null)
+            setUserRefreshToken(null)
+            AsyncStorage.removeItem('userToken')
+            AsyncStorage.removeItem('userRefreshToken')
+            deleteInstances()
+            setIsLoading(false)
+        })
         setIsLoading(false)
     }
 
     const isLoggedIn = async() => {
         try {
             setIsLoading(true)
-            let userToken = await AsyncStorage.getItem('userToken')
-
-            if (userToken) {
-                ping().then(() => {
-                    setUserToken(userToken == 'null' ? null : userToken)
-                    setIsLoading(false)
-                }).catch(res => {
-                    setUserToken(null)
-                    setIsLoading(false)
-                })
-                return
-            }
-
+            setUserToken(await AsyncStorage.getItem('userToken'))
+            setUserRefreshToken(await AsyncStorage.getItem('userRefreshToken'))
             setIsLoading(false)
         } catch (e) {
             console.log(`isLoggedIn error ${e}`)
         }
-
     }
 
     useEffect(() => {
@@ -65,7 +72,7 @@ export const AuthProvider = ({children}) => {
     }, [])
 
     return (
-        <AuthContext.Provider value={{login, logout, isLoading, userToken, resetPasswordToken, resetPasswordTokenInit}}>
+        <AuthContext.Provider value={{login, logout, isLoading, resetPasswordToken, resetPasswordTokenInit}}>
             {children}
         </AuthContext.Provider>
     );
