@@ -15,6 +15,7 @@ import ConfirmEmailScreen from "../screens/ConfirmEmailScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import ResetPasswordScreen from "../screens/ResetPasswordScreen";
 import { MapViewComponent } from "../components/MapViewComponent";
+import SearchEventsScreen from "../screens/SearchEventsScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -104,8 +105,8 @@ const TabNavScreen = () => {
         }}
       />
       <Tab.Screen
-        name="SignUp"
-        component={SignUpScreen}
+        name="SearchEvents"
+        component={SearchEventsScreen}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
