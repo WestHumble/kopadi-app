@@ -26,6 +26,13 @@ const EventList = ({ data }) => (
         description={item.description}
       />
     )}
+    renderSectionFooter={({ section }) =>
+      section.data.length === 0 && (
+        <View style={styles.noEventsContainer}>
+          <Text style={styles.noEventsText}>Brak wydarzeń</Text>
+        </View>
+      )
+    }
   />
 );
 
@@ -63,6 +70,14 @@ const styles = StyleSheet.create({
     fontSize: 21,
     fontWeight: "bold",
     color: "#fff",
+  },
+  noEventsContainer: {
+    padding: 16,
+    alignItems: "center",
+  },
+  noEventsText: {
+    fontSize: 16,
+    color: "#888",
   },
 });
 
