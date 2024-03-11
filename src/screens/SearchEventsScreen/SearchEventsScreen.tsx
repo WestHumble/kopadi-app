@@ -17,25 +17,6 @@ const SearchEventsScreen = () => {
 
   const data = [
     {
-      title: "Wydarzenia Publiczne",
-      data: [
-        {
-          id: 1,
-          title: "Publiczne Wydarzenie 1",
-          date: "2024-03-10",
-          location: "Publiczna Lokalizacja 1",
-          description: "Opis publicznego wydarzenia 1",
-        },
-        {
-          id: 2,
-          title: "Publiczne Wydarzenie 2",
-          date: "2024-03-11",
-          location: "Publiczna Lokalizacja 2",
-          description: "Opis publicznego wydarzenia 2",
-        },
-      ],
-    },
-    {
       title: "Wydarzenia Moje i Znajomych",
       data: [
         {
@@ -54,29 +35,48 @@ const SearchEventsScreen = () => {
         },
       ],
     },
+    {
+      title: "Wydarzenia Publiczne",
+      data: [
+        {
+          id: 1,
+          title: "Publiczne Wydarzenie 1",
+          date: "2024-03-10",
+          location: "Publiczna Lokalizacja 1",
+          description: "Opis publicznego wydarzenia 1",
+        },
+        {
+          id: 2,
+          title: "Publiczne Wydarzenie 2",
+          date: "2024-03-11",
+          location: "Publiczna Lokalizacja 2",
+          description: "Opis publicznego wydarzenia 2",
+        },
+      ],
+    },
   ];
 
   const onRefreshPressed = () => {
-    console.log("Odświerzono");
+    console.log("Odświeżono");
   };
 
   return (
     <>
       <View style={[styles.root, { height: height * 1 }]}>
         <View style={styles.windowTab}>
+          <Text style={styles.title} resizeMode="contain">
+            Wyszukaj wydarzenia
+          </Text>
           <ScrollView showsVerticalScrollIndicator={false}>
-            <Text style={styles.title} resizeMode="contain">
-              Wyszukaj wydarzenia
-            </Text>
             <EventList data={data} />
-            <CustomButton
-              text="Odśwież"
-              onPress={onRefreshPressed}
-              type="PRIMARY"
-              bgColor={undefined}
-              fgColor={undefined}
-            />
           </ScrollView>
+          <CustomButton
+            text="Odśwież"
+            onPress={onRefreshPressed}
+            type="PRIMARY"
+            bgColor={undefined}
+            fgColor={undefined}
+          />
         </View>
       </View>
     </>
@@ -91,8 +91,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   windowTab: {
-    // right: "3%",
-    // left: "3%",
     height: "75%",
     width: "100%",
     backgroundColor: "#1D1F24",
@@ -112,7 +110,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 10,
-    marginTop: "15%",
+    marginTop: "5%",
     color: "#fff",
   },
 });

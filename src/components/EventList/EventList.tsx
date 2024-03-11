@@ -6,7 +6,6 @@ const EventItem = ({ title, date, location, description }) => (
     <Text style={styles.title}>{title}</Text>
     <Text style={styles.date}>{date}</Text>
     <Text style={styles.location}>{location}</Text>
-    <Text style={styles.description}>{description}</Text>
   </View>
 );
 
@@ -33,12 +32,18 @@ const EventList = ({ data }) => (
 const styles = StyleSheet.create({
   eventContainer: {
     padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
+    marginVertical: 4,
+    backgroundColor: "#131417",
+    borderRadius: 20,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: -3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   title: {
     fontSize: 18,
     fontWeight: "bold",
+    color: "#fff",
   },
   date: {
     color: "#888",
@@ -50,12 +55,14 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   sectionHeader: {
-    backgroundColor: "#f0f0f0",
+    color: "#fff",
     padding: 8,
+    marginTop: 12,
   },
   sectionHeaderText: {
-    fontSize: 16,
+    fontSize: 21,
     fontWeight: "bold",
+    color: "#fff",
   },
 });
 
