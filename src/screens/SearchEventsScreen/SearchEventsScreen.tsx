@@ -8,17 +8,10 @@ import {
 import React, { useState } from "react";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
-import SocialSignInButtons from "../../components/SocialSignInButtons";
 import { useNavigation } from "@react-navigation/native";
-import { register } from "../../components/Api/register";
 import EventList from "../../components/EventList";
 
 const SearchEventsScreen = () => {
-  const [surname, setSurname] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordRepeat, setPasswordRepeat] = useState("");
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
 
@@ -63,23 +56,8 @@ const SearchEventsScreen = () => {
     },
   ];
 
-  const onRegisterPressed = () => {
-    register(email, password, name, surname)
-      .then(() => {
-        navigation.navigate("ConfirmEmail");
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
-  };
-  const onTermsOfUsePressed = () => {
-    console.warn("Kliknięto warunki użytkowania");
-  };
-  const onPrivatePolicyPressed = () => {
-    console.warn("Kliknięto politykę prywatności");
-  };
-  const onBackToLoginPressed = () => {
-    navigation.navigate("SignIn");
+  const onRefreshPressed = () => {
+    console.log("Odświerzono");
   };
 
   return (
@@ -92,8 +70,8 @@ const SearchEventsScreen = () => {
             </Text>
             <EventList data={data} />
             <CustomButton
-              text="Zarejestruj"
-              onPress={onRegisterPressed}
+              text="Odśwież"
+              onPress={onRefreshPressed}
               type="PRIMARY"
               bgColor={undefined}
               fgColor={undefined}
