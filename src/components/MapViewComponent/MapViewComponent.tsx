@@ -24,9 +24,12 @@ const MapViewComponent = () => {
   const onRegionChange = (newRegion) => {
     setRegion(newRegion);
   };
-  const onShareLocationToggle = () => {
-    setShareLocation(!shareLocation);
-  };
+    const onShareLocationToggle = () => {
+        setShareLocation(!shareLocation);
+    };
+    const onMercureTest = () => {
+        console.log("test3")
+    };
   const onLoadCloseEvents = () => {
       post('event/close-list', {
           latitude: region.latitude,
@@ -105,6 +108,21 @@ const MapViewComponent = () => {
         bgColor={undefined}
         fgColor={undefined}
       />
+
+        <CustomButton
+            additionalStyles={{
+                position: "absolute",
+                top: "70%",
+                left: "10%",
+                width: "20%",
+                marginHorizontal: "5%",
+            }}
+            text={"Mercure test"}
+            onPress={onMercureTest}
+            type="PRIMARY"
+            bgColor={undefined}
+            fgColor={undefined}
+        />
       {/*<CustomButton*/}
       {/*  additionalStyles={{*/}
       {/*    position: "absolute",*/}
