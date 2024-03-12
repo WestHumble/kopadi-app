@@ -10,15 +10,31 @@ import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { register } from "../../components/Api/register";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const AddEventScreen = () => {
-  const [surname, setSurname] = useState("");
   const [eventName, setEventName] = useState("");
-  const [email, setEmail] = useState("");
+  const [adress, setAdress] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordRepeat, setPasswordRepeat] = useState("");
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    console.warn("A date has been picked: ", date);
+    setSelectedDate(date);
+    hideDatePicker();
+  };
 
   const onRegisterPressed = () => {
     register(email, password, name, surname)
@@ -37,10 +53,10 @@ const AddEventScreen = () => {
     <>
       <View style={[styles.root, { height: height * 1 }]}>
         <View style={styles.windowTab}>
+          <Text style={styles.title} resizeMode="contain">
+            Dodaj wydarzenie
+          </Text>
           <ScrollView showsVerticalScrollIndicator={false}>
-            <Text style={styles.title} resizeMode="contain">
-              Dodaj wydarzenie
-            </Text>
             <CustomInput
               placeholder="Podaj nazwę wydarzenia"
               value={eventName}
@@ -48,37 +64,49 @@ const AddEventScreen = () => {
               secureTextEntry={undefined}
             />
             <CustomInput
-              placeholder="Podaj Nazwisko"
-              value={surname}
-              setValue={setSurname}
+              placeholder="Data wydarzenia"
+              value={selectedDate ? selectedDate.toDateString() : ""}
+              setValue={setSelectedDate}
               secureTextEntry={undefined}
-            />
-            <CustomInput
-              placeholder="Podaj adres e-mail"
-              value={email}
-              setValue={setEmail}
-              secureTextEntry={undefined}
-            />
-            <CustomInput
-              placeholder="Podaj hasło"
-              value={password}
-              setValue={setPassword}
-              secureTextEntry
-            />
-            <CustomInput
-              placeholder="Powtórz hasło"
-              value={passwordRepeat}
-              setValue={setPasswordRepeat}
-              secureTextEntry
+              additionalStyle={styles.inputDate}
             />
             <CustomButton
-              text="Dodaj wydarzenie"
-              onPress={onRegisterPressed}
+              text="Wybierz datę wydarzenia"
+              onPress={showDatePicker}
               type="PRIMARY"
               bgColor={undefined}
               fgColor={undefined}
+              additionalStyles={styles.inputDateButton}
+            />
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="date"
+              onConfirm={handleConfirm}
+              onCancel={hideDatePicker}
+            />
+            <CustomInput
+              placeholder="Podaj adres wydarzenia"
+              value={adress}
+              setValue={setAdress}
+              secureTextEntry={undefined}
+            />
+            <CustomInput
+              placeholder="Opis wydarzenia"
+              value={eventDescription}
+              setValue={setEventDescription}
+              secureTextEntry
+              inputType="textArea"
+              additionalStyle={styles.textArea}
             />
           </ScrollView>
+          <CustomButton
+            text="Dodaj wydarzenie"
+            onPress={onRegisterPressed}
+            type="PRIMARY"
+            bgColor={undefined}
+            fgColor={undefined}
+            additionalStyles={styles.addEventButton}
+          />
         </View>
       </View>
     </>
@@ -112,8 +140,24 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 10,
-    marginTop: "15%",
+    marginTop: "5%",
     color: "#fff",
+  },
+  inputDate: {
+    color: "#fff",
+  },
+  inputDateButton: {
+    marginTop: 10,
+    borderRadius: 20,
+    paddingVertical: 25,
+    marginBottom: 20,
+  },
+  textArea: { color: "#fff" },
+  addEventButton: {
+    marginTop: 20,
+    borderRadius: 20,
+    paddingVertical: 25,
+    bottom: 0,
   },
 });
 

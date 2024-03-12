@@ -1,14 +1,28 @@
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet, Platform } from "react-native";
 import React from "react";
 
-const CustomInput = ({ value, setValue, placeholder, secureTextEntry }) => {
+const CustomInput = ({
+  value,
+  setValue,
+  placeholder,
+  secureTextEntry,
+  additionalStyle,
+  inputType = "text", // Domyślnie ustawiamy na "text"
+}) => {
+  const InputComponent = inputType === "textArea" ? TextInput : TextInput;
+
   return (
-    <View style={styles.container}>
-      <TextInput
+    <View style={[styles.container, additionalStyle]}>
+      <InputComponent
         value={value}
         onChangeText={setValue}
         placeholder={placeholder}
-        style={styles.input}
+        style={[
+          styles.input,
+          additionalStyle,
+          inputType === "textArea" && styles.textArea,
+        ]}
+        multiline={inputType === "textArea"}
         secureTextEntry={secureTextEntry}
       />
     </View>
@@ -18,15 +32,27 @@ const CustomInput = ({ value, setValue, placeholder, secureTextEntry }) => {
 const styles = StyleSheet.create({
   container: {
     borderWidth: 1,
-    borderRadius: 5,
-    borderColor: "#e8e8e8",
+    borderRadius: 20,
+    borderColor: "#131417",
     paddingHorizontal: 10,
     marginVertical: 5,
-    backgroundColor: "white",
+    backgroundColor: "#131417",
     width: "100%",
+    color: "#fff",
   },
   input: {
-    height: 40,
+    height: 60,
+    ...Platform.select({
+      ios: {
+        // Dodatkowe style dla iOS
+      },
+      android: {
+        // Dodatkowe style dla Androida
+      },
+    }),
+  },
+  textArea: {
+    height: 120,
   },
 });
 
