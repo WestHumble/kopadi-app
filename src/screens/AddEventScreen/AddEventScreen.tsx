@@ -116,6 +116,7 @@ const AddEventScreen = () => {
               value={eventName}
               setValue={setEventName}
               secureTextEntry={undefined}
+              additionalStyle={styles.inputEventName}
             />
             <CustomInput
               placeholder="Data wydarzenia"
@@ -215,6 +216,9 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   inputAddress: {
+    color: "#fff",
+  },
+  inputEventName: {
     color: "#fff",
   },
 });
