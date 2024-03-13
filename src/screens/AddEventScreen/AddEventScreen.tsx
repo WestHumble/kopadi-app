@@ -4,12 +4,11 @@ import {
   StyleSheet,
   useWindowDimensions,
   ScrollView,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
-import { useNavigation } from "@react-navigation/native";
-import { register } from "../../components/Api/register";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Geocoding from "react-native-geocoding";
 
@@ -18,9 +17,11 @@ Geocoding.init(process.env.REACT_APP_GEOCODING_API_KEY);
 const AddEventScreen = () => {
   const [eventName, setEventName] = useState("");
   const [address, setAddress] = useState("");
+  const [addressCoordinates, setAddressCoordinates] = useState({
+    latitude: 0,
+    longitude: 0,
+  });
   const [eventDescription, setEventDescription] = useState("");
-  const [password, setPassword] = useState("");
-  const navigation = useNavigation();
   const { height } = useWindowDimensions();
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -39,9 +40,40 @@ const AddEventScreen = () => {
     hideDatePicker();
   };
 
-  const onRegisterPressed = () => {};
-  const onBackToLoginPressed = () => {
-    navigation.navigate("SignIn");
+  const onRegisterPressed = () => {
+    try {
+      // Sprawdź, czy wszystkie dane są uzupełnione
+      if (!eventName || !selectedDate || !address || !eventDescription) {
+        Alert.alert("Powiadomienie", "Wszystkie pola muszą być wypełnione.");
+        return;
+      }
+
+      //Bbiekt z danymi wydarzenia
+      const eventData = {
+        eventName,
+        selectedDate: selectedDate.toISOString(),
+        address,
+        addressCoordinates,
+        eventDescription,
+      };
+
+      console.log("Dane wydarzenia:", eventData);
+
+      // Wywołaj funkcję do wysyłki danych przez REST API
+      // const response = await register(eventData);
+
+      // Sprawdź odpowiedź od serwera
+      if (response.status === 200) {
+        console.log("Wydarzenie zarejestrowane pomyślnie!");
+        // Możesz również dodać nawigację do innej strony lub inny kod obsługi sukcesu
+      } else {
+        console.error("Błąd podczas rejestracji wydarzenia:", response.data);
+        Alert.alert("Błąd", "Wystąpił błąd podczas rejestracji wydarzenia.");
+      }
+    } catch (error) {
+      console.error("Błąd podczas rejestracji wydarzenia:", error);
+      Alert.alert("Błąd", "Wystąpił nieoczekiwany błąd.");
+    }
   };
 
   const onAddressChange = async (inputAddress) => {
@@ -50,11 +82,16 @@ const AddEventScreen = () => {
     try {
       const response = await Geocoding.from(inputAddress);
       const { results } = response;
-      if (results.length > 0) {
+
+      if (results && results.length > 0) {
         const { geometry } = results[0];
         const { location } = geometry;
+
         console.log("Koordynaty:", location);
-        // Tutaj możesz zapisywać koordynaty do stanu lub wysyłać na serwer
+        setAddressCoordinates({
+          latitude: location.lat,
+          longitude: location.lng,
+        });
       } else {
         Alert.alert(
           "Błąd",
@@ -63,7 +100,6 @@ const AddEventScreen = () => {
       }
     } catch (error) {
       console.error("Błąd geokodowania:", error);
-      Alert.alert("Błąd", "Wystąpił błąd podczas geokodowania.");
     }
   };
 

@@ -44,6 +44,14 @@ const screenOptions = {
         elevation: 5,
       },
     }),
+    transform: [
+      {
+        translateY: 0,
+      },
+      {
+        scale: 1,
+      },
+    ],
   },
 };
 
