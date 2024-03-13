@@ -11,10 +11,13 @@ import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { register } from "../../components/Api/register";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import Geocoding from "react-native-geocoding";
+
+Geocoding.init(process.env.REACT_APP_GEOCODING_API_KEY);
 
 const AddEventScreen = () => {
   const [eventName, setEventName] = useState("");
-  const [adress, setAdress] = useState("");
+  const [address, setAddress] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
@@ -36,17 +39,32 @@ const AddEventScreen = () => {
     hideDatePicker();
   };
 
-  const onRegisterPressed = () => {
-    register(email, password, name, surname)
-      .then(() => {
-        navigation.navigate("ConfirmEmail");
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
-  };
+  const onRegisterPressed = () => {};
   const onBackToLoginPressed = () => {
     navigation.navigate("SignIn");
+  };
+
+  const onAddressChange = async (inputAddress) => {
+    setAddress(inputAddress);
+
+    try {
+      const response = await Geocoding.from(inputAddress);
+      const { results } = response;
+      if (results.length > 0) {
+        const { geometry } = results[0];
+        const { location } = geometry;
+        console.log("Koordynaty:", location);
+        // Tutaj możesz zapisywać koordynaty do stanu lub wysyłać na serwer
+      } else {
+        Alert.alert(
+          "Błąd",
+          "Nie można znaleźć koordynatów dla podanego adresu."
+        );
+      }
+    } catch (error) {
+      console.error("Błąd geokodowania:", error);
+      Alert.alert("Błąd", "Wystąpił błąd podczas geokodowania.");
+    }
   };
 
   return (
@@ -86,9 +104,10 @@ const AddEventScreen = () => {
             />
             <CustomInput
               placeholder="Podaj adres wydarzenia"
-              value={adress}
-              setValue={setAdress}
+              value={address}
+              setValue={onAddressChange}
               secureTextEntry={undefined}
+              additionalStyle={styles.inputAddress}
             />
             <CustomInput
               placeholder="Opis wydarzenia"
@@ -158,6 +177,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingVertical: 25,
     bottom: 0,
+  },
+  inputAddress: {
+    color: "#fff",
   },
 });
 
