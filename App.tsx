@@ -12,26 +12,24 @@ import * as Notifications from 'expo-notifications';
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
-        shouldShowAlert: true, //AppState.currentState !== 'active',
+        shouldShowAlert: AppState.currentState !== 'active',
         shouldPlaySound: false,
         shouldSetBadge: false,
-
     }),
 });
 
 async function registerForPushNotificationsAsync() {
     let token;
 
-    console.log(Platform.OS)
     if (Platform.OS === 'android') {
-        Notifications.setNotificationChannelAsync('test', {
-            name: 'test',
-            importance: Notifications.AndroidImportance.MAX,
+        Notifications.setNotificationChannelAsync('chat', {
+            name: 'chat',
+            importance: Notifications.AndroidImportance.NONE,
             vibrationPattern: [0, 250, 250, 250],
             lightColor: '#FF231F7C',
+            showBadge: false,
         });
     }
-
 
     if (Device.isDevice) {
         const { status: existingStatus } = await Notifications.getPermissionsAsync();
@@ -45,14 +43,23 @@ async function registerForPushNotificationsAsync() {
             return;
         }
         token = (await Notifications.getExpoPushTokenAsync({
-            projectId: 'ff57d77b-51b0-41b5-b0f6-bae96e24294a'
+            projectId: 'ff57d77b-51b0-41b5-b0f6-bae96e24294a',
         })).data;
         console.log("Expo push token:", token);
 
     } else {
         alert('Must use physical device for Push Notifications');
     }
-
+    const identifier = await Notifications.scheduleNotificationAsync({
+        content: {
+            title: 'Heya!',
+        },
+        trigger: {
+            seconds: 1,
+            repeats: false,
+            channelId: "chat",
+        },
+    });
     return token.data;
 }
 const App = () => {
@@ -67,11 +74,15 @@ const App = () => {
         notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
             setNotification(notification);
             console.log(notification)
+            // console.log(notification.request.trigger.remoteMessage.data.payload)
         });
 
         responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+            console.log('responseListener');
             console.log(response);
+
         });
+
 
         return () => {
             Notifications.removeNotificationSubscription(notificationListener.current);
@@ -95,12 +106,6 @@ const App = () => {
                       <Text>Body: {notification && notification.request.content.body}</Text>
                       <Text>Data: {notification && JSON.stringify(notification.request.content.data)}</Text>
                   </View>
-                  <Button
-                      title="Press to Send Notification"
-                      onPress={async () => {
-                          await sendPushNotification(expoPushToken);
-                      }}
-                  />
               </View>
           </LocationProvider>
       </AuthProvider>
