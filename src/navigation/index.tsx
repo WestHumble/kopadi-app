@@ -12,11 +12,9 @@ import SignInScreen from "../screens/SignInScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 import HomeScreen from "../screens/HomeScreen";
 import ConfirmEmailScreen from "../screens/ConfirmEmailScreen";
-import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
-import ResetPasswordScreen from "../screens/ResetPasswordScreen";
-import { MapViewComponent } from "../components/MapViewComponent";
+import SearchEventsScreen from "../screens/SearchEventsScreen";
+import AddEventScreen from "../screens/AddEventScreen";
 
-const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const screenOptions = {
   tabBarShowLabel: false,
@@ -46,33 +44,15 @@ const screenOptions = {
         elevation: 5,
       },
     }),
+    transform: [
+      {
+        translateY: 0,
+      },
+      {
+        scale: 1,
+      },
+    ],
   },
-};
-const StackNavScreen = () => {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} mode="modal">
-      <Stack.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{ title: "Strona główna" }}
-      />
-      <Stack.Screen
-        name="SignUp"
-        component={SignUpScreen}
-        options={{ title: "Zarejestruj się" }}
-      />
-      <Stack.Screen
-        name="ConfirmEmail"
-        component={ConfirmEmailScreen}
-        options={{ title: "Potwierdź email" }}
-      />
-      <Stack.Screen
-        name="SignIn"
-        component={SignInScreen}
-        options={{ title: "Zaloguj się" }}
-      />
-    </Stack.Navigator>
-  );
 };
 
 const TabNavScreen = () => {
@@ -104,8 +84,8 @@ const TabNavScreen = () => {
         }}
       />
       <Tab.Screen
-        name="SignUp"
-        component={SignUpScreen}
+        name="SearchEvents"
+        component={SearchEventsScreen}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
@@ -184,6 +164,13 @@ const TabNavScreen = () => {
               </View>
             );
           },
+        }}
+      />
+      <Tab.Screen
+        name="AddEvent"
+        component={AddEventScreen}
+        options={{
+          tabBarButton: () => null,
         }}
       />
     </Tab.Navigator>
