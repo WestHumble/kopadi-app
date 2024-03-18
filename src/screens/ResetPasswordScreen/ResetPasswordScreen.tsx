@@ -10,7 +10,7 @@ import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import {AuthContext} from "../../context/AuthContext";
-import {resetPasswordHandle} from "../../components/Api/resetPassword";
+import {ApiContext} from "../../context/ApiContext";
 
 const ResetPasswordScreen = () => {
   const [resetPasswordCode, setResetPasswordCode] = useState("");
@@ -18,14 +18,14 @@ const ResetPasswordScreen = () => {
   const [resetPasswordConfirm, setResetPasswordConfirm] = useState("");
   const navigation = useNavigation();
   const { resetPasswordToken } = useContext(AuthContext);
+  const {post} = useContext(ApiContext)
 
   const onSetNewPasswordPressed = () => {
-    resetPasswordHandle(resetPasswordToken, resetPassword, resetPasswordCode)
-        .then(()=>{navigation.navigate("SignIn")})
-        .catch(()=>{
-          console.error("Reset password failed")
-          navigation.navigate("SignIn")
-        })
+    post('reset_password/handle', {
+      token: resetPasswordToken,
+      newPassword: resetPassword,
+      code: resetPasswordCode
+    }, navigation.navigate("SignIn"), null, true)
   };
   const onBackToLoginPressed = () => {
     navigation.navigate("SignIn");

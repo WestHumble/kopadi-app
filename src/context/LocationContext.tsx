@@ -1,26 +1,32 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import * as Location from "expo-location";
-import {setLocation} from "../components/Api/location";
-import {AuthContext} from "./AuthContext";
+import {ApiContext} from "./ApiContext";
 
 export const LocationContext = createContext(null);
 
 export const LocationProvider = ({children}) => {
     const [shareLocation, setShareLocation] = useState(false);
     const [userLocation, setUserLocation] = useState(null);
-    const {userToken} = useContext(AuthContext);
-
+    const {post, userToken} = useContext(ApiContext)
     let lastUpdateDate = null;
+
+    useEffect(() => {
+        post(shareLocation ? 'user/location/init' : 'user/location/stop');
+    }, [shareLocation]);
+
     useEffect(() => {
         if (!userToken) {
             return
         }
         getLocation(shareLocation);
-        const interval = setInterval(() => getLocation(shareLocation), 5000);
+        const interval = setInterval(() => getLocation(shareLocation), parseInt(process.env.EXPO_PUBLIC_LOCALIZATION_REFRESH_TIME));
         return () => clearInterval(interval);
     }, [userToken, shareLocation]);
 
     const getLocation = async (shareLocation) => {
+        if (!userToken) {
+            return
+        }
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
             console.log('Permission to access location was denied');
@@ -29,18 +35,19 @@ export const LocationProvider = ({children}) => {
 
         let location = await Location.getCurrentPositionAsync({});
         setUserLocation(location);
-        if (shareLocation && (null === lastUpdateDate || ((new Date()) - lastUpdateDate) > 11000)) {
+        if (shareLocation && (null === lastUpdateDate || ((new Date()) - lastUpdateDate) >= parseInt(process.env.EXPO_PUBLIC_LOCALIZATION_UPDATE_TIME))) {
             lastUpdateDate = new Date()
-            setLocation(location.coords.longitude, location.coords.latitude).catch((error)=>{
-                console.error(error)
-            });
+            post('user/location/update', {
+                longitude: location.coords.longitude,
+                latitude: location.coords.latitude
+            }, null, (error)=>{
+                if (error.response.status == 404) {
+                    setShareLocation(false)
+                }
+            })
         }
     }
-    useEffect(() => {
-        if (!shareLocation) {
-            // TODO hide location
-        }
-    }, [shareLocation]);
+
 
     return (
         <LocationContext.Provider value={{userLocation, shareLocation, setShareLocation}}>
