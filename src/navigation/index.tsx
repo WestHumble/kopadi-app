@@ -14,6 +14,7 @@ import HomeScreen from "../screens/HomeScreen";
 import ConfirmEmailScreen from "../screens/ConfirmEmailScreen";
 import SearchEventsScreen from "../screens/SearchEventsScreen";
 import AddEventScreen from "../screens/AddEventScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 
 const Tab = createBottomTabNavigator();
 const screenOptions = {
@@ -142,8 +143,8 @@ const TabNavScreen = () => {
         })}
       />
       <Tab.Screen
-        name="SignIn"
-        component={SignInScreen}
+        name="Profile"
+        component={ProfileScreen}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
