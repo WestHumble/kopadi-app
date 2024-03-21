@@ -5,18 +5,34 @@ import CustomButton from "../../components/CustomButton";
 import {LatLngData, MarkerData} from "../../types/marker";
 import { LocationContext } from "../../context/LocationContext";
 import {ApiContext} from "../../context/ApiContext";
+import {EventsContext} from "../../context/EventsContext";
 
 const MapViewComponent = () => {
+  const { events, loadCloseEvents } =
+      useContext(EventsContext);
   const { userLocation, shareLocation, setShareLocation } =
     useContext(LocationContext);
-    const { get, post, userToken } = useContext(ApiContext);
-  const mapViewRef = useRef<MapView>(null);
+    const { get, userToken } = useContext(ApiContext);
+    const mapViewRef = useRef<MapView>(null);
+    const [isUserLocationHandled, setUserLocationHandled] = useState(false);
   const [region, setRegion] = useState({
     latitude: userLocation?.coords.latitude ?? 52.4064,
     longitude: userLocation?.coords.longitude ?? 16.9252,
     latitudeDelta: 0.14,
     longitudeDelta: 0.16,
   });
+    useEffect(() => {
+        if (isUserLocationHandled || !userLocation)
+            return
+        setUserLocationHandled(true)
+        let regionUser = {
+            latitude: userLocation.coords.latitude,
+            longitude: userLocation.coords.longitude,
+            latitudeDelta: 0.14,
+            longitudeDelta: 0.16,
+        }
+        onLoadCloseEvents(regionUser)
+    }, [userLocation]);
 
   const [markers, setMarkers] = useState<MarkerData[]>([]);
   const [friendsMarkers, setFriendsMarkers] = useState<MarkerData[]>([]);
@@ -27,12 +43,8 @@ const MapViewComponent = () => {
   const onShareLocationToggle = () => {
     setShareLocation(!shareLocation);
   };
-  const onLoadCloseEvents = () => {
-      post('event/close-list', {
-          latitude: region.latitude,
-          longitude: region.longitude,
-          distanceInMeters: 1000
-      }, (res) => setMarkers(res.data))
+  const onLoadCloseEvents = (manualRegion = null) => {
+      loadCloseEvents(manualRegion ?? region)
   };
 
   useEffect(() => {
@@ -40,6 +52,10 @@ const MapViewComponent = () => {
       mapViewRef.current.animateToRegion(region, 1000);
     }
   }, []);
+
+    useEffect(() => {
+        setMarkers(events)
+    }, [events]);
 
   const updateFriendsMarkers = () => {
       get('user/location/get-friends', null, (res) => {
@@ -105,20 +121,20 @@ const MapViewComponent = () => {
         bgColor={undefined}
         fgColor={undefined}
       />
-      {/*<CustomButton*/}
-      {/*  additionalStyles={{*/}
-      {/*    position: "absolute",*/}
-      {/*    top: "89%",*/}
-      {/*    left: "70%",*/}
-      {/*    width: "20%",*/}
-      {/*    marginHorizontal: "5%",*/}
-      {/*  }}*/}
-      {/*  text="Load close events"*/}
-      {/*  onPress={onLoadCloseEvents}*/}
-      {/*  type="PRIMARY"*/}
-      {/*  bgColor={undefined}*/}
-      {/*  fgColor={undefined}*/}
-      {/*/>*/}
+      <CustomButton
+        additionalStyles={{
+          position: "absolute",
+          top: "70%",
+          left: "5%",
+          width: "20%",
+          marginHorizontal: "5%",
+        }}
+        text="Load close events"
+        onPress={onLoadCloseEvents}
+        type="PRIMARY"
+        bgColor={undefined}
+        fgColor={undefined}
+      />
     </>
   );
 };

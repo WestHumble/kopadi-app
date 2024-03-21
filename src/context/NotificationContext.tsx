@@ -47,10 +47,10 @@ async function registerForPushNotificationsAsync() {
     }
 
     if (Device.isDevice) {
-        const { status: existingStatus } = await Notifications.getPermissionsAsync();
+        const {status: existingStatus} = await Notifications.getPermissionsAsync();
         let finalStatus = existingStatus;
         if (existingStatus !== 'granted') {
-            const { status } = await Notifications.requestPermissionsAsync();
+            const {status} = await Notifications.requestPermissionsAsync();
             finalStatus = status;
         }
         if (finalStatus !== 'granted') {
@@ -60,14 +60,24 @@ async function registerForPushNotificationsAsync() {
         token = (await Notifications.getExpoPushTokenAsync({
             projectId: 'ff57d77b-51b0-41b5-b0f6-bae96e24294a',
         })).data;
-        console.log(token)
     } else {
         alert('Must use physical device for Push Notifications');
     }
-    return token.data;
+    return token;
 }
+
 export const NotificationProvider = ({children}) => {
     const [expoPushToken, setExpoPushToken] = useState('');
+    const {post, userToken} = useContext(ApiContext);
+
+    useEffect(() => {
+        if (userToken && expoPushToken) {
+            post('push-token/setup', {
+                pushToken: expoPushToken
+            })
+        }
+    }, [expoPushToken, userToken]);
+
     useEffect(() => {
         registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
     }, []);

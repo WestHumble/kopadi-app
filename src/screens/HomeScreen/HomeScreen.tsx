@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { MapViewComponent } from "../../components/MapViewComponent";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
+import ChatComponent from "../../components/ChatComponent";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -12,6 +13,7 @@ const HomeScreen = () => {
   return (
     <View style={styles.root}>
       <MapViewComponent />
+      <ChatComponent />
       <CustomButton
         text="+"
         onPress={addEventPressed}

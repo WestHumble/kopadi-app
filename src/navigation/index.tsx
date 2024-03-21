@@ -7,7 +7,7 @@ import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-import { View, Text, Platform } from "react-native";
+import {View, Text, Platform, ActivityIndicator} from "react-native";
 import SignInScreen from "../screens/SignInScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 import HomeScreen from "../screens/HomeScreen";
@@ -17,6 +17,7 @@ import AddEventScreen from "../screens/AddEventScreen";
 import {ApiContext} from "../context/ApiContext";
 import ResetPasswordScreen from "../screens/ResetPasswordScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
+import {AuthContext} from "../context/AuthContext";
 
 const Tab = createBottomTabNavigator();
 const screenOptions = {
@@ -245,6 +246,16 @@ const TabsLoggedOut = () => {
     </Tab.Navigator>)
 }
 const Navigation = () => {
+
+  const {isLoading} = useContext(AuthContext)
+
+    if (isLoading) {
+        return (
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                <ActivityIndicator size={"large"} />
+            </View>
+        );
+    }
   return (
     <NavigationContainer>
       <TabNavScreen />

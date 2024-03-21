@@ -7,6 +7,7 @@ import { ApiProvider } from "./src/context/ApiContext";
 import { AuthProvider } from "./src/context/AuthContext";
 import { LocationProvider } from "./src/context/LocationContext";
 import {NotificationProvider} from "./src/context/NotificationContext";
+import {EventsProvider} from "./src/context/EventsContext";
 
 const App = () => {
     return (
@@ -14,10 +15,12 @@ const App = () => {
       <AuthProvider>
           <NotificationProvider>
               <LocationProvider>
-                  <View style={styles.root}>
-                      <Navigation />
-                      <StatusBar style="auto" />
-                  </View>
+                  <EventsProvider>
+                      <View style={styles.root}>
+                          <Navigation />
+                          <StatusBar style="auto" />
+                      </View>
+                  </EventsProvider>
               </LocationProvider>
           </NotificationProvider>
       </AuthProvider>

@@ -20,6 +20,14 @@ export const ApiProvider = ({children}) => {
                     baseURL: `${API_ADDRESS}`,
                 })
             }
+            axiosNoAuthInstance.interceptors.response.use(
+                response => {
+                    return response;
+                },
+                error => {
+                    throw error;
+                })
+
             return axiosNoAuthInstance
         }
         if (!axiosAuthInstance) {
@@ -35,6 +43,7 @@ export const ApiProvider = ({children}) => {
                 },
                 error => {
                     if (error.request && error.request.status !== 401) {
+                        console.warn(error.request.data)
                         throw error;
                     }
                     let failedRequest = error.config;
@@ -62,7 +71,8 @@ export const ApiProvider = ({children}) => {
                                 errorCallback(res)
                             })
                     }).catch((res)=>{
-                        console.error("Unable to refresh token")
+                        setUserToken(null)
+                        setUserRefreshToken(null)
                         if (!res || null === errorCallback){
                             return
                         }
@@ -75,6 +85,9 @@ export const ApiProvider = ({children}) => {
     }
     const post = async (endpoint, body? = null, success = null, error = null, noAuth = false)=> {
         if (!noAuth && !userToken){
+            if (null !== error){
+                error()
+            }
             return
         }
         (await getInstance(noAuth, success, error)).post(`/api/${endpoint}`, body).then(res => {

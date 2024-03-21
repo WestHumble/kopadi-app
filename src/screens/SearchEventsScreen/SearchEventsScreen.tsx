@@ -5,54 +5,29 @@ import {
   useWindowDimensions,
   ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React, {useContext, useState} from "react";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import EventList from "../../components/EventList";
+import {LocationContext} from "../../context/LocationContext";
+import {EventsContext} from "../../context/EventsContext";
 
 const SearchEventsScreen = () => {
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
 
+  const { events } =
+      useContext(EventsContext);
+
   const data = [
     {
       title: "Wydarzenia Moje i Znajomych",
-      data: [
-        {
-          id: 3,
-          title: "Moje Wydarzenie 1",
-          date: "2024-03-12",
-          location: "Moja Lokalizacja 1",
-          description: "Opis mojego wydarzenia 1",
-        },
-        {
-          id: 4,
-          title: "Znajomych Wydarzenie 1",
-          date: "2024-03-13",
-          location: "Lokalizacja Znajomego 1",
-          description: "Opis wydarzenia znajomego 1",
-        },
-      ],
+      data: events,
     },
     {
       title: "Wydarzenia Publiczne",
-      data: [
-        {
-          id: 1,
-          title: "Publiczne Wydarzenie 1",
-          date: "2024-03-10",
-          location: "Publiczna Lokalizacja 1",
-          description: "Opis publicznego wydarzenia 1",
-        },
-        {
-          id: 2,
-          title: "Publiczne Wydarzenie 2",
-          date: "2024-03-11",
-          location: "Publiczna Lokalizacja 2",
-          description: "Opis publicznego wydarzenia 2",
-        },
-      ],
+      data: events,
     },
   ];
 
@@ -64,12 +39,7 @@ const SearchEventsScreen = () => {
     <>
       <View style={[styles.root, { height: height * 1 }]}>
         <View style={styles.windowTab}>
-          <Text style={styles.title} resizeMode="contain">
-            Wyszukaj wydarzenia
-          </Text>
-          <ScrollView showsVerticalScrollIndicator={false}>
             <EventList data={data} />
-          </ScrollView>
           <CustomButton
             text="Odśwież"
             onPress={onRefreshPressed}

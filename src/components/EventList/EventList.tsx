@@ -20,9 +20,9 @@ const EventList = ({ data }) => (
     )}
     renderItem={({ item }) => (
       <EventItem
-        title={item.title}
-        date={item.date}
-        location={item.location}
+        title={item.name}
+        date={item.name}
+        location={item.name}
         description={item.description}
       />
     )}

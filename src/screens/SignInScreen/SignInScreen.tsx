@@ -38,14 +38,6 @@ const SignInScreen = () => {
     navigation.navigate("SignUp");
   };
 
-  if (isLoading) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size={"large"} />
-      </View>
-    );
-  }
-
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={[styles.root, { height: height }]}>
