@@ -8,7 +8,7 @@ import {ApiContext} from "../../context/ApiContext";
 import {EventsContext} from "../../context/EventsContext";
 
 const MapViewComponent = () => {
-  const { events, loadCloseEvents } =
+  const { eventsCreated, eventsInvited, eventsOther, loadCloseEvents } =
       useContext(EventsContext);
   const { userLocation, shareLocation, setShareLocation } =
     useContext(LocationContext);
@@ -31,7 +31,7 @@ const MapViewComponent = () => {
             latitudeDelta: 0.14,
             longitudeDelta: 0.16,
         }
-        onLoadCloseEvents(regionUser)
+        loadCloseEvents(regionUser)
     }, [userLocation]);
 
   const [markers, setMarkers] = useState<MarkerData[]>([]);
@@ -43,8 +43,8 @@ const MapViewComponent = () => {
   const onShareLocationToggle = () => {
     setShareLocation(!shareLocation);
   };
-  const onLoadCloseEvents = (manualRegion = null) => {
-      loadCloseEvents(manualRegion ?? region)
+  const onLoadCloseEvents = () => {
+      loadCloseEvents(region)
   };
 
   useEffect(() => {
@@ -54,8 +54,9 @@ const MapViewComponent = () => {
   }, []);
 
     useEffect(() => {
-        setMarkers(events)
-    }, [events]);
+        setMarkers(eventsCreated.concat(eventsInvited, eventsOther))
+    }, [eventsCreated, eventsInvited, eventsOther]);
+
 
   const updateFriendsMarkers = () => {
       get('user/location/get-friends', null, (res) => {

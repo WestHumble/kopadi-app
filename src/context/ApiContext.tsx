@@ -9,7 +9,7 @@ export const ApiProvider = ({children}) => {
     const [userRefreshToken, setUserRefreshToken] = useState<string>();
     let axiosAuthInstance, axiosNoAuthInstance
 
-    const deleteInstances = ()=>{
+    const deleteInstances = ()=> {
         axiosAuthInstance = null
         axiosNoAuthInstance = null
     }
@@ -43,7 +43,7 @@ export const ApiProvider = ({children}) => {
                 },
                 error => {
                     if (error.request && error.request.status !== 401) {
-                        console.warn(error.request.data)
+                        //console.log(error.response)
                         throw error;
                     }
                     let failedRequest = error.config;

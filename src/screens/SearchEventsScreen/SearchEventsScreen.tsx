@@ -17,17 +17,21 @@ const SearchEventsScreen = () => {
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
 
-  const { events } =
+  const { eventsCreated, eventsInvited, eventsOther } =
       useContext(EventsContext);
 
   const data = [
     {
-      title: "Wydarzenia Moje i Znajomych",
-      data: events,
+      title: "Wydarzenia Moje",
+      data: eventsCreated,
+    },
+    {
+      title: "Wydarzenia Znajomych",
+      data: eventsInvited,
     },
     {
       title: "Wydarzenia Publiczne",
-      data: events,
+      data: eventsOther,
     },
   ];
 
