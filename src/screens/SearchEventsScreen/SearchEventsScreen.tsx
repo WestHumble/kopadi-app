@@ -16,37 +16,53 @@ import {EventsContext} from "../../context/EventsContext";
 const SearchEventsScreen = () => {
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
-
-  const { eventsCreated, eventsInvited, eventsOther } =
+  const [searchPhrase, setSearchPhrase] = useState("");
+  const {
+    eventsCreated,
+    eventsInvited,
+    eventsOther,
+    searchEvents,
+    eventsCreatedSearch,
+    eventsInvitedSearch,
+    eventsOtherSearch,
+    isSearchActive,
+  } =
       useContext(EventsContext);
 
   const data = [
     {
       title: "Wydarzenia Moje",
-      data: eventsCreated,
+      data: isSearchActive ? eventsCreatedSearch : eventsCreated,
     },
     {
       title: "Wydarzenia Znajomych",
-      data: eventsInvited,
+      data: isSearchActive ? eventsInvitedSearch : eventsInvited,
     },
     {
       title: "Wydarzenia Publiczne",
-      data: eventsOther,
+      data: isSearchActive ? eventsOtherSearch : eventsOther,
     },
   ];
 
-  const onRefreshPressed = () => {
-    console.log("Odświeżono");
+  const onSearchPressed = () => {
+    searchEvents(searchPhrase)
   };
 
   return (
     <>
       <View style={[styles.root, { height: height * 1 }]}>
         <View style={styles.windowTab}>
-            <EventList data={data} />
+          <EventList data={data} />
+          <CustomInput
+            placeholder="Szukaj"
+            value={searchPhrase}
+            setValue={setSearchPhrase}
+            secureTextEntry={undefined}
+            additionalStyle={styles.searchInput}
+          />
           <CustomButton
-            text="Odśwież"
-            onPress={onRefreshPressed}
+            text="Szukaj"
+            onPress={onSearchPressed}
             type="PRIMARY"
             bgColor={undefined}
             fgColor={undefined}
@@ -87,6 +103,7 @@ const styles = StyleSheet.create({
     marginTop: "5%",
     color: "#fff",
   },
+  searchInput: {color: "#fff"},
 });
 
 export default SearchEventsScreen;

@@ -69,8 +69,8 @@ const AddEventScreen = () => {
                 navigation.navigate("Home")
             },
             res => {
-          console.error(res)
-              Alert.alert("Błąd", "Wystąpił błąd podczas rejestracji wydarzenia.");
+                console.error(res)
+                Alert.alert("Błąd", "Wystąpił błąd podczas rejestracji wydarzenia.");
             }
         );
     };
@@ -142,7 +142,7 @@ const AddEventScreen = () => {
                             placeholder="Podaj adres wydarzenia"
                             value={address}
                             setValue={onAddressChange}
-                           s secureTextEntry={undefined}
+                            secureTextEntry={undefined}
                             additionalStyle={styles.inputAddress}
                         />
                         <CustomInput
