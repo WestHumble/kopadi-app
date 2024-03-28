@@ -8,8 +8,17 @@ import {ApiContext} from "../../context/ApiContext";
 import {EventsContext} from "../../context/EventsContext";
 
 const MapViewComponent = () => {
-    const {eventsCreated, eventsInvited, eventsOther, loadCloseEvents} =
-        useContext(EventsContext);
+    const {
+        eventsCreated,
+        eventsInvited,
+        eventsOther,
+        eventsCreatedSearch,
+        eventsInvitedSearch,
+        eventsOtherSearch,
+        loadCloseEvents,
+        clearSearchEvents,
+        isSearchActive,
+    } = useContext(EventsContext);
     const {userLocation, shareLocation, setShareLocation} =
         useContext(LocationContext);
     const {get, userToken} = useContext(ApiContext);
@@ -54,8 +63,12 @@ const MapViewComponent = () => {
     }, []);
 
     useEffect(() => {
+        if (isSearchActive) {
+            setMarkers(eventsCreatedSearch.concat(eventsInvitedSearch, eventsOtherSearch))
+            return
+        }
         setMarkers(eventsCreated.concat(eventsInvited, eventsOther))
-    }, [eventsCreated, eventsInvited, eventsOther]);
+    }, [eventsCreated, eventsInvited, eventsOther, eventsCreatedSearch, eventsInvitedSearch, eventsOtherSearch, isSearchActive]);
 
 
     const updateFriendsMarkers = () => {
@@ -122,6 +135,22 @@ const MapViewComponent = () => {
                 bgColor={undefined}
                 fgColor={undefined}
             />
+            {isSearchActive && (
+                <CustomButton
+                    additionalStyles={{
+                        position: "absolute",
+                        top: "70%",
+                        left: "55%",
+                        width: "20%",
+                        marginHorizontal: "5%",
+                    }}
+                    text="Clear search"
+                    onPress={clearSearchEvents}
+                    type="PRIMARY"
+                    bgColor={undefined}
+                    fgColor={undefined}
+                />
+            )}
             <CustomButton
                 additionalStyles={{
                     position: "absolute",
