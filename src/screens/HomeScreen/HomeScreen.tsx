@@ -10,10 +10,21 @@ const HomeScreen = () => {
   const addEventPressed = () => {
     navigation.navigate("AddEvent");
   };
+  const profilePressed = () => {
+    navigation.navigate("Profile");
+  };
   return (
     <View style={styles.root}>
       <MapViewComponent />
       <ChatComponent />
+      <CustomButton
+        text="+"
+        onPress={profilePressed}
+        type="PRIMARY"
+        bgColor={undefined}
+        fgColor={undefined}
+        additionalStyles={styles.profileButton}
+      />
       <CustomButton
         text="+"
         onPress={addEventPressed}
@@ -33,6 +44,17 @@ const styles = StyleSheet.create({
   addEventButton: {
     position: "absolute",
     bottom: "16%",
+    right: "5%",
+    borderWidth: 3,
+    fontSize: 50,
+    width: 55,
+    height: 55,
+    borderRadius: 50,
+    zIndex: 99,
+  },
+  profileButton: {
+    position: "absolute",
+    top: "10%",
     right: "5%",
     borderWidth: 3,
     fontSize: 50,
