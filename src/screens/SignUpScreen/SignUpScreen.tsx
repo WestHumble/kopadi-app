@@ -5,12 +5,12 @@ import {
   useWindowDimensions,
   ScrollView,
 } from "react-native";
-import React, {useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import SocialSignInButtons from "../../components/SocialSignInButtons";
 import { useNavigation } from "@react-navigation/native";
-import {ApiContext} from "../../context/ApiContext";
+import { ApiContext } from "../../context/ApiContext";
 
 const SignUpScreen = () => {
   const [surname, setSurname] = useState("");
@@ -20,17 +20,23 @@ const SignUpScreen = () => {
   const [passwordRepeat, setPasswordRepeat] = useState("");
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
-  const {post} = useContext(ApiContext)
+  const { post } = useContext(ApiContext);
 
   const onRegisterPressed = () => {
-    post('register', {
-      email,
-      password,
-      name,
-      surname
-    }, () => {
-      navigation.navigate("ConfirmEmail");
-    }, null, true)
+    post(
+      "register",
+      {
+        email,
+        password,
+        name,
+        surname,
+      },
+      () => {
+        navigation.navigate("ConfirmEmail");
+      },
+      null,
+      true
+    );
   };
   const onTermsOfUsePressed = () => {
     console.warn("Kliknięto warunki użytkowania");
@@ -55,30 +61,35 @@ const SignUpScreen = () => {
               value={name}
               setValue={setName}
               secureTextEntry={undefined}
+              additionalStyle={styles.inputName}
             />
             <CustomInput
               placeholder="Podaj Nazwisko"
               value={surname}
               setValue={setSurname}
               secureTextEntry={undefined}
+              additionalStyle={styles.inputSurname}
             />
             <CustomInput
               placeholder="Podaj adres e-mail"
               value={email}
               setValue={setEmail}
               secureTextEntry={undefined}
+              additionalStyle={styles.inputEmail}
             />
             <CustomInput
               placeholder="Podaj hasło"
               value={password}
               setValue={setPassword}
               secureTextEntry
+              additionalStyle={styles.inputPassword}
             />
             <CustomInput
               placeholder="Powtórz hasło"
               value={passwordRepeat}
               setValue={setPasswordRepeat}
               secureTextEntry
+              additionalStyle={styles.inputPasswordRepeat}
             />
             <CustomButton
               text="Zarejestruj"
@@ -97,7 +108,6 @@ const SignUpScreen = () => {
                 Politykę prywatności
               </Text>
             </Text>
-            <SocialSignInButtons />
             <CustomButton
               text="Masz konto? - przejdź do logowania"
               onPress={onBackToLoginPressed}
@@ -121,8 +131,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   windowTab: {
-    // right: "3%",
-    // left: "3%",
     height: "75%",
     width: "100%",
     backgroundColor: "#1D1F24",
@@ -143,6 +151,21 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
     marginTop: "15%",
+    color: "#fff",
+  },
+  inputEmail: {
+    color: "#fff",
+  },
+  inputPassword: {
+    color: "#fff",
+  },
+  inputPasswordRepeat: {
+    color: "#fff",
+  },
+  inputName: {
+    color: "#fff",
+  },
+  inputSurname: {
     color: "#fff",
   },
 });

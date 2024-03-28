@@ -35,10 +35,12 @@ const CustomButton = ({
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    padding: 15,
+    height: 60,
+    padding: 0,
     marginVertical: 5,
     alignItems: "center",
-    borderRadius: 5,
+    borderRadius: 20,
+    justifyContent: "center",
   },
   container_PRIMARY: {
     backgroundColor: "#F2B138",

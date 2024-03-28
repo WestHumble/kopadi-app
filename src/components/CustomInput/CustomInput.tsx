@@ -22,6 +22,7 @@ const CustomInput = ({
           additionalStyle,
           inputType === "textArea" && styles.textArea,
         ]}
+        placeholderTextColor="#f9f9f9"
         multiline={inputType === "textArea"}
         secureTextEntry={secureTextEntry}
       />

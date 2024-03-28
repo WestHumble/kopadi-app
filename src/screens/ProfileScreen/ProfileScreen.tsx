@@ -7,52 +7,14 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import CustomButton from "../../components/CustomButton";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
-
-  const data = [
-    {
-      title: "Wydarzenia Moje i Znajomych",
-      data: [
-        {
-          id: 3,
-          title: "Moje Wydarzenie 1",
-          date: "2024-03-12",
-          location: "Moja Lokalizacja 1",
-          description: "Opis mojego wydarzenia 1",
-        },
-        {
-          id: 4,
-          title: "Znajomych Wydarzenie 1",
-          date: "2024-03-13",
-          location: "Lokalizacja Znajomego 1",
-          description: "Opis wydarzenia znajomego 1",
-        },
-      ],
-    },
-    {
-      title: "Wydarzenia Publiczne",
-      data: [
-        {
-          id: 1,
-          title: "Publiczne Wydarzenie 1",
-          date: "2024-03-10",
-          location: "Publiczna Lokalizacja 1",
-          description: "Opis publicznego wydarzenia 1",
-        },
-        {
-          id: 2,
-          title: "Publiczne Wydarzenie 2",
-          date: "2024-03-11",
-          location: "Publiczna Lokalizacja 2",
-          description: "Opis publicznego wydarzenia 2",
-        },
-      ],
-    },
-  ];
+  const { login, logout, isLoading } = useContext(AuthContext);
 
   const onEditProfilePressed = () => {
     console.log("Kliknieto edytuj profil");
@@ -122,6 +84,7 @@ const ProfileScreen = () => {
             bgColor={undefined}
             fgColor={undefined}
           />
+          <CustomButton text="Wyloguj" onPress={logout} type="PRIMARY" />
         </View>
       </View>
     </>
