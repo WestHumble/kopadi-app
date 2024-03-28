@@ -23,7 +23,6 @@ const SignInScreen = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const { userLocation } = useContext(LocationContext);
-  const { get } = useContext(ApiContext);
 
   const [password, setPassword] = useState("");
 
@@ -39,25 +38,9 @@ const SignInScreen = () => {
     navigation.navigate("SignUp");
   };
 
-  const onPingPressed = async () => {
-    get('auth-ping', null, res => console.log(res.data), res => console.error(res))
-  };
-
-  const onMapPressed = () => {
-    navigation.navigate("Home");
-  };
-
-  if (isLoading) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size={"large"} />
-      </View>
-    );
-  }
-
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={[styles.root, { height: height * 0.8 }]}>
+      <View style={[styles.root, { height: height }]}>
         <Image
           source={Logo}
           style={(styles.logo, { height: height * 0.3 })}
@@ -88,14 +71,6 @@ const SignInScreen = () => {
           fgColor={undefined}
         />
         <CustomButton text="Wyloguj" onPress={logout} type="PRIMARY" />
-        <CustomButton text="Ping" onPress={onPingPressed} type="PRIMARY" />
-        <CustomButton
-          text="Mapa"
-          onPress={onMapPressed}
-          type="PRIMARY"
-          bgColor={undefined}
-          fgColor={undefined}
-        />
 
         <CustomButton
           text="Zapomniałem hasła"
@@ -121,7 +96,7 @@ const styles = StyleSheet.create({
   root: {
     alignItems: "center",
     padding: 20,
-    height: "80%",
+    height: "100%",
   },
   logo: {
     width: "70%",
