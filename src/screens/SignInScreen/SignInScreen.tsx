@@ -13,7 +13,6 @@ import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import SocialSignInButtons from "../../components/SocialSignInButtons";
 import { useNavigation } from "@react-navigation/native";
 import { LocationContext } from "../../context/LocationContext";
 import { ApiContext } from "../../context/ApiContext";
@@ -43,11 +42,6 @@ const SignInScreen = () => {
       <View style={[styles.root, { height: height }]}>
         <View style={styles.windowTab}>
           <Image source={Logo} style={styles.logo} resizeMode="contain" />
-          {userLocation && (
-            <Text>
-              {userLocation.coords.latitude} {userLocation.coords.longitude}
-            </Text>
-          )}
           <CustomInput
             placeholder="Podaj adres e-mail"
             value={email}
