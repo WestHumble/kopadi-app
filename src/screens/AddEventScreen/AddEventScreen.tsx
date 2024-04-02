@@ -206,14 +206,14 @@ const styles = StyleSheet.create({
   inputDateButton: {
     marginTop: 10,
     borderRadius: 20,
-    paddingVertical: 25,
+    paddingVertical: 0,
     marginBottom: 20,
   },
   textArea: { color: "#fff" },
   addEventButton: {
-    marginTop: 20,
+    marginTop: 0,
     borderRadius: 20,
-    paddingVertical: 25,
+    paddingVertical: 0,
     bottom: 0,
   },
   inputAddress: {
