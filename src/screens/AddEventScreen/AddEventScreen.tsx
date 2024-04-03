@@ -4,9 +4,9 @@ import {
   StyleSheet,
   useWindowDimensions,
   ScrollView,
-  Alert,
+  Alert, Animated,
 } from "react-native";
-import React, { useContext, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -15,16 +15,16 @@ import { ApiContext } from "../../context/ApiContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { EventsContext } from "../../context/EventsContext";
 import { useNavigation } from "@react-navigation/native";
+import add = Animated.add;
+import Checkbox from "../../components/Checkbox";
 
 Geocoding.init(process.env.REACT_APP_GEOCODING_API_KEY);
 
 const AddEventScreen = () => {
   const [eventName, setEventName] = useState("");
+  const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
-  const [addressCoordinates, setAddressCoordinates] = useState({
-    latitude: 0,
-    longitude: 0,
-  });
+
   const [eventDescription, setEventDescription] = useState("");
   const { height } = useWindowDimensions();
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -47,56 +47,46 @@ const AddEventScreen = () => {
     hideDatePicker();
   };
 
-  const onRegisterPressed = () => {
-    if (!eventName || /*!selectedDate ||*/ !address || !eventDescription) {
+  const onRegisterPressed = async () => {
+    if (!eventName || !selectedDate || !city || !address || !eventDescription) {
       Alert.alert("Powiadomienie", "Wszystkie pola muszą być wypełnione.");
       return;
     }
 
-    post(
-      "event",
-      {
-        name: eventName,
-        description: eventDescription,
-        longitude: addressCoordinates.longitude,
-        latitude: addressCoordinates.latitude,
-        city: "Poznań",
-        postal_code: "12-345",
-        address: address,
-        date: selectedDate,
-        isPrivate: false,
-      },
-      (res) => {
-        loadAllEvents();
-        navigation.navigate("Home");
-      },
-      (res) => {
-        console.error(res);
-        Alert.alert("Błąd", "Wystąpił błąd podczas rejestracji wydarzenia.");
-      }
-    );
-  };
-
-  const onAddressChange = async (inputAddress) => {
-    setAddress(inputAddress);
-
     try {
-      const response = await Geocoding.from(inputAddress);
+      const response = await Geocoding.from(city + ' ' + address);
       const { results } = response;
 
       if (results && results.length > 0) {
         const { geometry } = results[0];
         const { location } = geometry;
 
-        console.log("Koordynaty:", location);
-        setAddressCoordinates({
-          latitude: location.lat,
-          longitude: location.lng,
-        });
+        post(
+            "event",
+            {
+              name: eventName,
+              description: eventDescription,
+              longitude: location.lng,
+              latitude: location.lat,
+              city: "Poznań",
+              postal_code: "12-345",
+              address: address,
+              date: selectedDate,
+              isPrivate: false,
+            },
+            (res) => {
+              loadAllEvents();
+              navigation.navigate("Home");
+            },
+            (res) => {
+              console.error(res);
+              Alert.alert("Błąd", "Wystąpił błąd podczas rejestracji wydarzenia.");
+            }
+        );
       } else {
         Alert.alert(
-          "Błąd",
-          "Nie można znaleźć koordynatów dla podanego adresu."
+            "Błąd",
+            "Nie można znaleźć podanego adresu."
         );
       }
     } catch (error) {
@@ -121,7 +111,9 @@ const AddEventScreen = () => {
             />
             <CustomInput
               placeholder="Data wydarzenia"
+              readonly={true}
               value={selectedDate ? selectedDate.toDateString() : ""}
+              editable={false}
               setValue={setSelectedDate}
               secureTextEntry={undefined}
               additionalStyle={styles.inputDate}
@@ -141,11 +133,18 @@ const AddEventScreen = () => {
               onCancel={hideDatePicker}
             />
             <CustomInput
-              placeholder="Podaj adres wydarzenia"
-              value={address}
-              setValue={onAddressChange}
-              secureTextEntry={undefined}
-              additionalStyle={styles.inputAddress}
+                placeholder="Podaj miasto"
+                value={city}
+                setValue={setCity}
+                secureTextEntry={undefined}
+                additionalStyle={styles.inputAddress}
+            />
+            <CustomInput
+                placeholder="Podaj ulicę i numer"
+                value={address}
+                setValue={setAddress}
+                secureTextEntry={undefined}
+                additionalStyle={styles.inputAddress}
             />
             <CustomInput
               placeholder="Opis wydarzenia"
