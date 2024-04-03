@@ -6,6 +6,8 @@ import {LatLngData, MarkerData} from "../../types/marker";
 import {LocationContext} from "../../context/LocationContext";
 import {ApiContext} from "../../context/ApiContext";
 import {EventsContext} from "../../context/EventsContext";
+import {FriendsContext} from "../../context/FriendsContext";
+import {Friend} from "../../types/friend";
 
 const MapViewComponent = () => {
     const {
@@ -21,6 +23,8 @@ const MapViewComponent = () => {
     } = useContext(EventsContext);
     const {userLocation, shareLocation, setShareLocation} =
         useContext(LocationContext);
+    const {friends} =
+        useContext(FriendsContext);
     const {get, userToken} = useContext(ApiContext);
     const mapViewRef = useRef<MapView>(null);
     const [isUserLocationHandled, setUserLocationHandled] = useState(false);
@@ -30,6 +34,7 @@ const MapViewComponent = () => {
         latitudeDelta: 0.14,
         longitudeDelta: 0.16,
     });
+
     useEffect(() => {
         if (isUserLocationHandled || !userLocation)
             return
@@ -74,10 +79,12 @@ const MapViewComponent = () => {
     const updateFriendsMarkers = () => {
         get('user/location/get-friends', null, (res) => {
             let latlngData: LatLngData
+            let friend: Friend
             let newMarkers: MarkerData[] = []
             for (var k in res.data) {
                 latlngData = res.data[k]
-                newMarkers.push({latlng: latlngData, name: k, description: "friend"})
+                friend = friends.filter(friend => friend.id == k).pop()
+                newMarkers.push({latlng: latlngData, name: friend?.name ?? k})
             }
             setFriendsMarkers(newMarkers)
         })
