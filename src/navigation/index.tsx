@@ -20,6 +20,7 @@ import ResetPasswordScreen from "../screens/ResetPasswordScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import { AuthContext } from "../context/AuthContext";
 import SearchFriendsScreen from "../screens/SearchFriendsScreen";
+import SearchNewFriendsScreen from "../screens/SearchNewFriendsScreen";
 
 const Tab = createBottomTabNavigator();
 const screenOptions = {
@@ -204,7 +205,13 @@ const TabsLoggedIn = () => {
             options={{
                 tabBarButton: () => null,
             }}
-        />
+        /><Tab.Screen
+        name="NewFriend"
+        component={SearchNewFriendsScreen}
+        options={{
+            tabBarButton: () => null,
+        }}
+    />
     </Tab.Navigator>
   );
 };

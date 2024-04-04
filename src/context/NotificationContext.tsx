@@ -14,7 +14,6 @@ Notifications.setNotificationHandler({
             shouldShowAlert: true,
             shouldPlaySound: false,
             shouldSetBadge: false,
-
         })
     },
 });
@@ -23,8 +22,8 @@ async function registerForPushNotificationsAsync() {
     let token;
 
     if (Platform.OS === 'android') {
-        Notifications.setNotificationChannelAsync('notification', {
-            name: 'notification',
+        Notifications.setNotificationChannelAsync('new_friend', {
+            name: 'new_friend',
             importance: Notifications.AndroidImportance.MAX,
             vibrationPattern: [0, 250, 250, 250],
             lightColor: '#FF231F7C',

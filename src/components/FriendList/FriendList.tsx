@@ -1,18 +1,26 @@
 import React from "react";
 import {View, Text, SectionList, StyleSheet, Image} from "react-native";
+import CustomButton from "../CustomButton";
 
 const API_ADDRESS = process.env.EXPO_PUBLIC_API_URL;
-const FriendItem = ({ id, name, surname }) => (
+const FriendItem = ({ friend, action, actionText, hideAction }) => (
   <View style={styles.friendContainer}>
       <Image
           style={{width: 100, height: 100}}
-          source={{uri:`${API_ADDRESS}/api/avatar/get/${id}`}}
+          source={{uri:`${API_ADDRESS}/api/avatar/get/${friend.id}`}}
       />
-    <Text style={styles.name}>{name} {surname}</Text>
+    <Text style={styles.name}>{friend.name} {friend.surname}</Text>
+      { action && !hideAction(friend) && (<CustomButton
+          text={actionText}
+          onPress={() => action(friend)}
+          type="PRIMARY"
+          bgColor={undefined}
+          fgColor={undefined}
+      />)}
   </View>
 );
 
-const FriendList = ({ data }) => (
+const FriendList = ({ data, action, actionText, hideAction }) => (
   <SectionList
     sections={data}
     keyExtractor={(item, index) => item.id.toString()}
@@ -23,9 +31,10 @@ const FriendList = ({ data }) => (
     )}
     renderItem={({ item }) => (
       <FriendItem
-          id={item.id}
-          name={item.name}
-          surname={item.surname}
+          friend={item}
+          action={action}
+          actionText={actionText}
+          hideAction={hideAction}
       />
     )}
     renderSectionFooter={({ section }) =>

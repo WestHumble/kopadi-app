@@ -5,60 +5,69 @@ import {
   useWindowDimensions,
   ScrollView,
 } from "react-native";
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import CustomInput from "../../components/CustomInput";
-import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import {FriendsContext} from "../../context/FriendsContext";
 import FriendList from "../../components/FriendList";
+import {Friend} from "../../types/friend";
+import {ApiContext} from "../../context/ApiContext";
 
-const SearchFriendsScreen = () => {
+const SearchNewFriendsScreen = () => {
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
   const [searchPhrase, setSearchPhrase] = useState("");
-  const { friends } =
-      useContext(FriendsContext);
-
+  const { post } = useContext(ApiContext);
+  const { friends } = useContext(FriendsContext);
+  const [searchFriends, setSearchFriends] = useState<Friend[]>([]);
+  const [inviteSent, setInviteSent] = useState<Friend[]>([]);
+  const sendFriendInvite = (friend: Friend) => {
+    post('friend-invite', {
+      userId: friend.id
+    }, (res) => {
+      setInviteSent([...inviteSent, friend]);
+    }, (res) => {
+      setInviteSent([...inviteSent, friend]);
+    })
+  };
+  const triggerSearchFriends = () => {
+    post('user/search', {
+      searchPhrase
+    }, (res) => {
+      setSearchFriends(res.data)
+    })
+  };
   const data = [
     {
-      title: "Znajomi",
-      data: searchPhrase ? friends.filter(friend => {
-        let matches = true;
-        searchPhrase.split(' ').every(phrasePart => {
-          if (!friend.name.toLowerCase().startsWith(phrasePart.toLowerCase()) &&
-              !friend.surname.toLowerCase().startsWith(phrasePart.toLowerCase())) {
-            matches = false
-            return false
-          }
-          return true
-        })
-        return matches
-      }) : friends,
+      title: "Szukaj znajomych",
+      data: searchPhrase ? searchFriends : [],
     },
   ];
 
-  const onNewFriendRequest = () => {
-    navigation.navigate("NewFriend")
-  };
+  useEffect(() => {
+    if (searchPhrase) {
+      triggerSearchFriends()
+    }
+  }, [searchPhrase]);
 
   return (
     <>
       <View style={[styles.root, { height: height * 1 }]}>
         <View style={styles.windowTab}>
-          <FriendList data={data} />
+          <FriendList
+              data={data}
+              action={friend=>{sendFriendInvite(friend)}}
+              actionText="Dodaj nowego znajomego"
+              hideAction={friend=>{
+                return inviteSent.find(e => e.id === friend.id) || friends.find(e => e.id === friend.id)
+              }}
+          />
           <CustomInput
             placeholder="Szukaj"
             value={searchPhrase}
             setValue={setSearchPhrase}
             secureTextEntry={undefined}
             additionalStyle={styles.searchInput}
-          />
-          <CustomButton
-            text="Dodaj nowego znajomego"
-            onPress={onNewFriendRequest}
-            type="PRIMARY"
-            bgColor={undefined}
-            fgColor={undefined}
           />
         </View>
       </View>
@@ -99,4 +108,4 @@ const styles = StyleSheet.create({
   searchInput: {color: "#fff"},
 });
 
-export default SearchFriendsScreen;
+export default SearchNewFriendsScreen;
