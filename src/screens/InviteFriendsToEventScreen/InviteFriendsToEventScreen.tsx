@@ -5,7 +5,7 @@ import {
   useWindowDimensions,
   ScrollView,
 } from "react-native";
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import CustomInput from "../../components/CustomInput";
 import {FriendsContext} from "../../context/FriendsContext";
 import FriendList from "../../components/FriendList";
@@ -19,7 +19,7 @@ const InviteFriendsToEventScreen = ({ route }) => {
   const [searchPhrase, setSearchPhrase] = useState("");
   const { friends } = useContext(FriendsContext);
   const [inviteSent, setInviteSent] = useState<Friend[]>([]);
-  const { post } = useContext(ApiContext);
+  const { get, post } = useContext(ApiContext);
 
   const sendFriendInvite = (friend: Friend) => {
     post('event-invite', {
@@ -42,6 +42,14 @@ const InviteFriendsToEventScreen = ({ route }) => {
     //   setInviteSent([...inviteSent, friend]);
     // })
   };
+
+  useEffect(() => {
+    get('event/all-invited-users/' + eventId, null, (res) => {
+      setInviteSent([...inviteSent, ...res.data]);
+    }, (res) => {
+      setInviteSent([]);
+    })
+  }, [eventId]);
 
   const data = [
     {
