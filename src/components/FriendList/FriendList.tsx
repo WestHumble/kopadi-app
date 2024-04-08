@@ -3,7 +3,7 @@ import {View, Text, SectionList, StyleSheet, Image} from "react-native";
 import CustomButton from "../CustomButton";
 
 const API_ADDRESS = process.env.EXPO_PUBLIC_API_URL;
-const FriendItem = ({ friend, action, actionText, hideAction }) => (
+const FriendItem = ({ friend, action, actionText, hideAction = () => false }) => (
   <View style={styles.friendContainer}>
       <Image
           style={{width: 100, height: 100}}
@@ -11,7 +11,7 @@ const FriendItem = ({ friend, action, actionText, hideAction }) => (
       />
     <Text style={styles.name}>{friend.name} {friend.surname}</Text>
       { action && !hideAction(friend) && (<CustomButton
-          text={actionText}
+          text={actionText(friend)}
           onPress={() => action(friend)}
           type="PRIMARY"
           bgColor={undefined}

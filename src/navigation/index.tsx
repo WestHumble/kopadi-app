@@ -21,6 +21,7 @@ import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import { AuthContext } from "../context/AuthContext";
 import SearchFriendsScreen from "../screens/SearchFriendsScreen";
 import SearchNewFriendsScreen from "../screens/SearchNewFriendsScreen";
+import InviteFriendsToEventScreen from "../screens/InviteFriendsToEventScreen";
 
 const Tab = createBottomTabNavigator();
 const screenOptions = {
@@ -192,13 +193,20 @@ const TabsLoggedIn = () => {
           },
         }}
       />
-      <Tab.Screen
-        name="AddEvent"
-        component={AddEventScreen}
-        options={{
-          tabBarButton: () => null,
-        }}
-      />
+        <Tab.Screen
+            name="AddEvent"
+            component={AddEventScreen}
+            options={{
+                tabBarButton: () => null,
+            }}
+        />
+        <Tab.Screen
+            name="InviteFriendsToEvent"
+            component={InviteFriendsToEventScreen}
+            options={{
+                tabBarButton: () => null,
+            }}
+        />
         <Tab.Screen
             name="FriendsList"
             component={SearchFriendsScreen}

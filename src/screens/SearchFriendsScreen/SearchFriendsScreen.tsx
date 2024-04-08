@@ -5,37 +5,35 @@ import {
   useWindowDimensions,
   ScrollView,
 } from "react-native";
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import {FriendsContext} from "../../context/FriendsContext";
 import FriendList from "../../components/FriendList";
+import {Friend} from "../../types/friend";
 
 const SearchFriendsScreen = () => {
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
   const [searchPhrase, setSearchPhrase] = useState("");
-  const { friends } =
-      useContext(FriendsContext);
+  const { friends } = useContext(FriendsContext);
+  const [friendsList, setFriendsList] = useState<Friend[]>([]);
 
-  const data = [
-    {
-      title: "Znajomi",
-      data: searchPhrase ? friends.filter(friend => {
-        let matches = true;
-        searchPhrase.split(' ').every(phrasePart => {
-          if (!friend.name.toLowerCase().startsWith(phrasePart.toLowerCase()) &&
-              !friend.surname.toLowerCase().startsWith(phrasePart.toLowerCase())) {
-            matches = false
-            return false
-          }
-          return true
-        })
-        return matches
-      }) : friends,
-    },
-  ];
+  useEffect(() => {
+    setFriendsList(searchPhrase ? friends.filter(friend => {
+      let matches = true;
+      searchPhrase.split(' ').every(phrasePart => {
+        if (!friend.name.toLowerCase().startsWith(phrasePart.toLowerCase()) &&
+            !friend.surname.toLowerCase().startsWith(phrasePart.toLowerCase())) {
+          matches = false
+          return false
+        }
+        return true
+      })
+      return matches
+    }) : friends)
+  }, [friends]);
 
   const onNewFriendRequest = () => {
     navigation.navigate("NewFriend")
@@ -45,7 +43,12 @@ const SearchFriendsScreen = () => {
     <>
       <View style={[styles.root, { height: height * 1 }]}>
         <View style={styles.windowTab}>
-          <FriendList data={data} />
+          <FriendList data={[
+            {
+              title: "Znajomi",
+              data: friendsList,
+            },
+          ]} />
           <CustomInput
             placeholder="Szukaj"
             value={searchPhrase}

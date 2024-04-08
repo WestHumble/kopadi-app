@@ -76,7 +76,7 @@ const AddEventScreen = () => {
             },
             (res) => {
               loadAllEvents();
-              navigation.navigate("Home");
+              navigation.navigate("InviteFriendsToEvent", {eventId: res.data["eventId"]});
             },
             (res) => {
               console.error(res);

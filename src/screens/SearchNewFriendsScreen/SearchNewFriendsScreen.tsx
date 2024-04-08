@@ -14,7 +14,6 @@ import {Friend} from "../../types/friend";
 import {ApiContext} from "../../context/ApiContext";
 
 const SearchNewFriendsScreen = () => {
-  const navigation = useNavigation();
   const { height } = useWindowDimensions();
   const [searchPhrase, setSearchPhrase] = useState("");
   const { post } = useContext(ApiContext);
@@ -37,12 +36,6 @@ const SearchNewFriendsScreen = () => {
       setSearchFriends(res.data)
     })
   };
-  const data = [
-    {
-      title: "Szukaj znajomych",
-      data: searchPhrase ? searchFriends : [],
-    },
-  ];
 
   useEffect(() => {
     if (searchPhrase) {
@@ -55,9 +48,14 @@ const SearchNewFriendsScreen = () => {
       <View style={[styles.root, { height: height * 1 }]}>
         <View style={styles.windowTab}>
           <FriendList
-              data={data}
+              data={[
+                {
+                  title: "Szukaj znajomych",
+                  data: searchPhrase ? searchFriends : [],
+                },
+              ]}
               action={friend=>{sendFriendInvite(friend)}}
-              actionText="Dodaj nowego znajomego"
+              actionText={()=>"Dodaj nowego znajomego"}
               hideAction={friend=>{
                 return inviteSent.find(e => e.id === friend.id) || friends.find(e => e.id === friend.id)
               }}
