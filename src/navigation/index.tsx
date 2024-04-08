@@ -19,6 +19,7 @@ import { ApiContext } from "../context/ApiContext";
 import ResetPasswordScreen from "../screens/ResetPasswordScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import { AuthContext } from "../context/AuthContext";
+import EventViewScreen from "../screens/EventViewScreen";
 
 const Tab = createBottomTabNavigator();
 const screenOptions = {
@@ -193,6 +194,13 @@ const TabsLoggedIn = () => {
       <Tab.Screen
         name="AddEvent"
         component={AddEventScreen}
+        options={{
+          tabBarButton: () => null,
+        }}
+      />
+      <Tab.Screen
+        name="EventView"
+        component={EventViewScreen}
         options={{
           tabBarButton: () => null,
         }}

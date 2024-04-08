@@ -6,8 +6,11 @@ import { LatLngData, MarkerData } from "../../types/marker";
 import { LocationContext } from "../../context/LocationContext";
 import { ApiContext } from "../../context/ApiContext";
 import { EventsContext } from "../../context/EventsContext";
+import { Event } from "../../types/event";
+import { useNavigation } from "@react-navigation/native";
 
 const MapViewComponent = () => {
+  const navigation = useNavigation();
   const {
     eventsCreated,
     eventsInvited,
@@ -42,7 +45,7 @@ const MapViewComponent = () => {
     loadCloseEvents(regionUser);
   }, [userLocation]);
 
-  const [markers, setMarkers] = useState<MarkerData[]>([]);
+  const [markers, setMarkers] = useState<Event[]>([]);
   const [friendsMarkers, setFriendsMarkers] = useState<MarkerData[]>([]);
 
   const onRegionChange = (newRegion) => {
@@ -115,9 +118,9 @@ const MapViewComponent = () => {
         followsUserLocation={true}
         ref={mapViewRef}
       >
-        {markers.map((marker, index) => (
+        {markers.map((marker) => (
           <Marker
-            key={index}
+            key={marker.id}
             coordinate={marker.latlng}
             title={marker.name}
             description={marker.description}
@@ -125,10 +128,23 @@ const MapViewComponent = () => {
             <Callout tooltip style={styles.callout}>
               <View>
                 <Text style={styles.title}>{marker.name}</Text>
-                <Text style={styles.description}>{marker.description}</Text>
+                <View style={styles.hr} />
+                <Text style={styles.date}>
+                  {new Date(marker.date.date).toLocaleString([], {
+                    year: "numeric",
+                    month: "numeric",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </Text>
+                <View style={styles.hr} />
+                <Text style={styles.address}>{marker.address}</Text>
                 <CustomButton
-                  text="Details"
-                  onPress={() => {}}
+                  text="Szczegóły wydarzenia"
+                  onPress={() => {
+                    navigation.navigate("EventView", { object: marker });
+                  }}
                   type="PRIMARY"
                   bgColor={undefined}
                   fgColor={undefined}
@@ -220,18 +236,34 @@ const styles = StyleSheet.create({
   },
   callout: {
     backgroundColor: "#131417",
-    width: 200,
+    width: 240,
     borderRadius: 20,
-    padding: 10,
+    padding: 20,
   },
   title: {
     color: "#fff",
     fontWeight: "bold",
     fontSize: 16,
+    marginBottom: 0,
   },
   description: {
     color: "#fff",
     fontSize: 14,
+  },
+  address: {
+    color: "#fff",
+    fontSize: 14,
+    marginBottom: 20,
+  },
+  date: {
+    color: "#fff",
+    fontSize: 16,
+    marginBottom: 0,
+  },
+  hr: {
+    borderBottomColor: "#ccc",
+    borderBottomWidth: 1,
+    marginVertical: 10,
   },
 });
 
