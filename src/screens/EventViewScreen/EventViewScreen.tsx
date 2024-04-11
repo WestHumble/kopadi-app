@@ -22,9 +22,9 @@ import Checkbox from "../../components/Checkbox";
 
 Geocoding.init(process.env.REACT_APP_GEOCODING_API_KEY);
 
-const EventViewScreen = () => {
+const EventViewScreen = (event) => {
   const route = useRoute();
-  const EventData = route.params?.object;
+  const EventData = route.params?.marker;
   const [eventName, setEventName] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
