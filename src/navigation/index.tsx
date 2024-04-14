@@ -22,6 +22,7 @@ import { AuthContext } from "../context/AuthContext";
 import SearchFriendsScreen from "../screens/SearchFriendsScreen";
 import SearchNewFriendsScreen from "../screens/SearchNewFriendsScreen";
 import InviteFriendsToEventScreen from "../screens/InviteFriendsToEventScreen";
+import NotificationsScreen from "../screens/NotificationsListScreen";
 
 const Tab = createBottomTabNavigator();
 const screenOptions = {
@@ -203,6 +204,13 @@ const TabsLoggedIn = () => {
         <Tab.Screen
             name="InviteFriendsToEvent"
             component={InviteFriendsToEventScreen}
+            options={{
+                tabBarButton: () => null,
+            }}
+        />
+        <Tab.Screen
+            name="NotificationsList"
+            component={NotificationsScreen}
             options={{
                 tabBarButton: () => null,
             }}

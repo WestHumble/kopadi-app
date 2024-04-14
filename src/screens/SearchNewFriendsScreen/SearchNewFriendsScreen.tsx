@@ -7,7 +7,6 @@ import {
 } from "react-native";
 import React, {useContext, useEffect, useState} from "react";
 import CustomInput from "../../components/CustomInput";
-import { useNavigation } from "@react-navigation/native";
 import {FriendsContext} from "../../context/FriendsContext";
 import FriendList from "../../components/FriendList";
 import {Friend} from "../../types/friend";
@@ -17,7 +16,7 @@ const SearchNewFriendsScreen = () => {
   const { height } = useWindowDimensions();
   const [searchPhrase, setSearchPhrase] = useState("");
   const { post } = useContext(ApiContext);
-  const { friends } = useContext(FriendsContext);
+  const { friends, getFriendList } = useContext(FriendsContext);
   const [searchFriends, setSearchFriends] = useState<Friend[]>([]);
   const [inviteSent, setInviteSent] = useState<Friend[]>([]);
   const sendFriendInvite = (friend: Friend) => {
@@ -27,6 +26,14 @@ const SearchNewFriendsScreen = () => {
       setInviteSent([...inviteSent, friend]);
     }, (res) => {
       setInviteSent([...inviteSent, friend]);
+    })
+  };
+  const deleteFriendInvite = (friend: Friend) => {
+    post('friend-invite/delete', {
+      userId: friend.id,
+    }, (res) => {
+      setInviteSent(inviteSent.filter(f => f.id !== friend.id));
+      getFriendList()
     })
   };
   const triggerSearchFriends = () => {
@@ -54,11 +61,8 @@ const SearchNewFriendsScreen = () => {
                   data: searchPhrase ? searchFriends : [],
                 },
               ]}
-              action={friend=>{sendFriendInvite(friend)}}
-              actionText={()=>"Dodaj nowego znajomego"}
-              hideAction={friend=>{
-                return inviteSent.find(e => e.id === friend.id) || friends.find(e => e.id === friend.id)
-              }}
+              action={friend=>{inviteSent.find(e => e.id === friend.id) || friends.find(e => e.id === friend.id) ? deleteFriendInvite(friend) : sendFriendInvite(friend)}}
+              actionText={friend=>{ return inviteSent.find(e => e.id === friend.id) || friends.find(e => e.id === friend.id) ? "Usuń" : "Dodaj"}}
           />
           <CustomInput
             placeholder="Szukaj"

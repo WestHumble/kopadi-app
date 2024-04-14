@@ -16,6 +16,9 @@ const ProfileScreen = () => {
   const { height } = useWindowDimensions();
   const { login, logout, isLoading } = useContext(AuthContext);
 
+  const onNotificationsPressed = () => {
+    navigation.navigate("NotificationsList");
+  };
   const onEditProfilePressed = () => {
     console.log("Kliknieto edytuj profil");
   };
@@ -48,6 +51,13 @@ const ProfileScreen = () => {
             type="PRIMARY"
             bgColor={undefined}
             fgColor={undefined}
+          />
+          <CustomButton
+              text="Powiadomienia"
+              onPress={onNotificationsPressed}
+              type="PRIMARY"
+              bgColor={undefined}
+              fgColor={undefined}
           />
           <CustomButton
             text="Historia wydarzeń"
