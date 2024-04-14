@@ -13,7 +13,6 @@ import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import SocialSignInButtons from "../../components/SocialSignInButtons";
 import { useNavigation } from "@react-navigation/native";
 import { LocationContext } from "../../context/LocationContext";
 import { ApiContext } from "../../context/ApiContext";
@@ -42,16 +41,7 @@ const SignInScreen = () => {
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={[styles.root, { height: height }]}>
         <View style={styles.windowTab}>
-          <Image
-            source={Logo}
-            style={(styles.logo, { height: height * 0.2 })}
-            resizeMode="contain"
-          />
-          {userLocation && (
-            <Text>
-              {userLocation.coords.latitude} {userLocation.coords.longitude}
-            </Text>
-          )}
+          <Image source={Logo} style={styles.logo} resizeMode="contain" />
           <CustomInput
             placeholder="Podaj adres e-mail"
             value={email}
@@ -101,10 +91,11 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "#131417",
     flex: 1,
+    height: "100%",
   },
   logo: {
-    width: "20%",
-    maxWidth: 100,
+    alignItems: "center",
+    width: "100%",
   },
   windowTab: {
     height: "80%",

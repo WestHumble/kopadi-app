@@ -19,6 +19,7 @@ import { ApiContext } from "../context/ApiContext";
 import ResetPasswordScreen from "../screens/ResetPasswordScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import { AuthContext } from "../context/AuthContext";
+import EventViewScreen from "../screens/EventViewScreen";
 import SearchFriendsScreen from "../screens/SearchFriendsScreen";
 import SearchNewFriendsScreen from "../screens/SearchNewFriendsScreen";
 import InviteFriendsToEventScreen from "../screens/InviteFriendsToEventScreen";
@@ -225,7 +226,14 @@ const TabsLoggedIn = () => {
         name="NewFriend"
         component={SearchNewFriendsScreen}
         options={{
-            tabBarButton: () => null,
+          tabBarButton: () => null,
+        }}
+      />
+      <Tab.Screen
+        name="EventView"
+        component={EventViewScreen}
+        options={{
+          tabBarButton: () => null,
         }}
     />
     </Tab.Navigator>

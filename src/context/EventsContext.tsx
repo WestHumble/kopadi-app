@@ -19,7 +19,7 @@ export const EventsProvider = ({children}) => {
 
     const { userLocation } =
         useContext(LocationContext);
-    const { post, userToken } = useContext(ApiContext);
+    const { get, post, userToken } = useContext(ApiContext);
     const loadCloseEvents = (region) => {
         post('event/close-list', {
             latitude: region?.latitude??userLocation?.coords.latitude ?? 52.4064,
@@ -62,6 +62,18 @@ export const EventsProvider = ({children}) => {
         },)
     };
 
+    const setEventById = async (eventId, setEvent): Event => {
+        let event: Event = eventsCreated.concat(eventsInvited, eventsOther).find(e => e.id === eventId)
+
+        if (event) {
+            setEvent(event)
+            return
+        }
+        get('event/' + eventId, null, (res) => {
+            setEvent(res.data)
+        })
+    };
+
     const clearSearchEvents = () => {
         setEventsCreatedSearch([])
         setEventsInvitedSearch([])
@@ -93,6 +105,7 @@ export const EventsProvider = ({children}) => {
             searchEvents,
             clearSearchEvents,
             isSearchActive,
+            setEventById,
         }}>
             {children}
         </EventsContext.Provider>
