@@ -8,6 +8,7 @@ import { AuthProvider } from "./src/context/AuthContext";
 import { LocationProvider } from "./src/context/LocationContext";
 import {NotificationProvider} from "./src/context/NotificationContext";
 import {EventsProvider} from "./src/context/EventsContext";
+import {FriendsProvider} from "./src/context/FriendsContext";
 
 const App = () => {
     return (
@@ -15,12 +16,14 @@ const App = () => {
       <AuthProvider>
           <NotificationProvider>
               <LocationProvider>
-                  <EventsProvider>
-                      <View style={styles.root}>
-                          <Navigation />
-                          <StatusBar style="auto" />
-                      </View>
-                  </EventsProvider>
+                  <FriendsProvider>
+                      <EventsProvider>
+                          <View style={styles.root}>
+                              <Navigation />
+                              <StatusBar style="auto" />
+                          </View>
+                      </EventsProvider>
+                  </FriendsProvider>
               </LocationProvider>
           </NotificationProvider>
       </AuthProvider>

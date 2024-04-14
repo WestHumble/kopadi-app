@@ -23,7 +23,7 @@ const ProfileScreen = () => {
     console.log("Kliknieto historia wydarzeń");
   };
   const onFriendsPressed = () => {
-    console.log("Kliknieto znajomi");
+    navigation.navigate("FriendsList")
   };
   const onAddEventPressed = () => {
     console.log("Kliknieto dodaj wydarzenie");

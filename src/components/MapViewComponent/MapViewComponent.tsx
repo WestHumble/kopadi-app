@@ -2,10 +2,12 @@ import { StyleSheet, View, Text } from "react-native";
 import React, { useRef, useEffect, useState, useContext } from "react";
 import MapView, { Marker, PROVIDER_GOOGLE, Callout } from "react-native-maps";
 import CustomButton from "../../components/CustomButton";
-import { LatLngData, MarkerData } from "../../types/marker";
-import { LocationContext } from "../../context/LocationContext";
-import { ApiContext } from "../../context/ApiContext";
-import { EventsContext } from "../../context/EventsContext";
+import {LatLngData, MarkerData} from "../../types/marker";
+import {LocationContext} from "../../context/LocationContext";
+import {ApiContext} from "../../context/ApiContext";
+import {EventsContext} from "../../context/EventsContext";
+import {FriendsContext} from "../../context/FriendsContext";
+import {Friend} from "../../types/friend";
 import { Event } from "../../types/event";
 import { useNavigation } from "@react-navigation/native";
 
@@ -24,6 +26,8 @@ const MapViewComponent = () => {
   } = useContext(EventsContext);
   const { userLocation, shareLocation, setShareLocation } =
     useContext(LocationContext);
+    const {friends} =
+        useContext(FriendsContext);
   const { get, userToken } = useContext(ApiContext);
   const mapViewRef = useRef<MapView>(null);
   const [isUserLocationHandled, setUserLocationHandled] = useState(false);
@@ -82,17 +86,19 @@ const MapViewComponent = () => {
     isSearchActive,
   ]);
 
-  const updateFriendsMarkers = () => {
-    get("user/location/get-friends", null, (res) => {
-      let latlngData: LatLngData;
-      let newMarkers: MarkerData[] = [];
-      for (var k in res.data) {
-        latlngData = res.data[k];
-        newMarkers.push({ latlng: latlngData, name: k, description: "friend" });
-      }
-      setFriendsMarkers(newMarkers);
-    });
-  };
+    const updateFriendsMarkers = () => {
+        get('user/location/get-friends', null, (res) => {
+            let latlngData: LatLngData
+            let friend: Friend
+            let newMarkers: MarkerData[] = []
+            for (var k in res.data) {
+                latlngData = res.data[k]
+                friend = friends.filter(friend => friend.id == k).pop()
+                newMarkers.push({latlng: latlngData, name: friend?.name ?? k})
+            }
+            setFriendsMarkers(newMarkers)
+        })
+    }
 
   useEffect(() => {
     if (!userToken) {

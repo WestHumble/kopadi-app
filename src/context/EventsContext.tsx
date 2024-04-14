@@ -17,9 +17,9 @@ export const EventsProvider = ({children}) => {
     const [eventsOtherSearch, setEventsOtherSearch] = useState<Event[]>([]);
     const [isSearchActive, setSearchActive] = useState(false);
 
-    const { userLocation, shareLocation, setShareLocation } =
+    const { userLocation } =
         useContext(LocationContext);
-    const { get, post, userToken } = useContext(ApiContext);
+    const { post, userToken } = useContext(ApiContext);
     const loadCloseEvents = (region) => {
         post('event/close-list', {
             latitude: region?.latitude??userLocation?.coords.latitude ?? 52.4064,
