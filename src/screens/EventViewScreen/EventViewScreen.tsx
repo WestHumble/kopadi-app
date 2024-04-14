@@ -3,28 +3,24 @@ import {
   Text,
   StyleSheet,
   useWindowDimensions,
-  ScrollView,
-  Alert,
-  Animated,
+  ScrollView, ActivityIndicator,
 } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Geocoding from "react-native-geocoding";
 import { ApiContext } from "../../context/ApiContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { EventsContext } from "../../context/EventsContext";
 import { useNavigation } from "@react-navigation/native";
-import { useRoute } from "@react-navigation/native";
-import add = Animated.add;
-import Checkbox from "../../components/Checkbox";
+import {Event} from "../../types/event";
 
 Geocoding.init(process.env.REACT_APP_GEOCODING_API_KEY);
 
-const EventViewScreen = (event) => {
-  const route = useRoute();
-  const EventData = route.params?.marker;
+const EventViewScreen = ({ route }) => {
+  const { eventId } = route.params;
+
+  // const EventData = route.params?.marker;
   const [eventName, setEventName] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
@@ -33,9 +29,13 @@ const EventViewScreen = (event) => {
   const { height } = useWindowDimensions();
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
-  const { post } = useContext(ApiContext);
-  const { loadAllEvents } = useContext(EventsContext);
-  const navigation = useNavigation();
+  const { setEventById } = useContext(EventsContext);
+  const [event, setEvent] = useState<Event>(null);
+
+  useEffect(() => {
+    setEvent(null)
+    setEventById(eventId, setEvent)
+  }, [eventId]);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -51,66 +51,23 @@ const EventViewScreen = (event) => {
     hideDatePicker();
   };
 
+  if (!event) {
+    return (
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+          <ActivityIndicator size={"large"} />
+        </View>
+    );
+  }
+
   return (
     <>
       <View style={[styles.root, { height: height * 1 }]}>
         <View style={styles.windowTab}>
           <Text style={styles.title} resizeMode="contain">
-            Dodaj wydarzenie
+            {event.name}
           </Text>
           <ScrollView showsVerticalScrollIndicator={false}>
-            <CustomInput
-              placeholder="Podaj nazwę wydarzenia"
-              value={eventName}
-              setValue={setEventName}
-              secureTextEntry={undefined}
-              additionalStyle={styles.inputEventName}
-            />
-            <CustomInput
-              placeholder="Data wydarzenia"
-              readonly={true}
-              value={selectedDate ? selectedDate.toDateString() : ""}
-              editable={false}
-              setValue={setSelectedDate}
-              secureTextEntry={undefined}
-              additionalStyle={styles.inputDate}
-            />
-            <CustomButton
-              text="Wybierz datę wydarzenia"
-              onPress={showDatePicker}
-              type="PRIMARY"
-              bgColor={undefined}
-              fgColor={undefined}
-              additionalStyles={styles.inputDateButton}
-            />
-            <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode="date"
-              onConfirm={handleConfirm}
-              onCancel={hideDatePicker}
-            />
-            <CustomInput
-              placeholder="Podaj miasto"
-              value={city}
-              setValue={setCity}
-              secureTextEntry={undefined}
-              additionalStyle={styles.inputAddress}
-            />
-            <CustomInput
-              placeholder="Podaj ulicę i numer"
-              value={address}
-              setValue={setAddress}
-              secureTextEntry={undefined}
-              additionalStyle={styles.inputAddress}
-            />
-            <CustomInput
-              placeholder="Opis wydarzenia"
-              value={eventDescription}
-              setValue={setEventDescription}
-              secureTextEntry
-              inputType="textArea"
-              additionalStyle={styles.textArea}
-            />
+
           </ScrollView>
         </View>
       </View>

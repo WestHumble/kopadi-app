@@ -131,35 +131,35 @@ const MapViewComponent = () => {
             title={marker.name}
             description={marker.description}
             // TUTAJ ZMIANY Z WIDOKIEM I PRZEKIEROWANIEM - nie wiem jak przekazac obiekt do EventView
-            onPress={() => {navigation.navigate("EventView", { object: marker });}}
+            onCalloutPress={() => {navigation.navigate("EventView", { eventId: marker.id });}}
           >
-            // <Callout tooltip style={styles.callout}>
-            //   <View>
-            //     <Text style={styles.title}>{marker.name}</Text>
-            //     <View style={styles.hr} />
-            //     <Text style={styles.date}>
-            //       {new Date(marker.date.date).toLocaleString([], {
-            //         year: "numeric",
-            //         month: "numeric",
-            //         day: "numeric",
-            //         hour: "2-digit",
-            //         minute: "2-digit",
-            //       })}
-            //     </Text>
-            //     <View style={styles.hr} />
-            //     <Text style={styles.address}>{marker.address}</Text>
-            //     <CustomButton
-            //       text="Szczegóły wydarzenia"
-            //       onPress={() => {
-            //         navigation.navigate("EventView", { object: marker });
-            //       }}
-            //       type="PRIMARY"
-            //       bgColor={undefined}
-            //       fgColor={undefined}
-            //       additionalStyles={undefined}
-            //     />
-            //   </View>
-            // </Callout>
+             {/*<Callout tooltip style={styles.callout}>*/}
+             {/*  <View>*/}
+             {/*    <Text style={styles.title}>{marker.name}</Text>*/}
+             {/*    <View style={styles.hr} />*/}
+             {/*    <Text style={styles.date}>*/}
+             {/*      {new Date(marker.date.date).toLocaleString([], {*/}
+             {/*        year: "numeric",*/}
+             {/*        month: "numeric",*/}
+             {/*        day: "numeric",*/}
+             {/*        hour: "2-digit",*/}
+             {/*        minute: "2-digit",*/}
+             {/*      })}*/}
+             {/*    </Text>*/}
+             {/*    <View style={styles.hr} />*/}
+             {/*    <Text style={styles.address}>{marker.address}</Text>*/}
+             {/*    <CustomButton*/}
+             {/*      text="Szczegóły wydarzenia"*/}
+             {/*      onPress={() => {*/}
+             {/*        navigation.navigate("EventView", { object: marker });*/}
+             {/*      }}*/}
+             {/*      type="PRIMARY"*/}
+             {/*      bgColor={undefined}*/}
+             {/*      fgColor={undefined}*/}
+             {/*      additionalStyles={undefined}*/}
+             {/*    />*/}
+             {/*  </View>*/}
+             {/*</Callout>*/}
           </Marker>
         ))}
         {friendsMarkers.map((marker, index) => (
