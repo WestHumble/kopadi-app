@@ -24,6 +24,7 @@ import SearchFriendsScreen from "../screens/SearchFriendsScreen";
 import SearchNewFriendsScreen from "../screens/SearchNewFriendsScreen";
 import InviteFriendsToEventScreen from "../screens/InviteFriendsToEventScreen";
 import NotificationsScreen from "../screens/NotificationsListScreen";
+import {NavigationContext} from "../context/NavigationContext";
 
 const Tab = createBottomTabNavigator();
 const screenOptions = {
@@ -287,7 +288,8 @@ const TabsLoggedOut = () => {
   );
 };
 const Navigation = () => {
-  const { isLoading } = useContext(AuthContext);
+    const { isLoading } = useContext(AuthContext);
+    const { navigationRef } = useContext(NavigationContext);
 
   if (isLoading) {
     return (
@@ -297,7 +299,7 @@ const Navigation = () => {
     );
   }
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <TabNavScreen />
     </NavigationContainer>
   );

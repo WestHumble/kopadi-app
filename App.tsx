@@ -9,25 +9,28 @@ import { LocationProvider } from "./src/context/LocationContext";
 import {NotificationProvider} from "./src/context/NotificationContext";
 import {EventsProvider} from "./src/context/EventsContext";
 import {FriendsProvider} from "./src/context/FriendsContext";
+import {NavigationProvider} from "./src/context/NavigationContext";
 
 const App = () => {
     return (
-    <ApiProvider>
-      <AuthProvider>
-          <NotificationProvider>
-              <LocationProvider>
-                  <FriendsProvider>
-                      <EventsProvider>
-                          <View style={styles.root}>
-                              <Navigation />
-                              <StatusBar style="auto" />
-                          </View>
-                      </EventsProvider>
-                  </FriendsProvider>
-              </LocationProvider>
-          </NotificationProvider>
-      </AuthProvider>
-    </ApiProvider>
+        <NavigationProvider>
+            <ApiProvider>
+              <AuthProvider>
+                  <NotificationProvider>
+                      <LocationProvider>
+                          <FriendsProvider>
+                              <EventsProvider>
+                                  <View style={styles.root}>
+                                      <Navigation />
+                                      <StatusBar style="auto" />
+                                  </View>
+                              </EventsProvider>
+                          </FriendsProvider>
+                      </LocationProvider>
+                  </NotificationProvider>
+              </AuthProvider>
+            </ApiProvider>
+        </NavigationProvider>
   );
 };
 

@@ -1,6 +1,10 @@
+import {FriendInvite} from "./friendInvite";
+
 export type Notification = {
+    id: number,
     title: string,
-    type: string,
-    action?: () => void,
-    actionText: () => string,
+}
+
+export type FriendInviteNotification = Notification & {
+    friendInvite: FriendInvite
 }

@@ -10,12 +10,12 @@ const ChatComponent = () => {
     const appState = useRef(AppState.currentState);
     useEffect(() => {
         notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-            console.log('ChatComponent notificationListener3')
+            // console.log('ChatComponent notificationListener3')
             // console.log(notification.request.trigger.remoteMessage.data.payload)
         });
 
         responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-            console.log('ChatComponent responseListener');
+            // console.log('ChatComponent responseListener');
         });
 
 
