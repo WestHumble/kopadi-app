@@ -1,10 +1,6 @@
 import React, {createContext, useContext, useEffect, useRef, useState} from 'react';
-import * as Location from "expo-location";
 import {ApiContext} from "./ApiContext";
-import {LocationContext} from "./LocationContext";
-import {MarkerData} from "../types/marker";
-import {Event} from "../types/event";
-import {Alert, AppState} from "react-native";
+import {AppState} from "react-native";
 import {Friend} from "../types/friend";
 import * as Notifications from "expo-notifications";
 import {FriendInvite} from "../types/friendInvite";

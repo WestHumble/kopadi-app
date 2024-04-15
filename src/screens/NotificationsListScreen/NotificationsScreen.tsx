@@ -1,17 +1,15 @@
 import {
   View,
-  Text,
   StyleSheet,
   useWindowDimensions,
-  ScrollView,
 } from "react-native";
 import React, {useContext, useEffect, useState} from "react";
 import CustomInput from "../../components/CustomInput";
 import {FriendsContext} from "../../context/FriendsContext";
 import NotificationList from "../../components/NotificationList";
-import {FriendInviteNotification, Notification} from "../../types/notification";
+import {FriendInviteNotification} from "../../types/notification";
 
-const NotificationsScreen = ({ route }) => {
+const NotificationsScreen = () => {
 
   const { height } = useWindowDimensions();
   const [searchPhrase, setSearchPhrase] = useState("");

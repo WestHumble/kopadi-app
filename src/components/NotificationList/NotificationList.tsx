@@ -2,7 +2,6 @@ import React, {useContext} from "react";
 import {View, Text, SectionList, StyleSheet, Image} from "react-native";
 import CustomButton from "../CustomButton";
 import {ApiContext} from "../../context/ApiContext";
-import {Friend} from "../../types/friend";
 import {FriendInvite} from "../../types/friendInvite";
 import {FriendsContext} from "../../context/FriendsContext";
 
