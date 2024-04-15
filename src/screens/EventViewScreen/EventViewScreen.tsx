@@ -3,9 +3,10 @@ import {
   Text,
   StyleSheet,
   useWindowDimensions,
-  ScrollView, ActivityIndicator,
+  ScrollView,
+  ActivityIndicator,
 } from "react-native";
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -13,7 +14,7 @@ import Geocoding from "react-native-geocoding";
 import { ApiContext } from "../../context/ApiContext";
 import { EventsContext } from "../../context/EventsContext";
 import { useNavigation } from "@react-navigation/native";
-import {Event} from "../../types/event";
+import { Event } from "../../types/event";
 
 Geocoding.init(process.env.REACT_APP_GEOCODING_API_KEY);
 
@@ -33,8 +34,8 @@ const EventViewScreen = ({ route }) => {
   const [event, setEvent] = useState<Event>(null);
 
   useEffect(() => {
-    setEvent(null)
-    setEventById(eventId, setEvent)
+    setEvent(null);
+    setEventById(eventId, setEvent);
   }, [eventId]);
 
   const showDatePicker = () => {
@@ -53,9 +54,9 @@ const EventViewScreen = ({ route }) => {
 
   if (!event) {
     return (
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-          <ActivityIndicator size={"large"} />
-        </View>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size={"large"} />
+      </View>
     );
   }
 
@@ -66,9 +67,23 @@ const EventViewScreen = ({ route }) => {
           <Text style={styles.title} resizeMode="contain">
             {event.name}
           </Text>
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <Text style={styles.title} resizeMode="contain">
+            {new Date(event.date.date).toLocaleString([], {
+              year: "numeric",
+              month: "numeric",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </Text>
+          <Text style={styles.title} resizeMode="contain">
+            {event.address}
+          </Text>
+          <Text style={styles.title} resizeMode="contain">
+            {event.description}
+          </Text>
 
-          </ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}></ScrollView>
         </View>
       </View>
     </>
