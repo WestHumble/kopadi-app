@@ -5,45 +5,45 @@ import {
 } from "react-native";
 import React, {useContext, useEffect, useState} from "react";
 import CustomInput from "../../components/CustomInput";
-import {FriendsContext} from "../../context/FriendsContext";
+import {EventsContext} from "../../context/EventsContext";
 import NotificationList from "../../components/NotificationList";
-import {FriendInviteNotification} from "../../types/notification";
+import {EventInviteNotification} from "../../types/notification";
 
-const NotificationsScreen = () => {
+const EventInvitesScreen = () => {
 
   const { height } = useWindowDimensions();
   const [searchPhrase, setSearchPhrase] = useState("");
-  const { pendingInvites } = useContext(FriendsContext);
-  const [friendInviteNotification, setFriendInviteNotification] = useState<FriendInviteNotification[]>([]);
+  const { pendingInvites } = useContext(EventsContext);
+  const [eventInviteNotification, setEventInviteNotification] = useState<EventInviteNotification[]>([]);
 
   useEffect(() => {
-    let friendInvites: FriendInviteNotification[] = pendingInvites.map(invite=> { return {
-      'id': invite.id + '_friend',
-      'friendInvite': invite,
+    let eventInvites: EventInviteNotification[] = pendingInvites.map(invite=> { return {
+      'notificationType': 'eventInvite',
+      'id': invite.id + '_event',
+      'eventInvite': invite,
     }})
 
-    setFriendInviteNotification(searchPhrase ? friendInvites.filter(invite => {
+    setEventInviteNotification(searchPhrase ? eventInvites.filter(invite => {
       let matches = true;
       searchPhrase.split(' ').every(phrasePart => {
-        if (!invite.friendInvite.friend.name.toLowerCase().startsWith(phrasePart.toLowerCase()) &&
-            !invite.friendInvite.friend.surname.toLowerCase().startsWith(phrasePart.toLowerCase())) {
+        if (!invite.eventInvite.event.name.toLowerCase().startsWith(phrasePart.toLowerCase())) {
           matches = false
           return false
         }
         return true
       })
       return matches
-    }) : friendInvites)
+    }) : eventInvites)
   }, [pendingInvites, searchPhrase]);
 
   return (
       <>
         <View style={[styles.root, { height: height * 1 }]}>
           <View style={styles.windowTab}>
-            <NotificationList friendInviteData={[
+            <NotificationList inviteData={[
               {
-                title: "Zaproszenia do znajomych",
-                data: friendInviteNotification,
+                title: "Zaproszenia na wydarzenia",
+                data: eventInviteNotification,
               },
             ]} />
             <CustomInput
@@ -92,4 +92,4 @@ const styles = StyleSheet.create({
   searchInput: {color: "#fff"},
 });
 
-export default NotificationsScreen;
+export default EventInvitesScreen;

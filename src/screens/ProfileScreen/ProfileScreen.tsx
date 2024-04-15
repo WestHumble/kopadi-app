@@ -16,8 +16,11 @@ const ProfileScreen = () => {
   const { height } = useWindowDimensions();
   const { login, logout, isLoading } = useContext(AuthContext);
 
-  const onNotificationsPressed = () => {
-    navigation.navigate("NotificationsList");
+  const onFriendInvitesPressed = () => {
+    navigation.navigate("FriendInvitesScreen");
+  };
+  const onEventInvitesPressed = () => {
+    navigation.navigate("EventInvitesScreen");
   };
   const onEditProfilePressed = () => {
     console.log("Kliknieto edytuj profil");
@@ -53,8 +56,15 @@ const ProfileScreen = () => {
             fgColor={undefined}
           />
           <CustomButton
-              text="Powiadomienia"
-              onPress={onNotificationsPressed}
+              text="Zaproszenia do znajomych"
+              onPress={onFriendInvitesPressed}
+              type="PRIMARY"
+              bgColor={undefined}
+              fgColor={undefined}
+          />
+          <CustomButton
+              text="Zaproszenia na wydarzenia"
+              onPress={onEventInvitesPressed}
               type="PRIMARY"
               bgColor={undefined}
               fgColor={undefined}

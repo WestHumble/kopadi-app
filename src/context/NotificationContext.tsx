@@ -29,6 +29,13 @@ async function registerForPushNotificationsAsync() {
             lightColor: '#FF231F7C',
             showBadge: false,
         });
+        Notifications.setNotificationChannelAsync('new_event_invite', {
+            name: 'new_event_invite',
+            importance: Notifications.AndroidImportance.MAX,
+            vibrationPattern: [0, 250, 250, 250],
+            lightColor: '#FF231F7C',
+            showBadge: false,
+        });
         Notifications.setNotificationChannelAsync('new_friend_invite', {
             name: 'new_friend_invite',
             importance: Notifications.AndroidImportance.MAX,

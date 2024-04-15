@@ -4,38 +4,15 @@ import CustomButton from "../CustomButton";
 import {ApiContext} from "../../context/ApiContext";
 import {FriendInvite} from "../../types/friendInvite";
 import {FriendsContext} from "../../context/FriendsContext";
+import {FriendInviteNotification} from "../../types/notification";
+import {EventsContext} from "../../context/EventsContext";
+import {EventInvite} from "../../types/eventInvite";
 
 const API_ADDRESS = process.env.EXPO_PUBLIC_API_URL;
-const FriendInviteItem = ({notification, accept, decline}) => (
-    <View style={styles.notificationContainer}>
-        <Image
-            style={{width: 100, height: 100}}
-            source={{uri: `${API_ADDRESS}/api/avatar/get/${notification.friendInvite.friend.id}`}}
-        />
-        <Text
-            style={styles.name}>{notification.friendInvite.friend.name} {notification.friendInvite.friend.surname}</Text>
-        <CustomButton
-            text="Zaakceptuj"
-            onPress={() => accept(notification.friendInvite)}
-            type="PRIMARY"
-            bgColor={undefined}
-            fgColor={undefined}
-        />
-        <CustomButton
-            text="Odrzuć"
-            onPress={() => decline(notification.friendInvite)}
-            type="PRIMARY"
-            bgColor={undefined}
-            fgColor={undefined}
-        />
-    </View>
-);
-
-const NotificationList = ({friendInviteData}) => {
+const FriendInviteItem = ({notification }) => {
     const {post} = useContext(ApiContext);
     const { getPendingFriendInvites, getFriendList } = useContext(FriendsContext);
-
-    const acceptFriendInvite = (friendInvite: FriendInvite) => {
+    const acceptInvite = (friendInvite: FriendInvite) => {
         post('friend-invite/update-status', {
             "friendInviteId": friendInvite.id,
             "transition": "accept"
@@ -44,7 +21,7 @@ const NotificationList = ({friendInviteData}) => {
             getFriendList()
         })
     }
-    const declineFriendInvite = (friendInvite: FriendInvite) => {
+    const declineInvite = (friendInvite: FriendInvite) => {
         post('friend-invite/update-status', {
             "friendInviteId": friendInvite.id,
             "transition": "decline"
@@ -52,23 +29,89 @@ const NotificationList = ({friendInviteData}) => {
             getPendingFriendInvites()
         })
     }
+    return (
+        <View style={styles.notificationContainer}>
+            <Image
+                style={{width: 100, height: 100}}
+                source={{uri: `${API_ADDRESS}/api/avatar/get/${notification.friendInvite.friend.id}`}}
+            />
+            <Text
+                style={styles.name}>{notification.friendInvite.friend.name} {notification.friendInvite.friend.surname}</Text>
+            <CustomButton
+                text="Zaakceptuj"
+                onPress={() => acceptInvite(notification.friendInvite)}
+                type="PRIMARY"
+                bgColor={undefined}
+                fgColor={undefined}
+            />
+            <CustomButton
+                text="Odrzuć"
+                onPress={() => declineInvite(notification.friendInvite)}
+                type="PRIMARY"
+                bgColor={undefined}
+                fgColor={undefined}
+            />
+        </View>
+    )};
+
+const EventInviteItem = ({notification}) => {
+    const {post} = useContext(ApiContext);
+    const { getPendingEventInvites, loadAllEvents, clearSearchEvents } = useContext(EventsContext);
+    const acceptInvite = (eventInvite: EventInvite) => {
+        post('event-invite/update-status', {
+            "eventInviteId": eventInvite.id,
+            "transition": "accept"
+        }, ()=>{
+            getPendingEventInvites()
+            loadAllEvents()
+            clearSearchEvents()
+        })
+    }
+    const declineInvite = (eventInvite: EventInvite) => {
+        post('event-invite/update-status', {
+            "eventInviteId": eventInvite.id,
+            "transition": "decline"
+        }, ()=>{
+            getPendingEventInvites()
+        })
+    }
+    return (
+        <View style={styles.notificationContainer}>
+            <Text
+                style={styles.name}>{notification.eventInvite.event.name}</Text>
+            <CustomButton
+                text="Zaakceptuj"
+                type="PRIMARY"
+                onPress={() => acceptInvite(notification.eventInvite)}
+                bgColor={undefined}
+                fgColor={undefined}
+            />
+            <CustomButton
+                text="Odrzuć"
+                type="PRIMARY"
+                onPress={() => declineInvite(notification.eventInvite)}
+                bgColor={undefined}
+                fgColor={undefined}
+            />
+        </View>
+    )};
+
+const NotificationList = ({inviteData}) => {
+
 
     return (
         <SectionList
-            sections={friendInviteData}
+            sections={inviteData}
             keyExtractor={(item, index) => item.id.toString()}
             renderSectionHeader={({section: {title}}) => (
                 <View style={styles.sectionHeader}>
                     <Text style={styles.sectionHeaderText}>{title}</Text>
                 </View>
             )}
-            renderItem={({item}) => (
-                <FriendInviteItem
-                    notification={item}
-                    accept={acceptFriendInvite}
-                    decline={declineFriendInvite}
-                />
-            )}
+            renderItem={({item}) => {
+                if (item.notificationType === 'friendInvite') return ( <FriendInviteItem notification={item} />)
+                if (item.notificationType === 'eventInvite') return ( <EventInviteItem notification={item} />)
+            }}
             renderSectionFooter={({section}) =>
                 section.data.length === 0 && (
                     <View style={styles.noEventsContainer}>

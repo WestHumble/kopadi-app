@@ -41,7 +41,7 @@ export const FriendsProvider = ({children}) => {
 
         responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
             if ('new_friend_invite' === response.notification.request.trigger.channelId) {
-                navigationRef.current?.navigate('NotificationsList');
+                navigationRef.current?.navigate('FriendInvitesScreen');
             }
         });
 

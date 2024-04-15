@@ -19,8 +19,9 @@ import EventViewScreen from "../screens/EventViewScreen";
 import SearchFriendsScreen from "../screens/SearchFriendsScreen";
 import SearchNewFriendsScreen from "../screens/SearchNewFriendsScreen";
 import InviteFriendsToEventScreen from "../screens/InviteFriendsToEventScreen";
-import NotificationsScreen from "../screens/NotificationsListScreen";
+import FriendInvitesScreen from "../screens/FriendInvitesScreen";
 import {NavigationContext} from "../context/NavigationContext";
+import EventInvitesScreen from "../screens/EventInvitesScreen";
 
 const Tab = createBottomTabNavigator();
 const screenOptions = {
@@ -207,8 +208,15 @@ const TabsLoggedIn = () => {
             }}
         />
         <Tab.Screen
-            name="NotificationsList"
-            component={NotificationsScreen}
+            name="FriendInvitesScreen"
+            component={FriendInvitesScreen}
+            options={{
+                tabBarButton: () => null,
+            }}
+        />
+        <Tab.Screen
+            name="EventInvitesScreen"
+            component={EventInvitesScreen}
             options={{
                 tabBarButton: () => null,
             }}
