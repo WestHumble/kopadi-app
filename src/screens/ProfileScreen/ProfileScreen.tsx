@@ -90,20 +90,6 @@ const ProfileScreen = () => {
             bgColor={undefined}
             fgColor={undefined}
           />
-          <CustomButton
-            text="Ustawienia"
-            onPress={onSettingsPressed}
-            type="PRIMARY"
-            bgColor={undefined}
-            fgColor={undefined}
-          />
-          <CustomButton
-            text="Regulamin"
-            onPress={onStatutePressed}
-            type="PRIMARY"
-            bgColor={undefined}
-            fgColor={undefined}
-          />
           <CustomButton text="Wyloguj" onPress={logout} type="PRIMARY" />
         </View>
       </View>

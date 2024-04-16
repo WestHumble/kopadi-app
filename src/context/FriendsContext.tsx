@@ -9,7 +9,6 @@ import {NavigationContext} from "./NavigationContext";
 export const FriendsContext = createContext(null);
 
 export const FriendsProvider = ({children}) => {
-
     const [friends, setFriends] = useState<Friend[]>([]);
     const [pendingInvites, setPendingInvites] = useState<FriendInvite[]>([]);
     const appState = useRef(AppState.currentState);
@@ -24,6 +23,10 @@ export const FriendsProvider = ({children}) => {
     const getPendingFriendInvites = () => {
         get('friend-invite/invites', null, (res) => {
             setPendingInvites(res.data)
+            console.log("friend-invite success")
+        }, (res) => {
+            console.log("friend-invite failed")
+            console.log(res)
         })
     };
     const notificationListener = useRef();
@@ -60,22 +63,6 @@ export const FriendsProvider = ({children}) => {
             setPendingInvites([])
         }
     }, [userToken]);
-
-    useEffect(() => {
-        const subscription = AppState.addEventListener('change', nextAppState => {
-            if (appState.current.match(/inactive|background/) &&
-                nextAppState === 'active') {
-                getFriendList()
-                getPendingFriendInvites()
-            }
-
-            appState.current = nextAppState;
-        });
-
-        return () => {
-            subscription.remove();
-        };
-    }, []);
 
     return (
         <FriendsContext.Provider value={{

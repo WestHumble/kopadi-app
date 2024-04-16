@@ -30,6 +30,10 @@ export const EventsProvider = ({children}) => {
     const getPendingEventInvites = () => {
         get('event-invite/invites', null, (res) => {
             setPendingInvites(res.data)
+            console.log("event-invite success")
+        }, (res) => {
+            console.log("event-invite failed")
+            console.log(res)
         })
     };
     const notificationListener = useRef();
@@ -61,21 +65,6 @@ export const EventsProvider = ({children}) => {
             setPendingInvites([])
         }
     }, [userToken]);
-
-    useEffect(() => {
-        const subscription = AppState.addEventListener('change', nextAppState => {
-            if (appState.current.match(/inactive|background/) &&
-                nextAppState === 'active') {
-                getPendingEventInvites()
-            }
-
-            appState.current = nextAppState;
-        });
-
-        return () => {
-            subscription.remove();
-        };
-    }, []);
 
     const loadCloseEvents = (region) => {
         post('event/close-list', {

@@ -10,6 +10,7 @@ import {NotificationProvider} from "./src/context/NotificationContext";
 import {EventsProvider} from "./src/context/EventsContext";
 import {FriendsProvider} from "./src/context/FriendsContext";
 import {NavigationProvider} from "./src/context/NavigationContext";
+import {AppProvider} from "./src/context/AppStateContext";
 
 const App = () => {
     return (
@@ -20,10 +21,12 @@ const App = () => {
                       <LocationProvider>
                           <FriendsProvider>
                               <EventsProvider>
-                                  <View style={styles.root}>
-                                      <Navigation />
-                                      <StatusBar style="auto" />
-                                  </View>
+                                  <AppProvider>
+                                      <View style={styles.root}>
+                                          <Navigation />
+                                          <StatusBar style="auto" />
+                                      </View>
+                                  </AppProvider>
                               </EventsProvider>
                           </FriendsProvider>
                       </LocationProvider>
