@@ -10,11 +10,17 @@ import CustomButton from "../../components/CustomButton";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
+import { LocationContext } from "../../context/LocationContext";
 
 const ProfileScreen = () => {
+  const { userLocation, shareLocation, setShareLocation } =
+    useContext(LocationContext);
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
   const { login, logout, isLoading } = useContext(AuthContext);
+  const onShareLocationToggle = () => {
+    setShareLocation(!shareLocation);
+  };
 
   const onEditProfilePressed = () => {
     console.log("Kliknieto edytuj profil");
@@ -23,7 +29,7 @@ const ProfileScreen = () => {
     console.log("Kliknieto historia wydarzeń");
   };
   const onFriendsPressed = () => {
-    navigation.navigate("FriendsList")
+    navigation.navigate("FriendsList");
   };
   const onAddEventPressed = () => {
     console.log("Kliknieto dodaj wydarzenie");
@@ -66,6 +72,20 @@ const ProfileScreen = () => {
           <CustomButton
             text="Dodaj wydarzenie"
             onPress={onAddEventPressed}
+            type="PRIMARY"
+            bgColor={undefined}
+            fgColor={undefined}
+          />
+          <CustomButton
+            additionalStyles={{
+              position: "absolute",
+              top: "70%",
+              left: "35%",
+              width: "20%",
+              marginHorizontal: "5%",
+            }}
+            text={shareLocation ? "Sharing on" : "Sharing off"}
+            onPress={onShareLocationToggle}
             type="PRIMARY"
             bgColor={undefined}
             fgColor={undefined}
