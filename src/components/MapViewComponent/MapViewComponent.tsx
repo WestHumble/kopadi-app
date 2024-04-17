@@ -54,9 +54,6 @@ const MapViewComponent = () => {
   const onRegionChange = (newRegion) => {
     setRegion(newRegion);
   };
-  const onShareLocationToggle = () => {
-    setShareLocation(!shareLocation);
-  };
   const onLoadCloseEvents = () => {
     loadCloseEvents(region);
   };
@@ -193,20 +190,6 @@ const MapViewComponent = () => {
           </Marker>
         ))}
       </MapView>
-      <CustomButton
-        additionalStyles={{
-          position: "absolute",
-          top: "70%",
-          left: "35%",
-          width: "20%",
-          marginHorizontal: "5%",
-        }}
-        text={shareLocation ? "Sharing on" : "Sharing off"}
-        onPress={onShareLocationToggle}
-        type="PRIMARY"
-        bgColor={undefined}
-        fgColor={undefined}
-      />
       {isSearchActive && (
         <CustomButton
           additionalStyles={{

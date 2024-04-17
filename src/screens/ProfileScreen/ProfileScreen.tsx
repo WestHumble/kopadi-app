@@ -77,13 +77,7 @@ const ProfileScreen = () => {
             fgColor={undefined}
           />
           <CustomButton
-            additionalStyles={{
-              position: "absolute",
-              top: "70%",
-              left: "35%",
-              width: "20%",
-              marginHorizontal: "5%",
-            }}
+            additionalStyles={{}}
             text={shareLocation ? "Sharing on" : "Sharing off"}
             onPress={onShareLocationToggle}
             type="PRIMARY"
