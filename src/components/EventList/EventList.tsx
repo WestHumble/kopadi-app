@@ -1,16 +1,6 @@
 import React from "react";
-import {
-  View,
-  Text,
-  Image,
-  SectionList,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, Image, SectionList, StyleSheet } from "react-native";
 import eventButton from "../../../assets/images/right-alt-yellow.png";
-import { useNavigation } from "@react-navigation/native";
-
-const navigation = useNavigation();
 
 const EventItem = ({ date, month, title, hour, id }) => (
   <View style={styles.eventContainer}>
