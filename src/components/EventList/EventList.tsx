@@ -1,17 +1,60 @@
 import React from "react";
-import { View, Text, SectionList, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  SectionList,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import eventButton from "../../../assets/images/right-alt-yellow.png";
+import { useNavigation } from "@react-navigation/native";
 
-const EventItem = ({ title, date, location, description }) => (
+const navigation = useNavigation();
+
+const EventItem = ({ date, month, title, hour, id }) => (
   <View style={styles.eventContainer}>
-    <Text style={styles.title}>{title}</Text>
-    <Text style={styles.date}>{date}</Text>
-    <Text style={styles.location}>{location}</Text>
+    <View style={styles.eventDate}>
+      <Text style={styles.month}>{month}</Text>
+      <Text style={styles.date}>{date}</Text>
+    </View>
+    <View style={styles.eventContent}>
+      <Text style={styles.hour}>{hour}</Text>
+      <Text style={styles.title}>{title}</Text>
+    </View>
+    <View style={styles.eventButton}>
+      <Image
+        source={eventButton}
+        style={styles.eventButtonImg}
+        resizeMode="contain"
+      />
+    </View>
   </View>
 );
+
+function konwerterDaty(data) {
+  const months = [
+    "Sty",
+    "Lut",
+    "Mar",
+    "Kwi",
+    "Maj",
+    "Cze",
+    "Lip",
+    "Sie",
+    "Wrz",
+    "Paź",
+    "Lis",
+    "Gru",
+  ];
+  const month = months[data.getMonth()];
+  return month;
+}
 
 const EventList = ({ data }) => (
   <SectionList
     sections={data}
+    stickySectionHeadersEnabled={false}
     keyExtractor={(item, index) => item.id.toString()}
     renderSectionHeader={({ section: { title } }) => (
       <View style={styles.sectionHeader}>
@@ -20,10 +63,15 @@ const EventList = ({ data }) => (
     )}
     renderItem={({ item }) => (
       <EventItem
+        month={konwerterDaty(new Date(item.date.date))}
+        date={new Date(item.date.date).toLocaleString([], {
+          day: "numeric",
+        })}
         title={item.name}
-        date={item.name}
-        location={item.name}
-        description={item.description}
+        hour={new Date(item.date.date).toLocaleString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        })}
       />
     )}
     renderSectionFooter={({ section }) =>
@@ -46,6 +94,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: -3 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
+    flexDirection: "row",
   },
   title: {
     fontSize: 18,
@@ -53,7 +102,17 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   date: {
-    color: "#888",
+    color: "#fff",
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  month: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  hour: {
+    color: "#F2B138",
   },
   location: {
     color: "#888",
@@ -70,6 +129,8 @@ const styles = StyleSheet.create({
     fontSize: 21,
     fontWeight: "bold",
     color: "#fff",
+    paddingVertical: 8,
+    marginVertical: 4,
   },
   noEventsContainer: {
     padding: 16,
@@ -78,6 +139,29 @@ const styles = StyleSheet.create({
   noEventsText: {
     fontSize: 16,
     color: "#888",
+  },
+  eventDate: {
+    marginRight: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#F2B138",
+    padding: 8,
+    width: 70,
+    height: 70,
+    borderRadius: 10,
+  },
+  eventContent: {
+    flex: 1,
+    alignContent: "center",
+    justifyContent: "center",
+  },
+  eventButton: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  eventButtonImg: {
+    width: 30,
+    height: 30,
   },
 });
 
