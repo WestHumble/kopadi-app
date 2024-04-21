@@ -71,7 +71,9 @@ export const EventsProvider = ({children}) => {
             latitude: region?.latitude??userLocation?.coords.latitude ?? 52.4064,
             longitude: region?.longitude??userLocation?.coords.longitude ?? 16.9252,
             distanceInMeters: 1000
-        }, (res) => eventsOther(res.data))
+        }, (res) => {
+            setEventsOther(res.data)
+        })
     };
 
     const loadAllEvents = (region) => {

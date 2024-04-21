@@ -4,11 +4,13 @@ import {useNavigation} from "@react-navigation/native";
 import {AppState} from "react-native";
 import {EventsContext} from "./EventsContext";
 import {FriendsContext} from "./FriendsContext";
+import {ChatContext} from "./ChatContext";
 export const AppContext = createContext(null);
 
 export const AppProvider = ({children}) => {
     const {getPendingEventInvites} = useContext(EventsContext);
     const {getFriendList, getPendingFriendInvites} = useContext(FriendsContext);
+    const {getChatList} = useContext(ChatContext);
     const appState = useRef(AppState.currentState);
 
     useEffect(() => {
@@ -17,6 +19,7 @@ export const AppProvider = ({children}) => {
                 getPendingEventInvites()
                 getFriendList()
                 getPendingFriendInvites()
+                getChatList()
             }
             appState.current = nextAppState;
         });

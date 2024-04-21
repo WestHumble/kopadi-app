@@ -12,10 +12,18 @@ import FriendList from "../../components/FriendList";
 import {Friend} from "../../types/friend";
 import {ApiContext} from "../../context/ApiContext";
 import friendList from "../../components/FriendList";
+import {Event} from "../../types/event";
+import {EventsContext} from "../../context/EventsContext";
 
 const InviteFriendsToEventScreen = ({ route }) => {
   const { eventId } = route.params;
+  const [event, setEvent] = useState<Event>(null);
 
+  const { eventsCreated, setEventById } = useContext(EventsContext);
+  useEffect(() => {
+    setEvent(null)
+    setEventById(eventId, setEvent)
+  }, [eventId]);
   const { height } = useWindowDimensions();
   const [searchPhrase, setSearchPhrase] = useState("");
   const { friends } = useContext(FriendsContext);
@@ -33,11 +41,12 @@ const InviteFriendsToEventScreen = ({ route }) => {
     })
   };
   const deleteFriendInvite = (friend: Friend) => {
-    // post('event-invite/delete', {
-    //   userId: friend.id,
-    // }, (res) => {
-    //   setInviteSent(inviteSent.filter(f => f.id !== friend.id));
-    // })
+    post('event-invite/delete', {
+      userId: friend.id,
+      eventId: eventId
+    }, (res) => {
+      setInviteSent(inviteSent.filter(f => f.id !== friend.id));
+    })
   };
 
   useEffect(() => {

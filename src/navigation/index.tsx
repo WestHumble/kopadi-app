@@ -22,6 +22,8 @@ import InviteFriendsToEventScreen from "../screens/InviteFriendsToEventScreen";
 import FriendInvitesScreen from "../screens/FriendInvitesScreen";
 import {NavigationContext} from "../context/NavigationContext";
 import EventInvitesScreen from "../screens/EventInvitesScreen";
+import ChatListScreen from "../screens/ChatListScreen";
+import ChatScreen from "../screens/ChatScreen";
 
 const Tab = createBottomTabNavigator();
 const screenOptions = {
@@ -138,8 +140,8 @@ const TabsLoggedIn = () => {
       />
 
       <Tab.Screen
-        name="ConfirmEmail"
-        component={ConfirmEmailScreen}
+        name="ChatListScreen"
+        component={ChatListScreen}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
@@ -161,12 +163,6 @@ const TabsLoggedIn = () => {
             );
           },
         }}
-        listeners={({ navigation }) => ({
-          tabPress: (e) => {
-            e.preventDefault();
-            navigation.navigate("ConfirmEmail");
-          },
-        })}
       />
       <Tab.Screen
         name="Profile"
@@ -193,6 +189,13 @@ const TabsLoggedIn = () => {
           },
         }}
       />
+        <Tab.Screen
+            name="Chat"
+            component={ChatScreen}
+            options={{
+                tabBarButton: () => null,
+            }}
+        />
         <Tab.Screen
             name="AddEvent"
             component={AddEventScreen}

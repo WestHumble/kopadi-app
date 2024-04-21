@@ -15,8 +15,6 @@ import { ApiContext } from "../../context/ApiContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { EventsContext } from "../../context/EventsContext";
 import { useNavigation } from "@react-navigation/native";
-import add = Animated.add;
-import Checkbox from "../../components/Checkbox";
 
 Geocoding.init(process.env.REACT_APP_GEOCODING_API_KEY);
 
@@ -42,7 +40,6 @@ const AddEventScreen = () => {
   };
 
   const handleConfirm = (date) => {
-    console.warn("A date has been picked: ", date);
     setSelectedDate(date);
     hideDatePicker();
   };

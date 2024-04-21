@@ -11,6 +11,7 @@ import {EventsProvider} from "./src/context/EventsContext";
 import {FriendsProvider} from "./src/context/FriendsContext";
 import {NavigationProvider} from "./src/context/NavigationContext";
 import {AppProvider} from "./src/context/AppStateContext";
+import {ChatProvider} from "./src/context/ChatContext";
 
 const App = () => {
     return (
@@ -21,12 +22,14 @@ const App = () => {
                       <LocationProvider>
                           <FriendsProvider>
                               <EventsProvider>
-                                  <AppProvider>
-                                      <View style={styles.root}>
-                                          <Navigation />
-                                          <StatusBar style="auto" />
-                                      </View>
-                                  </AppProvider>
+                                  <ChatProvider>
+                                      <AppProvider>
+                                          <View style={styles.root}>
+                                              <Navigation />
+                                              <StatusBar style="auto" />
+                                          </View>
+                                      </AppProvider>
+                                  </ChatProvider>
                               </EventsProvider>
                           </FriendsProvider>
                       </LocationProvider>
