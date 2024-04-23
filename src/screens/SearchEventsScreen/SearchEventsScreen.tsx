@@ -29,21 +29,6 @@ const SearchEventsScreen = () => {
   } =
       useContext(EventsContext);
 
-  const data = [
-    {
-      title: "Wydarzenia Moje",
-      data: isSearchActive ? eventsCreatedSearch : eventsCreated,
-    },
-    {
-      title: "Wydarzenia Znajomych",
-      data: isSearchActive ? eventsInvitedSearch : eventsInvited,
-    },
-    {
-      title: "Wydarzenia Publiczne",
-      data: isSearchActive ? eventsOtherSearch : eventsOther,
-    },
-  ];
-
   const onSearchPressed = () => {
     searchEvents(searchPhrase)
   };
@@ -52,7 +37,20 @@ const SearchEventsScreen = () => {
     <>
       <View style={[styles.root, { height: height * 1 }]}>
         <View style={styles.windowTab}>
-          <EventList data={data} />
+          <EventList data={[
+            {
+              title: "Moje",
+              data: isSearchActive ? eventsCreatedSearch : eventsCreated,
+            },
+            {
+              title: "Zaproszone",
+              data: isSearchActive ? eventsInvitedSearch : eventsInvited,
+            },
+            {
+              title: "Publiczne",
+              data: isSearchActive ? eventsOtherSearch : eventsOther,
+            },
+          ]} />
           <CustomInput
             placeholder="Szukaj"
             value={searchPhrase}

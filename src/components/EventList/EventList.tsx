@@ -45,7 +45,7 @@ const EventList = ({ data }) => (
   <SectionList
     sections={data}
     stickySectionHeadersEnabled={false}
-    keyExtractor={(item, index) => item.id.toString()}
+    keyExtractor={(item, index) => index.toString() + item.id.toString()}
     renderSectionHeader={({ section: { title } }) => (
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionHeaderText}>{title}</Text>

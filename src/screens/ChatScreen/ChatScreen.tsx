@@ -4,45 +4,61 @@ import {
   StyleSheet,
   useWindowDimensions,
   ScrollView,
-  Alert,
+  Alert, ActivityIndicator,
 } from "react-native";
-import React, { useContext, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Geocoding from "react-native-geocoding";
+import {Event} from "../../types/event";
+import {Chat, ChatMessage} from "../../types/chat";
+import {ChatContext} from "../../context/ChatContext";
 
-Geocoding.init(process.env.REACT_APP_GEOCODING_API_KEY);
+const ChatMessageItem = ({ chat, chatMessage }) => {
+  let friend = chat.participants.find(f => f.id === chatMessage.sender_id)
 
-const ChatScreen = () => {
-  const [eventName, setEventName] = useState("");
-  const [eventDescription, setEventDescription] = useState("");
+  return (
+      <View style={chatMessage.sent_by_logged_user ? styles.selfMessageContainer : styles.messageContainer}>
+        <Text style={styles.messageText}>{(friend?.name??'A') + ' ' + chatMessage.message_text}</Text>
+      </View>
+  );
+}
+const ChatScreen = ({route}) => {
+  const { chatId } = route.params;
+
   const { height } = useWindowDimensions();
+  const [chat, setChat] = useState<Chat>(null);
+  const [chatMessagesList, setChatMessagesList] = useState<ChatMessage[]>([]);
+  const {setChatById, setChatMessages} = useContext(ChatContext)
+
+  useEffect(() => {
+    setChat(null)
+    setChatMessagesList([])
+    setChatById(chatId, setChat)
+    setChatMessages(chatId, setChatMessagesList)
+  }, [chatId]);
+
+
+  if (!chat) {
+    return (
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+          <ActivityIndicator size={"large"} />
+        </View>
+    );
+  }
+
+  chatMessagesList.sort((c1, c2) => c1.created_at > c2.created_at)
 
   return (
     <>
       <View style={[styles.root, { height: height * 1 }]}>
         <View style={styles.windowTab}>
           <Text style={styles.title} resizeMode="contain">
-            Dodaj wydarzenie
+            {chat.name}
           </Text>
           <ScrollView showsVerticalScrollIndicator={false}>
-            <CustomInput
-              placeholder="Podaj nazwę wydarzenia"
-              value={eventName}
-              setValue={setEventName}
-              secureTextEntry={undefined}
-              additionalStyle={styles.inputEventName}
-            />
-
-            <CustomInput
-              placeholder="Opis wydarzenia"
-              value={eventDescription}
-              setValue={setEventDescription}
-              secureTextEntry
-              inputType="textArea"
-              additionalStyle={styles.textArea}
-            />
+            {chatMessagesList.map((chatMessage)=>(<ChatMessageItem key={chatMessage.id}  chat={chat} chatMessage={chatMessage} />))}
           </ScrollView>
         </View>
       </View>
@@ -57,6 +73,33 @@ const styles = StyleSheet.create({
     backgroundColor: "#131417",
     flex: 1,
   },
+  messageText: {
+    fontSize: 14,
+    fontWeight: "normal",
+    color: "#999999",
+  },
+  messageContainer: {
+    padding: 16,
+    marginVertical: 4,
+    backgroundColor: "#131417",
+    borderRadius: 20,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: -3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    maxWidth: "75%",
+  },
+  selfMessageContainer: {
+    padding: 16,
+    marginVertical: 4,
+    backgroundColor: "#3c3f48",
+    borderRadius: 20,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: -3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    maxWidth: "75%",
+  },
   windowTab: {
     height: "75%",
     width: "100%",
@@ -70,36 +113,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 25,
   },
-  link: {
-    color: "#003f63",
-  },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 10,
     marginTop: "5%",
-    color: "#fff",
-  },
-  inputDate: {
-    color: "#fff",
-  },
-  inputDateButton: {
-    marginTop: 10,
-    borderRadius: 20,
-    paddingVertical: 0,
-    marginBottom: 20,
-  },
-  textArea: { color: "#fff" },
-  addEventButton: {
-    marginTop: 0,
-    borderRadius: 20,
-    paddingVertical: 0,
-    bottom: 0,
-  },
-  inputAddress: {
-    color: "#fff",
-  },
-  inputEventName: {
     color: "#fff",
   },
 });

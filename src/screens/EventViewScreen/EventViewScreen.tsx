@@ -33,6 +33,7 @@ const EventViewScreen = ({ route }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const { setEventById } = useContext(EventsContext);
+  const navigation = useNavigation();
   const [event, setEvent] = useState<Event>(null);
 
   useEffect(() => {
@@ -47,6 +48,10 @@ const EventViewScreen = ({ route }) => {
 
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
+  };
+
+  const onInviteFriendsPressed = () => {
+    navigation.navigate("InviteFriendsToEvent", { eventId });
   };
 
   const handleConfirm = (date) => {
@@ -121,6 +126,14 @@ const EventViewScreen = ({ route }) => {
             type="PRIMARY"
             bgColor={undefined}
             fgColor={undefined}
+          />
+          <CustomButton
+            text="Zaproś znajomych"
+            onPress={onInviteFriendsPressed}
+            type="PRIMARY"
+            bgColor={undefined}
+            fgColor={undefined}
+            additionalStyles={styles.addEventButton}
           />
         </View>
       </View>

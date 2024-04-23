@@ -1,12 +1,8 @@
-import React, { useContext, useEffect } from "react";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import React, { useContext } from "react";
+import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Entypo } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
 import { View, Text, Platform, ActivityIndicator } from "react-native";
 import SignInScreen from "../screens/SignInScreen";
 import SignUpScreen from "../screens/SignUpScreen";
@@ -23,6 +19,11 @@ import EventViewScreen from "../screens/EventViewScreen";
 import SearchFriendsScreen from "../screens/SearchFriendsScreen";
 import SearchNewFriendsScreen from "../screens/SearchNewFriendsScreen";
 import InviteFriendsToEventScreen from "../screens/InviteFriendsToEventScreen";
+import FriendInvitesScreen from "../screens/FriendInvitesScreen";
+import {NavigationContext} from "../context/NavigationContext";
+import EventInvitesScreen from "../screens/EventInvitesScreen";
+import ChatListScreen from "../screens/ChatListScreen";
+import ChatScreen from "../screens/ChatScreen";
 
 const Tab = createBottomTabNavigator();
 const screenOptions = {
@@ -139,8 +140,8 @@ const TabsLoggedIn = () => {
       />
 
       <Tab.Screen
-        name="ConfirmEmail"
-        component={ConfirmEmailScreen}
+        name="ChatListScreen"
+        component={ChatListScreen}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
@@ -162,12 +163,6 @@ const TabsLoggedIn = () => {
             );
           },
         }}
-        listeners={({ navigation }) => ({
-          tabPress: (e) => {
-            e.preventDefault();
-            navigation.navigate("ConfirmEmail");
-          },
-        })}
       />
       <Tab.Screen
         name="Profile"
@@ -195,6 +190,13 @@ const TabsLoggedIn = () => {
         }}
       />
         <Tab.Screen
+            name="Chat"
+            component={ChatScreen}
+            options={{
+                tabBarButton: () => null,
+            }}
+        />
+        <Tab.Screen
             name="AddEvent"
             component={AddEventScreen}
             options={{
@@ -204,6 +206,20 @@ const TabsLoggedIn = () => {
         <Tab.Screen
             name="InviteFriendsToEvent"
             component={InviteFriendsToEventScreen}
+            options={{
+                tabBarButton: () => null,
+            }}
+        />
+        <Tab.Screen
+            name="FriendInvitesScreen"
+            component={FriendInvitesScreen}
+            options={{
+                tabBarButton: () => null,
+            }}
+        />
+        <Tab.Screen
+            name="EventInvitesScreen"
+            component={EventInvitesScreen}
             options={{
                 tabBarButton: () => null,
             }}
@@ -279,7 +295,8 @@ const TabsLoggedOut = () => {
   );
 };
 const Navigation = () => {
-  const { isLoading } = useContext(AuthContext);
+    const { isLoading } = useContext(AuthContext);
+    const { navigationRef } = useContext(NavigationContext);
 
   if (isLoading) {
     return (
@@ -289,7 +306,7 @@ const Navigation = () => {
     );
   }
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <TabNavScreen />
     </NavigationContainer>
   );
