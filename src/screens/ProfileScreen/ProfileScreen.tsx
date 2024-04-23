@@ -54,71 +54,73 @@ const ProfileScreen = () => {
           <Text style={styles.title} resizeMode="contain">
             Profil
           </Text>
-          <CustomButton
-            text="Edytuj profil"
-            onPress={onEditProfilePressed}
-            type="PRIMARY"
-            bgColor={undefined}
-            fgColor={undefined}
-          />
-          <CustomButton
-            text="Zaproszenia do znajomych"
-            onPress={onFriendInvitesPressed}
-            type="PRIMARY"
-            bgColor={undefined}
-            fgColor={undefined}
-          />
-          <CustomButton
-            text="Zaproszenia na wydarzenia"
-            onPress={onEventInvitesPressed}
-            type="PRIMARY"
-            bgColor={undefined}
-            fgColor={undefined}
-          />
-          <CustomButton
-            text="Historia wydarzeń"
-            onPress={onEventHistoryPressed}
-            type="PRIMARY"
-            bgColor={undefined}
-            fgColor={undefined}
-          />
-          <CustomButton
-            text="Znajomi"
-            onPress={onFriendsPressed}
-            type="PRIMARY"
-            bgColor={undefined}
-            fgColor={undefined}
-          />
-          <CustomButton
-            text="Dodaj wydarzenie"
-            onPress={onAddEventPressed}
-            type="PRIMARY"
-            bgColor={undefined}
-            fgColor={undefined}
-          />
-          <CustomButton
-            additionalStyles={{}}
-            text={shareLocation ? "Sharing on" : "Sharing off"}
-            onPress={onShareLocationToggle}
-            type="PRIMARY"
-            bgColor={undefined}
-            fgColor={undefined}
-          />
-          <CustomButton
-            text="Ustawienia"
-            onPress={onSettingsPressed}
-            type="PRIMARY"
-            bgColor={undefined}
-            fgColor={undefined}
-          />
-          <CustomButton
-            text="Regulamin"
-            onPress={onStatutePressed}
-            type="PRIMARY"
-            bgColor={undefined}
-            fgColor={undefined}
-          />
-          <CustomButton text="Wyloguj" onPress={logout} type="PRIMARY" />
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <CustomButton
+              text="Edytuj profil"
+              onPress={onEditProfilePressed}
+              type="PRIMARY"
+              bgColor={undefined}
+              fgColor={undefined}
+            />
+            <CustomButton
+              text="Zaproszenia do znajomych"
+              onPress={onFriendInvitesPressed}
+              type="PRIMARY"
+              bgColor={undefined}
+              fgColor={undefined}
+            />
+            <CustomButton
+              text="Zaproszenia na wydarzenia"
+              onPress={onEventInvitesPressed}
+              type="PRIMARY"
+              bgColor={undefined}
+              fgColor={undefined}
+            />
+            <CustomButton
+              text="Historia wydarzeń"
+              onPress={onEventHistoryPressed}
+              type="PRIMARY"
+              bgColor={undefined}
+              fgColor={undefined}
+            />
+            <CustomButton
+              text="Znajomi"
+              onPress={onFriendsPressed}
+              type="PRIMARY"
+              bgColor={undefined}
+              fgColor={undefined}
+            />
+            <CustomButton
+              text="Dodaj wydarzenie"
+              onPress={onAddEventPressed}
+              type="PRIMARY"
+              bgColor={undefined}
+              fgColor={undefined}
+            />
+            <CustomButton
+              additionalStyles={{}}
+              text={shareLocation ? "Sharing on" : "Sharing off"}
+              onPress={onShareLocationToggle}
+              type="PRIMARY"
+              bgColor={undefined}
+              fgColor={undefined}
+            />
+            <CustomButton
+              text="Ustawienia"
+              onPress={onSettingsPressed}
+              type="PRIMARY"
+              bgColor={undefined}
+              fgColor={undefined}
+            />
+            <CustomButton
+              text="Regulamin"
+              onPress={onStatutePressed}
+              type="PRIMARY"
+              bgColor={undefined}
+              fgColor={undefined}
+            />
+            <CustomButton text="Wyloguj" onPress={logout} type="PRIMARY" />
+          </ScrollView>
         </View>
       </View>
     </>
