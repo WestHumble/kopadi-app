@@ -38,7 +38,7 @@ const ProfileScreen = () => {
     navigation.navigate("FriendsList");
   };
   const onAddEventPressed = () => {
-    console.log("Kliknieto dodaj wydarzenie");
+    navigation.navigate("AddEvent");
   };
   const onSettingsPressed = () => {
     console.log("Kliknieto ustwienia");
