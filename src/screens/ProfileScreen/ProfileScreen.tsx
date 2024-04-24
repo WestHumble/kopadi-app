@@ -10,11 +10,17 @@ import CustomButton from "../../components/CustomButton";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
+import { LocationContext } from "../../context/LocationContext";
 
 const ProfileScreen = () => {
+  const { userLocation, shareLocation, setShareLocation } =
+    useContext(LocationContext);
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
   const { login, logout, isLoading } = useContext(AuthContext);
+  const onShareLocationToggle = () => {
+    setShareLocation(!shareLocation);
+  };
 
   const onFriendInvitesPressed = () => {
     navigation.navigate("FriendInvitesScreen");
@@ -29,7 +35,7 @@ const ProfileScreen = () => {
     console.log("Kliknieto historia wydarzeń");
   };
   const onFriendsPressed = () => {
-    navigation.navigate("FriendsList")
+    navigation.navigate("FriendsList");
   };
   const onAddEventPressed = () => {
     console.log("Kliknieto dodaj wydarzenie");
@@ -56,18 +62,18 @@ const ProfileScreen = () => {
             fgColor={undefined}
           />
           <CustomButton
-              text="Zaproszenia do znajomych"
-              onPress={onFriendInvitesPressed}
-              type="PRIMARY"
-              bgColor={undefined}
-              fgColor={undefined}
+            text="Zaproszenia do znajomych"
+            onPress={onFriendInvitesPressed}
+            type="PRIMARY"
+            bgColor={undefined}
+            fgColor={undefined}
           />
           <CustomButton
-              text="Zaproszenia na wydarzenia"
-              onPress={onEventInvitesPressed}
-              type="PRIMARY"
-              bgColor={undefined}
-              fgColor={undefined}
+            text="Zaproszenia na wydarzenia"
+            onPress={onEventInvitesPressed}
+            type="PRIMARY"
+            bgColor={undefined}
+            fgColor={undefined}
           />
           <CustomButton
             text="Historia wydarzeń"
@@ -86,6 +92,28 @@ const ProfileScreen = () => {
           <CustomButton
             text="Dodaj wydarzenie"
             onPress={onAddEventPressed}
+            type="PRIMARY"
+            bgColor={undefined}
+            fgColor={undefined}
+          />
+          <CustomButton
+            additionalStyles={{}}
+            text={shareLocation ? "Sharing on" : "Sharing off"}
+            onPress={onShareLocationToggle}
+            type="PRIMARY"
+            bgColor={undefined}
+            fgColor={undefined}
+          />
+          <CustomButton
+            text="Ustawienia"
+            onPress={onSettingsPressed}
+            type="PRIMARY"
+            bgColor={undefined}
+            fgColor={undefined}
+          />
+          <CustomButton
+            text="Regulamin"
+            onPress={onStatutePressed}
             type="PRIMARY"
             bgColor={undefined}
             fgColor={undefined}

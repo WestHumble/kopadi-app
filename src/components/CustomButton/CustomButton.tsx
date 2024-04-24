@@ -8,6 +8,7 @@ const CustomButton = ({
   bgColor,
   fgColor,
   additionalStyles,
+  additionalStylesText,
 }) => {
   return (
     <Pressable
@@ -24,6 +25,7 @@ const CustomButton = ({
           styles.text,
           styles[`text_${type}`],
           fgColor ? { color: fgColor } : {},
+          additionalStylesText,
         ]}
       >
         {text}
