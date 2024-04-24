@@ -22,7 +22,6 @@ export const EventsProvider = ({children}) => {
     const [isSearchActive, setSearchActive] = useState(false);
     const [pendingInvites, setPendingInvites] = useState<EventInvite[]>([]);
     const { navigationRef } = useContext(NavigationContext);
-    const appState = useRef(AppState.currentState);
 
     const { userLocation } =
         useContext(LocationContext);

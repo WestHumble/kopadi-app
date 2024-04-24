@@ -16,7 +16,6 @@ const HomeScreen = () => {
   return (
     <View style={styles.root}>
       <MapViewComponent />
-      <ChatComponent />
       <CustomButton
         text="+"
         onPress={profilePressed}

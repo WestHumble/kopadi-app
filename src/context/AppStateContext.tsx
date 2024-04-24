@@ -10,7 +10,7 @@ export const AppContext = createContext(null);
 export const AppProvider = ({children}) => {
     const {getPendingEventInvites} = useContext(EventsContext);
     const {getFriendList, getPendingFriendInvites} = useContext(FriendsContext);
-    const {getChatList} = useContext(ChatContext);
+    const {getChatList, setChatMessages} = useContext(ChatContext);
     const appState = useRef(AppState.currentState);
 
     useEffect(() => {
@@ -20,6 +20,7 @@ export const AppProvider = ({children}) => {
                 getFriendList()
                 getPendingFriendInvites()
                 getChatList()
+                setChatMessages()
             }
             appState.current = nextAppState;
         });

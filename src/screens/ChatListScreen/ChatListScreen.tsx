@@ -19,52 +19,6 @@ const ChatListScreen = () => {
   const { height } = useWindowDimensions();
   const [searchPhrase, setSearchPhrase] = useState("");
   const { chats } = useContext(ChatContext);
-  // const [inviteSent, setInviteSent] = useState<Friend[]>([]);
-  // const { get, post } = useContext(ApiContext);
-  //
-  // const sendFriendInvite = (friend: Friend) => {
-  //   post('event-invite', {
-  //     userId: friend.id,
-  //     eventId: eventId
-  //   }, (res) => {
-  //     setInviteSent([...inviteSent, friend]);
-  //   }, (res) => {
-  //     setInviteSent([...inviteSent, friend]);
-  //   })
-  // };
-  // const deleteFriendInvite = (friend: Friend) => {
-  //   // post('event-invite/delete', {
-  //   //   userId: friend.id,
-  //   // }, (res) => {
-  //   //   setInviteSent(inviteSent.filter(f => f.id !== friend.id));
-  //   // })
-  // };
-  //
-  // useEffect(() => {
-  //   get('event/all-invited-users/' + eventId, null, (res) => {
-  //     setInviteSent([...inviteSent, ...res.data]);
-  //   }, (res) => {
-  //     setInviteSent([]);
-  //   })
-  // }, [eventId]);
-  //
-  // const data = [
-  //   {
-  //     title: "Zaproś znajomych",
-  //     data: searchPhrase ? friends.filter(friend => {
-  //       let matches = true;
-  //       searchPhrase.split(' ').every(phrasePart => {
-  //         if (!friend.name.toLowerCase().startsWith(phrasePart.toLowerCase()) &&
-  //             !friend.surname.toLowerCase().startsWith(phrasePart.toLowerCase())) {
-  //           matches = false
-  //           return false
-  //         }
-  //         return true
-  //       })
-  //       return matches
-  //     }) : friends,
-  //   },
-  // ];
 
   return (
       <>
