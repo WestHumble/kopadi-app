@@ -24,6 +24,7 @@ import {NavigationContext} from "../context/NavigationContext";
 import EventInvitesScreen from "../screens/EventInvitesScreen";
 import ChatListScreen from "../screens/ChatListScreen";
 import ChatScreen from "../screens/ChatScreen";
+import {ChatContext} from "../context/ChatContext";
 
 const Tab = createBottomTabNavigator();
 const screenOptions = {
@@ -80,11 +81,12 @@ const screenOptionsLoggedOut = {
 };
 
 const TabNavScreen = () => {
-  const { userToken } = useContext(ApiContext);
+    const { userToken } = useContext(ApiContext);
 
   return userToken ? <TabsLoggedIn /> : <TabsLoggedOut />;
 };
 const TabsLoggedIn = () => {
+  const { unreadChatCounter } = useContext(ChatContext);
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
@@ -157,7 +159,7 @@ const TabsLoggedIn = () => {
                     color: focused ? "#F2B138" : "#676D75",
                   }}
                 >
-                  Chat
+                  Chat { unreadChatCounter }
                 </Text>
               </View>
             );

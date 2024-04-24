@@ -6,7 +6,7 @@ import {
   ScrollView,
   Alert, ActivityIndicator,
 } from "react-native";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -14,30 +14,72 @@ import Geocoding from "react-native-geocoding";
 import {Event} from "../../types/event";
 import {Chat, ChatMessage} from "../../types/chat";
 import {ChatContext} from "../../context/ChatContext";
+import {ApiContext} from "../../context/ApiContext";
+import * as Notifications from "expo-notifications";
+import {NavigationContext} from "../../context/NavigationContext";
+import {useFocusEffect, useIsFocused} from "@react-navigation/native";
 
-const ChatMessageItem = ({ chat, chatMessage }) => {
+const ChatMessageItem = ({ chat, chatMessage, displayFriend }) => {
   let friend = chat.participants.find(f => f.id === chatMessage.sender_id)
 
   return (
       <View style={chatMessage.sent_by_logged_user ? styles.selfMessageContainer : styles.messageContainer}>
-        <Text style={styles.messageText}>{(friend?.name??'A') + ' ' + chatMessage.message_text}</Text>
+        <Text style={styles.messageText}>{(displayFriend ? (friend?.name??'Anon') + ' ' : ' ') + chatMessage.message_text}</Text>
       </View>
   );
 }
 const ChatScreen = ({route}) => {
   const { chatId } = route.params;
-
+  const scrollRef = useRef(null)
   const { height } = useWindowDimensions();
-  const [chat, setChat] = useState<Chat>(null);
-  const [chatMessagesList, setChatMessagesList] = useState<ChatMessage[]>([]);
-  const {setChatById, setChatMessages} = useContext(ChatContext)
+  const [message, setMessage] = useState<string>(null);
+  const { chat, setChat, chatMessagesList, setChatMessagesList, setChatById, setChatMessages, setChatAsRead} = useContext(ChatContext)
+  const { post } = useContext(ApiContext);
+  const notificationListener = useRef();
+
+  const onSendMessage = () => {
+    post('chat/message', {
+      conversationId: chatId,
+      textMessage: message
+    }, (res) => {
+      setChatMessages()
+    })
+    setMessage(null)
+  }
 
   useEffect(() => {
     setChat(null)
     setChatMessagesList([])
     setChatById(chatId, setChat)
-    setChatMessages(chatId, setChatMessagesList)
   }, [chatId]);
+
+  useEffect(() => {
+    setChatMessages()
+  }, [chat]);
+
+  useEffect(() => {
+    scrollRef.current?.scrollToEnd({animated: false})
+  }, [chatMessagesList]);
+
+  useEffect(() => {
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      if(JSON.parse(JSON.parse(notification.request.trigger.remoteMessage.data.body).payload).conversation_id === chat.id) {
+        setChatMessages()
+      }
+    });
+
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener.current);
+    };
+  }, [chat]);
+
+  const isFocused = useIsFocused()
+
+  useEffect(() => {
+    if (isFocused) {
+      setChatAsRead(chatId)
+    }
+  }, [isFocused, chatId])
 
 
   if (!chat) {
@@ -57,9 +99,23 @@ const ChatScreen = ({route}) => {
           <Text style={styles.title} resizeMode="contain">
             {chat.name}
           </Text>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            {chatMessagesList.map((chatMessage)=>(<ChatMessageItem key={chatMessage.id}  chat={chat} chatMessage={chatMessage} />))}
+          <ScrollView ref={scrollRef} contentOffset={{x:0, y:9999}} showsVerticalScrollIndicator={false}>
+            {chatMessagesList.map((chatMessage)=>(<ChatMessageItem key={chatMessage.id}  chat={chat} chatMessage={chatMessage} displayFriend={chat.participants.length > 2}/>))}
           </ScrollView>
+          <CustomInput
+              placeholder="Napisz wiadomość"
+              value={message}
+              setValue={setMessage}
+              secureTextEntry={undefined}
+              additionalStyle={styles.searchInput}
+          />
+          <CustomButton
+              text="Wyślij"
+              onPress={onSendMessage}
+              type="PRIMARY"
+              bgColor={undefined}
+              fgColor={undefined}
+          />
         </View>
       </View>
     </>
@@ -120,6 +176,7 @@ const styles = StyleSheet.create({
     marginTop: "5%",
     color: "#fff",
   },
+  searchInput: {color: "#fff"},
 });
 
 export default ChatScreen;

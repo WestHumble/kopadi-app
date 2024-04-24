@@ -1,15 +1,14 @@
-import React, {useContext} from "react";
-import {View, Text, SectionList, StyleSheet, Image} from "react-native";
+import React from "react";
+import {View, Text, SectionList, StyleSheet} from "react-native";
 import CustomButton from "../CustomButton";
-import {NavigationContext} from "../../context/NavigationContext";
 import {useNavigation} from "@react-navigation/native";
 
-const API_ADDRESS = process.env.EXPO_PUBLIC_API_URL;
 const ChatItem = ({ chat }) => {
   const navigation = useNavigation()
   return (
       <View style={styles.chatContainer}>
-        <Text style={styles.name}>{chat.name}</Text>
+          <Text style={styles.name}>{chat.name} {chat.is_seen ? 'seen' : 'not seen'}</Text>
+
         <CustomButton
             text="Otwórz"
             onPress={() => navigation.navigate("Chat", {chatId: chat.id})}
