@@ -25,6 +25,8 @@ import EventInvitesScreen from "../screens/EventInvitesScreen";
 import ChatListScreen from "../screens/ChatListScreen";
 import ChatScreen from "../screens/ChatScreen";
 import {ChatContext} from "../context/ChatContext";
+import {EventsContext} from "../context/EventsContext";
+import {FriendsContext} from "../context/FriendsContext";
 
 const Tab = createBottomTabNavigator();
 const screenOptions = {
@@ -86,7 +88,9 @@ const TabNavScreen = () => {
   return userToken ? <TabsLoggedIn /> : <TabsLoggedOut />;
 };
 const TabsLoggedIn = () => {
-  const { unreadChatCounter } = useContext(ChatContext);
+    const { unreadChatCounter } = useContext(ChatContext);
+    const { unreadFriendInvitesCounter } = useContext(FriendsContext);
+    const { unreadEventInvitesCounter } = useContext(EventsContext);
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
@@ -184,7 +188,7 @@ const TabsLoggedIn = () => {
                     color: focused ? "#F2B138" : "#676D75",
                   }}
                 >
-                  Profil
+                  Profil { unreadEventInvitesCounter + unreadFriendInvitesCounter }
                 </Text>
               </View>
             );

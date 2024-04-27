@@ -8,12 +8,16 @@ import CustomInput from "../../components/CustomInput";
 import {FriendsContext} from "../../context/FriendsContext";
 import NotificationList from "../../components/NotificationList";
 import {FriendInviteNotification} from "../../types/notification";
+import {useIsFocused} from "@react-navigation/native";
+import {EventsContext} from "../../context/EventsContext";
+import {ApiContext} from "../../context/ApiContext";
 
 const FriendInvitesScreen = () => {
 
   const { height } = useWindowDimensions();
   const [searchPhrase, setSearchPhrase] = useState("");
-  const { pendingInvites } = useContext(FriendsContext);
+  const { getPendingFriendInvites, pendingInvites } = useContext(FriendsContext);
+  const {post} = useContext(ApiContext);
   const [friendInviteNotification, setFriendInviteNotification] = useState<FriendInviteNotification[]>([]);
 
   useEffect(() => {
@@ -36,6 +40,20 @@ const FriendInvitesScreen = () => {
       return matches
     }) : friendInvites)
   }, [pendingInvites, searchPhrase]);
+
+  const setAllAsSeen = () => {
+    post('friend-invite/read-all', null, ()=>{
+      getPendingFriendInvites()
+    })
+  }
+
+  const isFocused = useIsFocused()
+
+  useEffect(() => {
+    if (isFocused) {
+      setAllAsSeen()
+    }
+  }, [isFocused])
 
   return (
       <>

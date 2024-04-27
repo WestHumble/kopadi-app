@@ -21,6 +21,7 @@ export const EventsProvider = ({children}) => {
     const [eventsOtherSearch, setEventsOtherSearch] = useState<Event[]>([]);
     const [isSearchActive, setSearchActive] = useState(false);
     const [pendingInvites, setPendingInvites] = useState<EventInvite[]>([]);
+    const [unreadEventInvitesCounter, setUnreadEventInvitesCounter] = useState<number>(0);
     const { navigationRef } = useContext(NavigationContext);
 
     const { userLocation } =
@@ -29,10 +30,6 @@ export const EventsProvider = ({children}) => {
     const getPendingEventInvites = () => {
         get('event-invite/invites', null, (res) => {
             setPendingInvites(res.data)
-            console.log("event-invite success")
-        }, (res) => {
-            console.log("event-invite failed")
-            console.log(res)
         })
     };
     const notificationListener = useRef();
@@ -139,6 +136,11 @@ export const EventsProvider = ({children}) => {
         }
     }, [userToken]);
 
+
+    useEffect(() => {
+        setUnreadEventInvitesCounter(pendingInvites.filter(c=> c.status === 'new').length)
+    }, [pendingInvites]);
+
     return (
         <EventsContext.Provider value={{
             eventsCreated,
@@ -155,6 +157,7 @@ export const EventsProvider = ({children}) => {
             setEventById,
             pendingInvites,
             getPendingEventInvites,
+            unreadEventInvitesCounter,
         }}>
             {children}
         </EventsContext.Provider>

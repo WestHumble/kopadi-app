@@ -8,12 +8,16 @@ import CustomInput from "../../components/CustomInput";
 import {EventsContext} from "../../context/EventsContext";
 import NotificationList from "../../components/NotificationList";
 import {EventInviteNotification} from "../../types/notification";
+import {useIsFocused} from "@react-navigation/native";
+import {EventInvite} from "../../types/eventInvite";
+import {ApiContext} from "../../context/ApiContext";
 
 const EventInvitesScreen = () => {
 
   const { height } = useWindowDimensions();
   const [searchPhrase, setSearchPhrase] = useState("");
-  const { pendingInvites } = useContext(EventsContext);
+  const { getPendingEventInvites, pendingInvites } = useContext(EventsContext);
+  const {post} = useContext(ApiContext);
   const [eventInviteNotification, setEventInviteNotification] = useState<EventInviteNotification[]>([]);
 
   useEffect(() => {
@@ -35,6 +39,20 @@ const EventInvitesScreen = () => {
       return matches
     }) : eventInvites)
   }, [pendingInvites, searchPhrase]);
+
+  const setAllAsSeen = () => {
+    post('event-invite/read-all', null, ()=>{
+      getPendingEventInvites()
+    })
+  }
+
+  const isFocused = useIsFocused()
+
+  useEffect(() => {
+    if (isFocused) {
+      setAllAsSeen()
+    }
+  }, [isFocused])
 
   return (
       <>
