@@ -71,7 +71,7 @@ async function registerForPushNotificationsAsync() {
             return;
         }
         token = (await Notifications.getExpoPushTokenAsync({
-            projectId: 'ff57d77b-51b0-41b5-b0f6-bae96e24294a',
+            projectId: process.env.EXPO_PUBLIC_EAS_ID,
         })).data;
     } else {
         alert('Must use physical device for Push Notifications');
