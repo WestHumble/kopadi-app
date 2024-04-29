@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
-import Logo from "../../../assets/images/Logo-Test.png";
+import Logo from "../../../assets/images/LOGOTYP.png";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useContext } from "react";
@@ -56,6 +56,7 @@ const SignInScreen = () => {
             secureTextEntry
             additionalStyle={styles.inputPassword}
           />
+          <View style={{ height: 20 }}></View>
           <CustomButton
             text="Zaloguj"
             onPress={onSignInPressed}
@@ -96,9 +97,11 @@ const styles = StyleSheet.create({
   logo: {
     alignItems: "center",
     width: "100%",
+    marginBottom: 30,
+    marginTop: 30,
   },
   windowTab: {
-    height: "80%",
+    height: "88%",
     width: "100%",
     backgroundColor: "#1D1F24",
     top: "7%",
