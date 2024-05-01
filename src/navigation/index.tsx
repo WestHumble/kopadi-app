@@ -20,13 +20,13 @@ import SearchFriendsScreen from "../screens/SearchFriendsScreen";
 import SearchNewFriendsScreen from "../screens/SearchNewFriendsScreen";
 import InviteFriendsToEventScreen from "../screens/InviteFriendsToEventScreen";
 import FriendInvitesScreen from "../screens/FriendInvitesScreen";
-import {NavigationContext} from "../context/NavigationContext";
+import { NavigationContext } from "../context/NavigationContext";
 import EventInvitesScreen from "../screens/EventInvitesScreen";
 import ChatListScreen from "../screens/ChatListScreen";
 import ChatScreen from "../screens/ChatScreen";
-import {ChatContext} from "../context/ChatContext";
-import {EventsContext} from "../context/EventsContext";
-import {FriendsContext} from "../context/FriendsContext";
+import { ChatContext } from "../context/ChatContext";
+import { EventsContext } from "../context/EventsContext";
+import { FriendsContext } from "../context/FriendsContext";
 
 const Tab = createBottomTabNavigator();
 const screenOptions = {
@@ -83,14 +83,14 @@ const screenOptionsLoggedOut = {
 };
 
 const TabNavScreen = () => {
-    const { userToken } = useContext(ApiContext);
+  const { userToken } = useContext(ApiContext);
 
   return userToken ? <TabsLoggedIn /> : <TabsLoggedOut />;
 };
 const TabsLoggedIn = () => {
-    const { unreadChatCounter } = useContext(ChatContext);
-    const { unreadFriendInvitesCounter } = useContext(FriendsContext);
-    const { unreadEventInvitesCounter } = useContext(EventsContext);
+  const { unreadChatCounter } = useContext(ChatContext);
+  const { unreadFriendInvitesCounter } = useContext(FriendsContext);
+  const { unreadEventInvitesCounter } = useContext(EventsContext);
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
@@ -163,7 +163,7 @@ const TabsLoggedIn = () => {
                     color: focused ? "#F2B138" : "#676D75",
                   }}
                 >
-                  Chat { unreadChatCounter }
+                  Chat {unreadChatCounter}
                 </Text>
               </View>
             );
@@ -188,55 +188,57 @@ const TabsLoggedIn = () => {
                     color: focused ? "#F2B138" : "#676D75",
                   }}
                 >
-                  Profil { unreadEventInvitesCounter + unreadFriendInvitesCounter }
+                  Profil{" "}
+                  {unreadEventInvitesCounter + unreadFriendInvitesCounter}
                 </Text>
               </View>
             );
           },
         }}
       />
-        <Tab.Screen
-            name="Chat"
-            component={ChatScreen}
-            options={{
-                tabBarButton: () => null,
-            }}
-        />
-        <Tab.Screen
-            name="AddEvent"
-            component={AddEventScreen}
-            options={{
-                tabBarButton: () => null,
-            }}
-        />
-        <Tab.Screen
-            name="InviteFriendsToEvent"
-            component={InviteFriendsToEventScreen}
-            options={{
-                tabBarButton: () => null,
-            }}
-        />
-        <Tab.Screen
-            name="FriendInvitesScreen"
-            component={FriendInvitesScreen}
-            options={{
-                tabBarButton: () => null,
-            }}
-        />
-        <Tab.Screen
-            name="EventInvitesScreen"
-            component={EventInvitesScreen}
-            options={{
-                tabBarButton: () => null,
-            }}
-        />
-        <Tab.Screen
-            name="FriendsList"
-            component={SearchFriendsScreen}
-            options={{
-                tabBarButton: () => null,
-            }}
-        /><Tab.Screen
+      <Tab.Screen
+        name="Chat"
+        component={ChatScreen}
+        options={{
+          tabBarButton: () => null,
+        }}
+      />
+      <Tab.Screen
+        name="AddEvent"
+        component={AddEventScreen}
+        options={{
+          tabBarButton: () => null,
+        }}
+      />
+      <Tab.Screen
+        name="InviteFriendsToEvent"
+        component={InviteFriendsToEventScreen}
+        options={{
+          tabBarButton: () => null,
+        }}
+      />
+      <Tab.Screen
+        name="FriendInvitesScreen"
+        component={FriendInvitesScreen}
+        options={{
+          tabBarButton: () => null,
+        }}
+      />
+      <Tab.Screen
+        name="EventInvitesScreen"
+        component={EventInvitesScreen}
+        options={{
+          tabBarButton: () => null,
+        }}
+      />
+      <Tab.Screen
+        name="FriendsList"
+        component={SearchFriendsScreen}
+        options={{
+          tabBarButton: () => null,
+        }}
+      />
+      <Tab.Screen
         name="NewFriend"
         component={SearchNewFriendsScreen}
         options={{
@@ -249,7 +251,7 @@ const TabsLoggedIn = () => {
         options={{
           tabBarButton: () => null,
         }}
-    />
+      />
     </Tab.Navigator>
   );
 };
@@ -301,8 +303,8 @@ const TabsLoggedOut = () => {
   );
 };
 const Navigation = () => {
-    const { isLoading } = useContext(AuthContext);
-    const { navigationRef } = useContext(NavigationContext);
+  const { isLoading } = useContext(AuthContext);
+  const { navigationRef } = useContext(NavigationContext);
 
   if (isLoading) {
     return (
