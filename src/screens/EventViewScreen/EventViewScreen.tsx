@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
   eventImg: {
     width: 70,
     height: 70,
-    alignSelf: "left",
+    alignSelf: "flex-start",
     marginBottom: 0,
     overflow: "visible",
     zIndex: 1,
