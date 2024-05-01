@@ -10,6 +10,7 @@ import { FriendsContext } from "../../context/FriendsContext";
 import { Friend } from "../../types/friend";
 import { Event } from "../../types/event";
 import { useNavigation } from "@react-navigation/native";
+import { BorderlessButton } from "react-native-gesture-handler";
 
 const MapViewComponent = () => {
   const navigation = useNavigation();
@@ -210,7 +211,7 @@ const MapViewComponent = () => {
         additionalStyles={{
           position: "absolute",
           top: "70%",
-          left: "5%",
+          left: "65%",
           width: "20%",
           marginHorizontal: "5%",
         }}
