@@ -8,4 +8,5 @@ export type Event = {
     title: string,
     date: string,
     address: string,
+    invite_status: string,
 }

@@ -17,47 +17,51 @@ import { EventsContext } from "../../context/EventsContext";
 import { useNavigation } from "@react-navigation/native";
 import { Event } from "../../types/event";
 import eventImg from "../../../assets/images/emoji-beer-mug.png";
+import {Friend} from "../../types/friend";
+import {EventInvite} from "../../types/eventInvite";
 
 Geocoding.init(process.env.REACT_APP_GEOCODING_API_KEY);
 
 const EventViewScreen = ({ route }) => {
   const { eventId } = route.params;
 
-  // const EventData = route.params?.marker;
-  const [eventName, setEventName] = useState("");
-  const [city, setCity] = useState("");
-  const [address, setAddress] = useState("");
-
-  const [eventDescription, setEventDescription] = useState("");
   const { height } = useWindowDimensions();
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null);
-  const { setEventById } = useContext(EventsContext);
+  const { setEventById, loadAllEvents } = useContext(EventsContext);
   const navigation = useNavigation();
   const [event, setEvent] = useState<Event>(null);
+  const { post } = useContext(ApiContext);
 
   useEffect(() => {
     setEvent(null);
     setEventById(eventId, setEvent);
   }, [eventId]);
 
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
+  const joinEvent = () => {
+    post('event/join', {
+      eventId: eventId
+    }, (res) => {
+      loadAllEvents()
+    })
   };
-  const onPressJoinEvent = () => {};
 
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
+  const leaveEvent = () => {
+    console.log('leaveEvent')
+      // post('event-invite/update-status', {
+      //   "eventInviteId": eventInvite.id,
+      //   "transition": "accept"
+      // }, ()=>{
+      //   getPendingEventInvites()
+      //   loadAllEvents()
+      //   clearSearchEvents()
+      // })
+  };
+
+  const onPressJoinEvent = () => {
+    event.invite_status != 'accepted' ? joinEvent() : leaveEvent()
   };
 
   const onInviteFriendsPressed = () => {
     navigation.navigate("InviteFriendsToEvent", { eventId });
-  };
-
-  const handleConfirm = (date) => {
-    console.warn("A date has been picked: ", date);
-    setSelectedDate(date);
-    hideDatePicker();
   };
 
   if (!event) {
@@ -121,7 +125,7 @@ const EventViewScreen = ({ route }) => {
             additionalStylesText={{
               fontSize: 20,
             }}
-            text="Dołącz do wydarzenia"
+            text={event.invite_status != 'accepted' ? "Dołącz do wydarzenia" : "Opuść wydarzenie"}
             onPress={onPressJoinEvent}
             type="PRIMARY"
             bgColor={undefined}
