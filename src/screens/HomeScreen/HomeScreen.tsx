@@ -4,6 +4,7 @@ import { MapViewComponent } from "../../components/MapViewComponent";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import eventsAddImg from "../../../assets/images/addevent.png";
+import userImg from "../../../assets/images/user.png";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -16,27 +17,19 @@ const HomeScreen = () => {
   return (
     <View style={styles.root}>
       <MapViewComponent />
-      <CustomButton
-        text="+"
-        onPress={profilePressed}
-        type="PRIMARY"
-        bgColor={undefined}
-        fgColor={undefined}
-        additionalStyles={styles.profileButton}
-      />
-      <View
-        style={{
-          position: "absolute",
-          bottom: "17%",
-          right: "5%",
-          backgroundColor: "#F2B138",
-          borderRadius: 50,
-          padding: 12,
-          borderStyle: "solid",
-          borderWidth: 3,
-          borderColor: "#131417",
-        }}
-      >
+      <View style={styles.profileButton}>
+        <Pressable onPress={profilePressed}>
+          <Image
+            source={userImg}
+            style={{
+              width: 30,
+              height: 30,
+              borderRadius: 10,
+            }}
+          />
+        </Pressable>
+      </View>
+      <View style={styles.addEventButton}>
         <Pressable onPress={addEventPressed}>
           <Image
             source={eventsAddImg}
@@ -57,25 +50,25 @@ const styles = StyleSheet.create({
   },
   addEventButton: {
     position: "absolute",
-    bottom: "16%",
+    bottom: "17%",
     right: "5%",
-    borderWidth: 3,
-    fontSize: 50,
-    width: 55,
-    height: 55,
+    backgroundColor: "#F2B138",
     borderRadius: 50,
-    zIndex: 99,
+    padding: 12,
+    borderStyle: "solid",
+    borderWidth: 3,
+    borderColor: "#131417",
   },
   profileButton: {
     position: "absolute",
     top: "10%",
     right: "5%",
-    borderWidth: 3,
-    fontSize: 50,
-    width: 55,
-    height: 55,
+    backgroundColor: "#F2B138",
     borderRadius: 50,
-    zIndex: 99,
+    padding: 12,
+    borderStyle: "solid",
+    borderWidth: 3,
+    borderColor: "#131417",
   },
 });
 
