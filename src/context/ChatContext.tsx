@@ -9,7 +9,7 @@ import {Event} from "../types/event";
 export const ChatContext = createContext(null);
 
 export const ChatProvider = ({children}) => {
-    const [chat, setChat] = useState<Chat>(null);
+    const [chatId, setChatId] = useState<number>(null);
     const [fetchingMessages, setFetchingMessages] = useState<boolean>(false);
     const [initializingChat, setInitializingChat] = useState<boolean>(false);
     const [chats, setChats] = useState<Chat[]>([]);
@@ -61,14 +61,12 @@ export const ChatProvider = ({children}) => {
             });
         }
     }, [chats, redirectChatId]);
-    const setChatMessages = () => {
-        if (chat !== null) {
+    const setChatMessages = (chatIdParam) => {
+        let chatIdUpdate = chatIdParam ?? chatId
+        if (chatIdUpdate !== null) {
             setFetchingMessages(true)
-            get('chat/get-all-messages/' + chat.id, null, (res) => {
-                chat.messages = res.data
-                chat.messages.sort((c1, c2) => c1.created_at > c2.created_at)
-
-                chats.find(e => e.id === chat.id).messages = chat.messages
+            get('chat/get-all-messages/' + chatIdUpdate, null, (res) => {
+                getChatById(chatIdUpdate).messages = res.data.sort((c1, c2) => c1.created_at > c2.created_at)
                 setFetchingMessages(false)
             })
         }
@@ -82,10 +80,8 @@ export const ChatProvider = ({children}) => {
         }
     };
 
-    const setChatById = async (chatId, setChat): Event => {
-        let chat: Chat = chats.find(e => e.id === chatId)
-
-        setChat(chat)
+    const getChatById = (chatId): Chat => {
+        return chats.find(e => e.id === chatId)
     };
 
     const notificationListener = useRef();
@@ -98,7 +94,7 @@ export const ChatProvider = ({children}) => {
                     JSON.parse(
                         notification.request.trigger.remoteMessage.data.body
                     ).payload
-                ).conversation_id === chat.id) {
+                ).conversation_id === chatId) {
                     setChatAsRead()
                 } else {
                     getChatList()
@@ -109,7 +105,7 @@ export const ChatProvider = ({children}) => {
         return () => {
             Notifications.removeNotificationSubscription(notificationListener.current);
         };
-    }, [chat]);
+    }, [chatId]);
 
     useEffect(() => {
         responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
@@ -143,11 +139,11 @@ export const ChatProvider = ({children}) => {
 
     return (
         <ChatContext.Provider value={{
-            chat,
-            setChat,
+            chatId,
+            setChatId,
             chats,
             getChatList,
-            setChatById,
+            getChatById,
             setChatMessages,
             setChatAsRead,
             unreadChatCounter,

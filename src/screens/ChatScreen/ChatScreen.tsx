@@ -33,7 +33,8 @@ const ChatScreen = ({route}) => {
   const scrollRef = useRef(null)
   const { height } = useWindowDimensions();
   const [message, setMessage] = useState<string>(null);
-  const { chat, setChat, setChatById, setChatMessages, setChatAsRead} = useContext(ChatContext)
+  const { setChatId, getChatById, setChatMessages, setChatAsRead} = useContext(ChatContext)
+  const [chat, setChat] = useState<Chat>(null);
   const { post } = useContext(ApiContext);
   const notificationListener = useRef();
 
@@ -48,22 +49,12 @@ const ChatScreen = ({route}) => {
   }
 
   useEffect(() => {
-    setChatById(chatId, setChat)
-  }, [chatId]);
-
-  useEffect(() => {
-    setChatMessages()
-  }, [chat]);
-
-  useEffect(() => {
     scrollRef.current?.scrollToEnd({animated: false})
   }, [chat, chat?.messages]);
 
   useEffect(() => {
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      if(JSON.parse(JSON.parse(notification.request.trigger.remoteMessage.data.body).payload).conversation_id === chat.id) {
-        setChatMessages()
-      }
+        setChatMessages(JSON.parse(JSON.parse(notification.request.trigger.remoteMessage.data.body).payload).conversation_id)
     });
 
     return () => {
@@ -75,6 +66,9 @@ const ChatScreen = ({route}) => {
 
   useEffect(() => {
     if (isFocused) {
+      setChatId(chatId)
+      setChat(getChatById(chatId))
+      setChatMessages(chatId)
       setChatAsRead(chatId)
     }
   }, [isFocused, chatId])
