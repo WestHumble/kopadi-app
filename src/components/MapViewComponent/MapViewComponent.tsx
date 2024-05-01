@@ -143,6 +143,15 @@ const MapViewComponent = () => {
               navigation.navigate("EventView", { eventId: marker.id });
             }}
           >
+            <View>
+              <Image
+                source={require("../../../assets/images/pin.png")}
+                style={{
+                  width: 40,
+                  height: 40,
+                }}
+              />
+            </View>
             <Callout tooltip style={styles.callout}>
               <TouchableOpacity
                 onPress={() => {
