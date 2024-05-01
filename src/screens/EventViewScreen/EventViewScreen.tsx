@@ -41,6 +41,7 @@ const EventViewScreen = ({ route }) => {
       eventId: eventId
     }, (res) => {
       loadAllEvents()
+      setEventById(eventId, setEvent, true);
     })
   };
 

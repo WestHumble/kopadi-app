@@ -142,15 +142,6 @@ const MapViewComponent = () => {
               >
                 <Text style={styles.title}>{marker.name}</Text>
                 <View style={styles.hr} />
-                <Text style={styles.date}>
-                  {new Date(marker.date.date).toLocaleString([], {
-                    year: "numeric",
-                    month: "numeric",
-                    day: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </Text>
                 <View style={styles.hr} />
                 <Text style={styles.address}>{marker.address}</Text>
                 <CustomButton
