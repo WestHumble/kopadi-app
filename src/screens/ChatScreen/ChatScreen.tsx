@@ -91,9 +91,9 @@ const ChatScreen = ({route}) => {
             {chat.name}
           </Text>
           <ScrollView ref={scrollRef} contentOffset={{x:0, y:9999}} showsVerticalScrollIndicator={false}>
-            {chat?.messages?.map((chatMessage)=> {
-              if (chatMessage.chat_id === chatId) return (<ChatMessageItem key={chatMessage.id}  chat={chat} chatMessage={chatMessage} displayFriend={chat.participants.length > 2}/>)
-            })}
+            {chat.messages?.map((chatMessage)=>
+                (<ChatMessageItem key={chatMessage.id}  chat={chat} chatMessage={chatMessage} displayFriend={chat.participants.length > 2}/>)
+            )}
           </ScrollView>
           <CustomInput
               placeholder="Napisz wiadomość"
