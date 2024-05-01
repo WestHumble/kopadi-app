@@ -33,7 +33,7 @@ const ChatScreen = ({route}) => {
   const scrollRef = useRef(null)
   const { height } = useWindowDimensions();
   const [message, setMessage] = useState<string>(null);
-  const { chat, setChat, chatMessagesList, setChatMessagesList, setChatById, setChatMessages, setChatAsRead} = useContext(ChatContext)
+  const { chat, setChat, setChatById, setChatMessages, setChatAsRead} = useContext(ChatContext)
   const { post } = useContext(ApiContext);
   const notificationListener = useRef();
 
@@ -48,8 +48,6 @@ const ChatScreen = ({route}) => {
   }
 
   useEffect(() => {
-    setChat(null)
-    setChatMessagesList([])
     setChatById(chatId, setChat)
   }, [chatId]);
 
@@ -59,7 +57,7 @@ const ChatScreen = ({route}) => {
 
   useEffect(() => {
     scrollRef.current?.scrollToEnd({animated: false})
-  }, [chatMessagesList]);
+  }, [chat, chat?.messages]);
 
   useEffect(() => {
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
@@ -82,15 +80,14 @@ const ChatScreen = ({route}) => {
   }, [isFocused, chatId])
 
 
-  if (!chat) {
+  if (!chat || chat.id !== chatId) {
     return (
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <View style={{ flex: 1, justifyContent: "center",
+          backgroundColor: "#131417",alignItems: "center" }}>
           <ActivityIndicator size={"large"} />
         </View>
     );
   }
-
-  chatMessagesList.sort((c1, c2) => c1.created_at > c2.created_at)
 
   return (
     <>
@@ -100,7 +97,9 @@ const ChatScreen = ({route}) => {
             {chat.name}
           </Text>
           <ScrollView ref={scrollRef} contentOffset={{x:0, y:9999}} showsVerticalScrollIndicator={false}>
-            {chatMessagesList.map((chatMessage)=>(<ChatMessageItem key={chatMessage.id}  chat={chat} chatMessage={chatMessage} displayFriend={chat.participants.length > 2}/>))}
+            {chat?.messages?.map((chatMessage)=> {
+              if (chatMessage.chat_id === chatId) return (<ChatMessageItem key={chatMessage.id}  chat={chat} chatMessage={chatMessage} displayFriend={chat.participants.length > 2}/>)
+            })}
           </ScrollView>
           <CustomInput
               placeholder="Napisz wiadomość"

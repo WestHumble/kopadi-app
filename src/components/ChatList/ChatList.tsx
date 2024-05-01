@@ -1,17 +1,19 @@
-import React from "react";
+import React, {useContext} from "react";
 import {View, Text, SectionList, StyleSheet} from "react-native";
 import CustomButton from "../CustomButton";
 import {useNavigation} from "@react-navigation/native";
+import {ChatContext} from "../../context/ChatContext";
 
 const ChatItem = ({ chat }) => {
   const navigation = useNavigation()
+    const {fetchingMessages} = useContext(ChatContext)
   return (
       <View style={styles.chatContainer}>
           <Text style={styles.name}>{chat.name} {chat.is_seen ? 'seen' : 'not seen'}</Text>
 
         <CustomButton
             text="Otwórz"
-            onPress={() => navigation.navigate("Chat", {chatId: chat.id})}
+            onPress={() => fetchingMessages ? null : navigation.navigate("Chat", {chatId: chat.id})}
             type="PRIMARY"
             bgColor={undefined}
             fgColor={undefined}

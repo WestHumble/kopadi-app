@@ -4,14 +4,13 @@ import * as Notifications from "expo-notifications";
 import {NavigationContext} from "./NavigationContext";
 import {Chat, ChatMessage} from "../types/chat";
 import {Event} from "../types/event";
-import {useFocusEffect, useRoute} from '@react-navigation/native';
 
 
 export const ChatContext = createContext(null);
 
 export const ChatProvider = ({children}) => {
     const [chat, setChat] = useState<Chat>(null);
-    const [chatMessagesList, setChatMessagesList] = useState<ChatMessage[]>([]);
+    const [fetchingMessages, setFetchingMessages] = useState<boolean>(false);
     const [chats, setChats] = useState<Chat[]>([]);
     const [unreadChatCounter, setUnreadChatCounter] = useState<number>(0);
     const { navigationRef } = useContext(NavigationContext);
@@ -19,13 +18,33 @@ export const ChatProvider = ({children}) => {
     const { get, userToken } = useContext(ApiContext);
     const getChatList = () => {
         get('chat/get-all-chats', null, (res) => {
-            setChats(res.data)
+            let chatsCopy = []
+            res.data.forEach((data)=> {
+                let chatTmp = chats.find(e => e.id === data.id)
+
+                if (chatTmp) {
+                    chatTmp.name = data.name;
+                    chatTmp.participants = data.participants;
+                    chatTmp.is_seen = data.is_seen;
+                    chatsCopy.push(chatTmp)
+                } else {
+                    chatsCopy.push(data)
+                }
+
+
+            })
+            setChats(chatsCopy)
         })
     };
     const setChatMessages = () => {
         if (chat !== null) {
+            setFetchingMessages(true)
             get('chat/get-all-messages/' + chat.id, null, (res) => {
-                setChatMessagesList(res.data)
+                chat.messages = res.data
+                chat.messages.sort((c1, c2) => c1.created_at > c2.created_at)
+                // setChatMessagesList(messages)
+                chats.find(e => e.id === chat.id).messages = chat.messages
+                setFetchingMessages(false)
             })
         }
     };
@@ -90,7 +109,6 @@ export const ChatProvider = ({children}) => {
             getChatList()
         } else {
             setChats([])
-            setChatMessagesList([])
         }
     }, [userToken]);
 
@@ -106,10 +124,9 @@ export const ChatProvider = ({children}) => {
             getChatList,
             setChatById,
             setChatMessages,
-            chatMessagesList,
-            setChatMessagesList,
             setChatAsRead,
             unreadChatCounter,
+            fetchingMessages,
         }}>
             {children}
         </ChatContext.Provider>
