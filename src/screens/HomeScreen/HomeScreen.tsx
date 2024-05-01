@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable, Image } from "react-native";
 import React, { useState } from "react";
 import { MapViewComponent } from "../../components/MapViewComponent";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
+import eventsAddImg from "../../../assets/images/addevent.png";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -23,14 +24,29 @@ const HomeScreen = () => {
         fgColor={undefined}
         additionalStyles={styles.profileButton}
       />
-      <CustomButton
-        text="+"
-        onPress={addEventPressed}
-        type="PRIMARY"
-        bgColor={undefined}
-        fgColor={undefined}
-        additionalStyles={styles.addEventButton}
-      />
+      <View
+        style={{
+          position: "absolute",
+          bottom: "17%",
+          right: "5%",
+          backgroundColor: "#F2B138",
+          borderRadius: 50,
+          padding: 12,
+          borderStyle: "solid",
+          borderWidth: 3,
+          borderColor: "#131417",
+        }}
+      >
+        <Pressable onPress={addEventPressed}>
+          <Image
+            source={eventsAddImg}
+            style={{
+              width: 30,
+              height: 30,
+            }}
+          />
+        </Pressable>
+      </View>
     </View>
   );
 };

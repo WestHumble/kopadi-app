@@ -1,4 +1,11 @@
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Pressable,
+} from "react-native";
 import React, { useRef, useEffect, useState, useContext } from "react";
 import MapView, { Marker, PROVIDER_GOOGLE, Callout } from "react-native-maps";
 import CustomButton from "../../components/CustomButton";
@@ -11,6 +18,8 @@ import { Friend } from "../../types/friend";
 import { Event } from "../../types/event";
 import { useNavigation } from "@react-navigation/native";
 import { BorderlessButton } from "react-native-gesture-handler";
+import eventsRefreshImg from "../../../assets/images/refresh.png";
+import eventsClearImg from "../../../assets/images/searchClear.png";
 
 const MapViewComponent = () => {
   const navigation = useNavigation();
@@ -192,35 +201,53 @@ const MapViewComponent = () => {
         ))}
       </MapView>
       {isSearchActive && (
-        <CustomButton
-          additionalStyles={{
+        <View
+          style={{
             position: "absolute",
-            top: "70%",
-            left: "55%",
-            width: "20%",
-            marginHorizontal: "5%",
+            top: "62.3%",
+            right: "5%",
+            backgroundColor: "#F2B138",
+            borderRadius: 50,
+            padding: 12,
+            borderStyle: "solid",
+            borderWidth: 3,
+            borderColor: "#131417",
           }}
-          text="Clear search"
-          onPress={clearSearchEvents}
-          type="PRIMARY"
-          bgColor={undefined}
-          fgColor={undefined}
-        />
+        >
+          <Pressable onPress={clearSearchEvents}>
+            <Image
+              source={eventsClearImg}
+              style={{
+                width: 30,
+                height: 30,
+              }}
+            />
+          </Pressable>
+        </View>
       )}
-      <CustomButton
-        additionalStyles={{
+      <View
+        style={{
           position: "absolute",
-          top: "70%",
-          left: "65%",
-          width: "20%",
-          marginHorizontal: "5%",
+          top: "69.5%",
+          right: "5%",
+          backgroundColor: "#F2B138",
+          borderRadius: 50,
+          padding: 12,
+          borderStyle: "solid",
+          borderWidth: 3,
+          borderColor: "#131417",
         }}
-        text="Load close events"
-        onPress={onLoadCloseEvents}
-        type="PRIMARY"
-        bgColor={undefined}
-        fgColor={undefined}
-      />
+      >
+        <Pressable onPress={onLoadCloseEvents}>
+          <Image
+            source={eventsRefreshImg}
+            style={{
+              width: 30,
+              height: 30,
+            }}
+          />
+        </Pressable>
+      </View>
     </>
   );
 };
