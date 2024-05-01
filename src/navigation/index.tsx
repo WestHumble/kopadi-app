@@ -158,13 +158,36 @@ const TabsLoggedIn = () => {
                   size={24}
                   color={focused ? "#F2B138" : "#676D75"}
                 />
+                <View
+                  style={{
+                    fontSize: 12,
+                    color: focused ? "#F2B138" : "#676D75",
+                    position: "absolute",
+                    top: -5,
+                    right: -5,
+                    backgroundColor: "red",
+                    borderRadius: 10,
+                    paddingHorizontal: 4,
+                    paddingVertical: 1,
+                    textAlign: "center",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      color: "white",
+                    }}
+                  >
+                    {unreadChatCounter}
+                  </Text>
+                </View>
                 <Text
                   style={{
                     fontSize: 12,
                     color: focused ? "#F2B138" : "#676D75",
                   }}
                 >
-                  Chat {unreadChatCounter}
+                  Chat
                 </Text>
               </View>
             );
@@ -183,14 +206,36 @@ const TabsLoggedIn = () => {
                   size={24}
                   color={focused ? "#F2B138" : "#676D75"}
                 />
+                <View
+                  style={{
+                    fontSize: 12,
+                    color: focused ? "#F2B138" : "#676D75",
+                    position: "absolute",
+                    top: -5,
+                    right: -5,
+                    backgroundColor: "red",
+                    borderRadius: 10,
+                    paddingHorizontal: 4,
+                    paddingVertical: 1,
+                    textAlign: "center",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      color: "white",
+                    }}
+                  >
+                    {unreadEventInvitesCounter + unreadFriendInvitesCounter}
+                  </Text>
+                </View>
                 <Text
                   style={{
                     fontSize: 12,
                     color: focused ? "#F2B138" : "#676D75",
                   }}
                 >
-                  Profil{" "}
-                  {unreadEventInvitesCounter + unreadFriendInvitesCounter}
+                  Profil
                 </Text>
               </View>
             );
