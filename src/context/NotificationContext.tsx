@@ -50,6 +50,13 @@ async function registerForPushNotificationsAsync() {
             lightColor: '#FF231F7C',
             showBadge: false,
         });
+        Notifications.setNotificationChannelAsync('chat_init', {
+            name: 'chat_init',
+            importance: Notifications.AndroidImportance.NONE,
+            vibrationPattern: [0, 250, 250, 250],
+            lightColor: '#FF231F7C',
+            showBadge: false,
+        });
         Notifications.setNotificationChannelAsync('default', {
             name: 'default',
             importance: Notifications.AndroidImportance.MAX,
@@ -71,7 +78,7 @@ async function registerForPushNotificationsAsync() {
             return;
         }
         token = (await Notifications.getExpoPushTokenAsync({
-            projectId: 'ff57d77b-51b0-41b5-b0f6-bae96e24294a',
+            projectId: process.env.EXPO_PUBLIC_EAS_ID,
         })).data;
     } else {
         alert('Must use physical device for Push Notifications');

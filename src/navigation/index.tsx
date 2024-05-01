@@ -27,6 +27,7 @@ import ChatScreen from "../screens/ChatScreen";
 import { ChatContext } from "../context/ChatContext";
 import { EventsContext } from "../context/EventsContext";
 import { FriendsContext } from "../context/FriendsContext";
+import NewChatScreen from "../screens/NewChatScreen";
 
 const Tab = createBottomTabNavigator();
 const screenOptions = {
@@ -199,6 +200,13 @@ const TabsLoggedIn = () => {
       <Tab.Screen
         name="Chat"
         component={ChatScreen}
+        options={{
+          tabBarButton: () => null,
+        }}
+      />
+      <Tab.Screen
+        name="NewChat"
+        component={NewChatScreen}
         options={{
           tabBarButton: () => null,
         }}

@@ -33,39 +33,33 @@ const ChatScreen = ({route}) => {
   const scrollRef = useRef(null)
   const { height } = useWindowDimensions();
   const [message, setMessage] = useState<string>(null);
-  const { chat, setChat, chatMessagesList, setChatMessagesList, setChatById, setChatMessages, setChatAsRead} = useContext(ChatContext)
+  const [sendingMessage, setSendingMessage] = useState<string>(null);
+  const { setChatId, getChatById, setChatMessages, setChatAsRead, refreshTime } = useContext(ChatContext)
+  const [chat, setChat] = useState<Chat>(null);
   const { post } = useContext(ApiContext);
   const notificationListener = useRef();
 
   const onSendMessage = () => {
+    setSendingMessage(true)
     post('chat/message', {
       conversationId: chatId,
       textMessage: message
     }, (res) => {
-      setChatMessages()
+      setChatMessages(chatId)
+      setSendingMessage(false)
+    }, (res) => {
+      setSendingMessage(false)
     })
     setMessage(null)
   }
 
   useEffect(() => {
-    setChat(null)
-    setChatMessagesList([])
-    setChatById(chatId, setChat)
-  }, [chatId]);
-
-  useEffect(() => {
-    setChatMessages()
-  }, [chat]);
-
-  useEffect(() => {
     scrollRef.current?.scrollToEnd({animated: false})
-  }, [chatMessagesList]);
+  }, [chat, refreshTime]);
 
   useEffect(() => {
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      if(JSON.parse(JSON.parse(notification.request.trigger.remoteMessage.data.body).payload).conversation_id === chat.id) {
-        setChatMessages()
-      }
+        setChatMessages(JSON.parse(JSON.parse(notification.request.trigger.remoteMessage.data.body).payload).conversation_id)
     });
 
     return () => {
@@ -77,20 +71,22 @@ const ChatScreen = ({route}) => {
 
   useEffect(() => {
     if (isFocused) {
+      setChatId(chatId)
+      setChat(getChatById(chatId))
+      setChatMessages(chatId)
       setChatAsRead(chatId)
     }
   }, [isFocused, chatId])
 
 
-  if (!chat) {
+  if (!chat || chat.id !== chatId) {
     return (
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <View style={{ flex: 1, justifyContent: "center",
+          backgroundColor: "#131417",alignItems: "center" }}>
           <ActivityIndicator size={"large"} />
         </View>
     );
   }
-
-  chatMessagesList.sort((c1, c2) => c1.created_at > c2.created_at)
 
   return (
     <>
@@ -100,7 +96,9 @@ const ChatScreen = ({route}) => {
             {chat.name}
           </Text>
           <ScrollView ref={scrollRef} contentOffset={{x:0, y:9999}} showsVerticalScrollIndicator={false}>
-            {chatMessagesList.map((chatMessage)=>(<ChatMessageItem key={chatMessage.id}  chat={chat} chatMessage={chatMessage} displayFriend={chat.participants.length > 2}/>))}
+            {chat.messages?.map((chatMessage)=>
+                (<ChatMessageItem key={chatMessage.id}  chat={chat} chatMessage={chatMessage} displayFriend={chat.participants.length > 2}/>)
+            )}
           </ScrollView>
           <CustomInput
               placeholder="Napisz wiadomość"
@@ -110,7 +108,7 @@ const ChatScreen = ({route}) => {
               additionalStyle={styles.searchInput}
           />
           <CustomButton
-              text="Wyślij"
+              text={sendingMessage ? (<ActivityIndicator size={"large"} />) : "Wyślij"}
               onPress={onSendMessage}
               type="PRIMARY"
               bgColor={undefined}

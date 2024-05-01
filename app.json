@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "inzynierka-react-native",
-    "slug": "inzynierka-front",
+    "slug": "kopadi",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -40,9 +42,9 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "ff57d77b-51b0-41b5-b0f6-bae96e24294a"
+        "projectId": "35816c30-8377-4f90-b699-b14aea6204d3"
       }
     },
-    "owner": "kgonda"
+    "owner": "kopadi"
   }
 }

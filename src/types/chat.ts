@@ -6,10 +6,12 @@ export type Chat = {
     event_name: string,
     participants: Friend[],
     is_seen: boolean,
+    messages: ChatMessage[],
 }
 
 export type ChatMessage = {
     id: number,
+    chat_id: number,
     sender_id: number,
     message_text: string,
     created_at: string,

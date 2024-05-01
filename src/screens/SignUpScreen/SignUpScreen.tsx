@@ -34,7 +34,9 @@ const SignUpScreen = () => {
       () => {
         navigation.navigate("ConfirmEmail");
       },
-      null,
+      (req) => {
+        console.error(req);
+      },
       true
     );
   };

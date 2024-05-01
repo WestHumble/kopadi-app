@@ -2,30 +2,70 @@ import React, {createContext, useContext, useEffect, useRef, useState} from 'rea
 import {ApiContext} from "./ApiContext";
 import * as Notifications from "expo-notifications";
 import {NavigationContext} from "./NavigationContext";
-import {Chat, ChatMessage} from "../types/chat";
-import {Event} from "../types/event";
-import {useFocusEffect, useRoute} from '@react-navigation/native';
+import {Chat} from "../types/chat";
 
 
 export const ChatContext = createContext(null);
 
 export const ChatProvider = ({children}) => {
-    const [chat, setChat] = useState<Chat>(null);
-    const [chatMessagesList, setChatMessagesList] = useState<ChatMessage[]>([]);
+    const [chatId, setChatId] = useState<number>(null);
+    const [initializingChat, setInitializingChat] = useState<boolean>(false);
     const [chats, setChats] = useState<Chat[]>([]);
     const [unreadChatCounter, setUnreadChatCounter] = useState<number>(0);
+    const [refreshTime, setRefreshTime] = useState(0);
+    const [redirectChatId, setRedirectChatId] = useState<number>(0);
     const { navigationRef } = useContext(NavigationContext);
 
-    const { get, userToken } = useContext(ApiContext);
-    const getChatList = () => {
-        get('chat/get-all-chats', null, (res) => {
-            setChats(res.data)
+    const { get, post, userToken } = useContext(ApiContext);
+    const initChat = (friends) => {
+        setInitializingChat(true)
+        post('chat', {
+            participantIds: friends.map(f=>f.id)
+        }, (res) => {
+            getChatList()
+            setRedirectChatId(res.data['chatId'])
         })
     };
-    const setChatMessages = () => {
-        if (chat !== null) {
-            get('chat/get-all-messages/' + chat.id, null, (res) => {
-                setChatMessagesList(res.data)
+
+    const getChatList = () => {
+        get('chat/get-all-chats', null, (res) => {
+            let chatsCopy = []
+            res.data.forEach((data)=> {
+                let chatTmp = chats.find(e => e.id === data.id)
+
+                if (chatTmp) {
+                    chatTmp.name = data.name;
+                    chatTmp.participants = data.participants;
+                    chatTmp.is_seen = data.is_seen;
+                    chatsCopy.push(chatTmp)
+                } else {
+                    chatsCopy.push(data)
+                }
+            })
+            setChats(chatsCopy)
+        })
+    };
+
+    useEffect(() => {
+        if (redirectChatId === null) {
+            setInitializingChat(false)
+            return
+        }
+        let chatTmp = chats.find(e => e.id === redirectChatId)
+
+        if (chatTmp) {
+            setRedirectChatId(null)
+            navigationRef.current?.navigate('Chat', {
+                chatId: redirectChatId
+            });
+        }
+    }, [chats, redirectChatId]);
+    const setChatMessages = (chatIdParam) => {
+        let chatIdUpdate = chatIdParam ?? chatId
+        if (chatIdUpdate !== null) {
+            get('chat/get-all-messages/' + chatIdUpdate, null, (res) => {
+                getChatById(chatIdUpdate).messages = res.data.sort((c1, c2) => c1.created_at > c2.created_at)
+                setRefreshTime(Date.now())
             })
         }
     };
@@ -38,10 +78,8 @@ export const ChatProvider = ({children}) => {
         }
     };
 
-    const setChatById = async (chatId, setChat): Event => {
-        let chat: Chat = chats.find(e => e.id === chatId)
-
-        setChat(chat)
+    const getChatById = (chatId): Chat => {
+        return chats.find(e => e.id === chatId)
     };
 
     const notificationListener = useRef();
@@ -49,12 +87,12 @@ export const ChatProvider = ({children}) => {
 
     useEffect(() => {
         notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-            if ('new_chat' === notification.request.trigger.channelId || 'chat' === notification.request.trigger.channelId) {
+            if ('chat_init' === notification.request.trigger.channelId || 'chat' === notification.request.trigger.channelId) {
                 if (navigationRef.current?.getCurrentRoute().name === 'Chat' && JSON.parse(
                     JSON.parse(
                         notification.request.trigger.remoteMessage.data.body
                     ).payload
-                ).conversation_id === chat.id) {
+                ).conversation_id === chatId) {
                     setChatAsRead()
                 } else {
                     getChatList()
@@ -65,7 +103,7 @@ export const ChatProvider = ({children}) => {
         return () => {
             Notifications.removeNotificationSubscription(notificationListener.current);
         };
-    }, [chat]);
+    }, [chatId]);
 
     useEffect(() => {
         responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
@@ -90,7 +128,6 @@ export const ChatProvider = ({children}) => {
             getChatList()
         } else {
             setChats([])
-            setChatMessagesList([])
         }
     }, [userToken]);
 
@@ -100,16 +137,17 @@ export const ChatProvider = ({children}) => {
 
     return (
         <ChatContext.Provider value={{
-            chat,
-            setChat,
+            chatId,
+            setChatId,
             chats,
             getChatList,
-            setChatById,
+            getChatById,
             setChatMessages,
-            chatMessagesList,
-            setChatMessagesList,
             setChatAsRead,
             unreadChatCounter,
+            initChat,
+            initializingChat,
+            refreshTime,
         }}>
             {children}
         </ChatContext.Provider>
