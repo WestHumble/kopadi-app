@@ -10,10 +10,10 @@ export const ChatContext = createContext(null);
 
 export const ChatProvider = ({children}) => {
     const [chatId, setChatId] = useState<number>(null);
-    const [fetchingMessages, setFetchingMessages] = useState<boolean>(false);
     const [initializingChat, setInitializingChat] = useState<boolean>(false);
     const [chats, setChats] = useState<Chat[]>([]);
     const [unreadChatCounter, setUnreadChatCounter] = useState<number>(0);
+    const [refreshTime, setRefreshTime] = useState(0);
     const [redirectChatId, setRedirectChatId] = useState<number>(0);
     const { navigationRef } = useContext(NavigationContext);
 
@@ -64,10 +64,9 @@ export const ChatProvider = ({children}) => {
     const setChatMessages = (chatIdParam) => {
         let chatIdUpdate = chatIdParam ?? chatId
         if (chatIdUpdate !== null) {
-            setFetchingMessages(true)
             get('chat/get-all-messages/' + chatIdUpdate, null, (res) => {
                 getChatById(chatIdUpdate).messages = res.data.sort((c1, c2) => c1.created_at > c2.created_at)
-                setFetchingMessages(false)
+                setRefreshTime(Date.now())
             })
         }
     };
@@ -147,9 +146,9 @@ export const ChatProvider = ({children}) => {
             setChatMessages,
             setChatAsRead,
             unreadChatCounter,
-            fetchingMessages,
             initChat,
             initializingChat,
+            refreshTime,
         }}>
             {children}
         </ChatContext.Provider>

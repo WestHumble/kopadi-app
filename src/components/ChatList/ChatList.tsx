@@ -13,7 +13,7 @@ const ChatItem = ({ chat }) => {
 
         <CustomButton
             text="Otwórz"
-            onPress={() => fetchingMessages ? null : navigation.navigate("Chat", {chatId: chat.id})}
+            onPress={() => navigation.navigate("Chat", {chatId: chat.id})}
             type="PRIMARY"
             bgColor={undefined}
             fgColor={undefined}

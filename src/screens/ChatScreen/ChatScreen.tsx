@@ -33,24 +33,29 @@ const ChatScreen = ({route}) => {
   const scrollRef = useRef(null)
   const { height } = useWindowDimensions();
   const [message, setMessage] = useState<string>(null);
-  const { setChatId, getChatById, setChatMessages, setChatAsRead} = useContext(ChatContext)
+  const [sendingMessage, setSendingMessage] = useState<string>(null);
+  const { setChatId, getChatById, setChatMessages, setChatAsRead, refreshTime } = useContext(ChatContext)
   const [chat, setChat] = useState<Chat>(null);
   const { post } = useContext(ApiContext);
   const notificationListener = useRef();
 
   const onSendMessage = () => {
+    setSendingMessage(true)
     post('chat/message', {
       conversationId: chatId,
       textMessage: message
     }, (res) => {
-      setChatMessages()
+      setChatMessages(chatId)
+      setSendingMessage(false)
+    }, (res) => {
+      setSendingMessage(false)
     })
     setMessage(null)
   }
 
   useEffect(() => {
     scrollRef.current?.scrollToEnd({animated: false})
-  }, [chat, chat?.messages]);
+  }, [chat, refreshTime]);
 
   useEffect(() => {
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
@@ -103,7 +108,7 @@ const ChatScreen = ({route}) => {
               additionalStyle={styles.searchInput}
           />
           <CustomButton
-              text="Wyślij"
+              text={sendingMessage ? (<ActivityIndicator size={"large"} />) : "Wyślij"}
               onPress={onSendMessage}
               type="PRIMARY"
               bgColor={undefined}
