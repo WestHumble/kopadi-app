@@ -50,6 +50,13 @@ async function registerForPushNotificationsAsync() {
             lightColor: '#FF231F7C',
             showBadge: false,
         });
+        Notifications.setNotificationChannelAsync('chat_init', {
+            name: 'chat_init',
+            importance: Notifications.AndroidImportance.NONE,
+            vibrationPattern: [0, 250, 250, 250],
+            lightColor: '#FF231F7C',
+            showBadge: false,
+        });
         Notifications.setNotificationChannelAsync('default', {
             name: 'default',
             importance: Notifications.AndroidImportance.MAX,

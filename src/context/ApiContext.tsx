@@ -65,6 +65,7 @@ export const ApiProvider = ({children}) => {
                                 successCallback(res)
                             })
                             .catch(res => {
+                                console.error(res)
                                 if (!res || null === errorCallback){
                                     return
                                 }
@@ -73,6 +74,7 @@ export const ApiProvider = ({children}) => {
                     }).catch((res)=>{
                         setUserToken(null)
                         setUserRefreshToken(null)
+                        console.error(res)
                         if (!res || null === errorCallback){
                             return
                         }
@@ -85,6 +87,7 @@ export const ApiProvider = ({children}) => {
     }
     const post = async (endpoint, body? = null, success = null, error = null, noAuth = false)=> {
         if (!noAuth && !userToken){
+            console.error("No Auth")
             if (null !== error){
                 error()
             }
@@ -96,6 +99,7 @@ export const ApiProvider = ({children}) => {
             }
             success(res)
         }).catch(res => {
+            console.error(res)
             if (!res || null === error){
                 return
             }
@@ -104,6 +108,7 @@ export const ApiProvider = ({children}) => {
     }
     const get = async (endpoint, params? = null, success = null, error = null, noAuth = false)=> {
         if (!noAuth && !userToken){
+            console.error("No Auth")
             return
         }
         (await getInstance(noAuth, success, error)).get(`/api/${endpoint}`, {
@@ -114,6 +119,7 @@ export const ApiProvider = ({children}) => {
             }
             success(res)
         }).catch(res => {
+            console.error(res)
             if (!res || null === error){
                 return
             }

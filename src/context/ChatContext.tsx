@@ -2,8 +2,7 @@ import React, {createContext, useContext, useEffect, useRef, useState} from 'rea
 import {ApiContext} from "./ApiContext";
 import * as Notifications from "expo-notifications";
 import {NavigationContext} from "./NavigationContext";
-import {Chat, ChatMessage} from "../types/chat";
-import {Event} from "../types/event";
+import {Chat} from "../types/chat";
 
 
 export const ChatContext = createContext(null);
@@ -88,7 +87,7 @@ export const ChatProvider = ({children}) => {
 
     useEffect(() => {
         notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-            if ('new_chat' === notification.request.trigger.channelId || 'chat' === notification.request.trigger.channelId) {
+            if ('chat_init' === notification.request.trigger.channelId || 'chat' === notification.request.trigger.channelId) {
                 if (navigationRef.current?.getCurrentRoute().name === 'Chat' && JSON.parse(
                     JSON.parse(
                         notification.request.trigger.remoteMessage.data.body
