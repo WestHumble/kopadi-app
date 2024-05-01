@@ -11,11 +11,23 @@ export const ChatContext = createContext(null);
 export const ChatProvider = ({children}) => {
     const [chat, setChat] = useState<Chat>(null);
     const [fetchingMessages, setFetchingMessages] = useState<boolean>(false);
+    const [initializingChat, setInitializingChat] = useState<boolean>(false);
     const [chats, setChats] = useState<Chat[]>([]);
     const [unreadChatCounter, setUnreadChatCounter] = useState<number>(0);
+    const [redirectChatId, setRedirectChatId] = useState<number>(0);
     const { navigationRef } = useContext(NavigationContext);
 
-    const { get, userToken } = useContext(ApiContext);
+    const { get, post, userToken } = useContext(ApiContext);
+    const initChat = (friends) => {
+        setInitializingChat(true)
+        post('chat', {
+            participantIds: friends.map(f=>f.id)
+        }, (res) => {
+            getChatList()
+            setRedirectChatId(res.data['chatId'])
+        })
+    };
+
     const getChatList = () => {
         get('chat/get-all-chats', null, (res) => {
             let chatsCopy = []
@@ -30,19 +42,32 @@ export const ChatProvider = ({children}) => {
                 } else {
                     chatsCopy.push(data)
                 }
-
-
             })
             setChats(chatsCopy)
         })
     };
+
+    useEffect(() => {
+        if (redirectChatId === null) {
+            setInitializingChat(false)
+            return
+        }
+        let chatTmp = chats.find(e => e.id === redirectChatId)
+
+        if (chatTmp) {
+            setRedirectChatId(null)
+            navigationRef.current?.navigate('Chat', {
+                chatId: redirectChatId
+            });
+        }
+    }, [chats, redirectChatId]);
     const setChatMessages = () => {
         if (chat !== null) {
             setFetchingMessages(true)
             get('chat/get-all-messages/' + chat.id, null, (res) => {
                 chat.messages = res.data
                 chat.messages.sort((c1, c2) => c1.created_at > c2.created_at)
-                // setChatMessagesList(messages)
+
                 chats.find(e => e.id === chat.id).messages = chat.messages
                 setFetchingMessages(false)
             })
@@ -127,6 +152,8 @@ export const ChatProvider = ({children}) => {
             setChatAsRead,
             unreadChatCounter,
             fetchingMessages,
+            initChat,
+            initializingChat,
         }}>
             {children}
         </ChatContext.Provider>

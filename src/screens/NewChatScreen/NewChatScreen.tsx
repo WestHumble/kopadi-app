@@ -3,51 +3,69 @@ import {
   Text,
   StyleSheet,
   useWindowDimensions,
-  ScrollView,
+  ScrollView, ActivityIndicator,
 } from "react-native";
 import React, {useContext, useEffect, useState} from "react";
 import CustomInput from "../../components/CustomInput";
 import {FriendsContext} from "../../context/FriendsContext";
 import FriendList from "../../components/FriendList";
 import {Friend} from "../../types/friend";
-import {ApiContext} from "../../context/ApiContext";
-import friendList from "../../components/FriendList";
-import {ChatContext} from "../../context/ChatContext";
-import ChatList from "../../components/ChatList";
 import CustomButton from "../../components/CustomButton";
-import {useNavigation} from "@react-navigation/native";
+import {ChatContext} from "../../context/ChatContext";
 
-const ChatListScreen = () => {
+const NewChatScreen = () => {
   const { height } = useWindowDimensions();
   const [searchPhrase, setSearchPhrase] = useState("");
-  const { chats } = useContext(ChatContext);
-  const navigation = useNavigation()
+  const { friends } = useContext(FriendsContext);
+  const { initChat, initializingChat } = useContext(ChatContext);
+  const [pickedFriends, setPickedFriends] = useState<Friend[]>([]);
 
-  const onNewChatPressed = () => {
-    navigation.navigate("NewChat");
+  const pickFriend = (friend: Friend) => {
+    setPickedFriends([...pickedFriends, friend]);
+  };
+  const removeFriend = (friend: Friend) => {
+    setPickedFriends(pickedFriends.filter(f => f.id !== friend.id));
+  };
+  const onInitChatPressed = () => {
+    initChat(pickedFriends);
+    setPickedFriends([])
   };
 
+  const data = [
+    {
+      title: "Dodaj znajomych",
+      data: searchPhrase ? friends.filter(friend => {
+        let matches = true;
+        searchPhrase.split(' ').every(phrasePart => {
+          if (!friend.name.toLowerCase().startsWith(phrasePart.toLowerCase()) &&
+              !friend.surname.toLowerCase().startsWith(phrasePart.toLowerCase())) {
+            matches = false
+            return false
+          }
+          return true
+        })
+        return matches
+      }) : friends,
+    },
+  ];
+
+  if (initializingChat) {
+    return (
+        <View style={{ flex: 1, justifyContent: "center",
+          backgroundColor: "#131417",alignItems: "center" }}>
+          <ActivityIndicator size={"large"} />
+        </View>
+    );
+  }
 
   return (
       <>
         <View style={[styles.root, { height: height * 1 }]}>
           <View style={styles.windowTab}>
-            <ChatList data={[
-                {
-                  title: "Chaty",
-                  data: searchPhrase ? chats.filter(chat => {
-                    let matches = true;
-                    searchPhrase.split(' ').every(phrasePart => {
-                      if (!chat.name.toLowerCase().includes(phrasePart.toLowerCase())) {
-                        matches = false
-                        return false
-                      }
-                      return true
-                    })
-                    return matches
-                  }) : chats,
-                },
-              ]}/>
+            <FriendList data={data}
+              action={friend=>{pickedFriends.find(e => e.id === friend.id) ? removeFriend(friend) : pickFriend(friend)}}
+              actionText={friend=>{ return pickedFriends.find(e => e.id === friend.id) ? "Usuń" : "Dodaj"}}
+            />
             <CustomInput
                 placeholder="Szukaj"
                 value={searchPhrase}
@@ -57,7 +75,7 @@ const ChatListScreen = () => {
             />
             <CustomButton
                 text="+"
-                onPress={onNewChatPressed}
+                onPress={onInitChatPressed}
                 type="PRIMARY"
                 bgColor={undefined}
                 fgColor={undefined}
@@ -113,4 +131,4 @@ const styles = StyleSheet.create({
   searchInput: {color: "#fff"},
 });
 
-export default ChatListScreen;
+export default NewChatScreen;
