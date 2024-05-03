@@ -1,26 +1,35 @@
 import React from "react";
-import { View, Text, Image, SectionList, StyleSheet } from "react-native";
+import {View, Text, Image, SectionList, StyleSheet, TouchableWithoutFeedback} from "react-native";
 import eventButton from "../../../assets/images/right-alt-yellow.png";
+import {useNavigation} from "@react-navigation/native";
 
-const EventItem = ({ date, month, title, hour, id }) => (
-  <View style={styles.eventContainer}>
-    <View style={styles.eventDate}>
-      <Text style={styles.month}>{month}</Text>
-      <Text style={styles.date}>{date}</Text>
-    </View>
-    <View style={styles.eventContent}>
-      <Text style={styles.hour}>{hour}</Text>
-      <Text style={styles.title}>{title}</Text>
-    </View>
-    <View style={styles.eventButton}>
-      <Image
-        source={eventButton}
-        style={styles.eventButtonImg}
-        resizeMode="contain"
-      />
-    </View>
-  </View>
-);
+const EventItem = ({ date, month, title, hour, id }) => {
+  const navigation = useNavigation()
+  const onEventPressed = () => {
+    navigation.navigate("EventView", {eventId: id})
+  }
+  return (
+      <View style={styles.eventContainer}>
+        <View style={styles.eventDate}>
+          <Text style={styles.month}>{month}</Text>
+          <Text style={styles.date}>{date}</Text>
+        </View>
+        <View style={styles.eventContent}>
+          <Text style={styles.hour}>{hour}</Text>
+          <Text style={styles.title}>{title}</Text>
+        </View>
+        <View style={styles.eventButton}>
+          <TouchableWithoutFeedback  onPress={onEventPressed}>
+            <Image
+                source={eventButton}
+                style={styles.eventButtonImg}
+                resizeMode="contain"
+            />
+          </TouchableWithoutFeedback>
+        </View>
+      </View>
+  );
+}
 
 function konwerterDaty(data) {
   const months = [
@@ -53,6 +62,7 @@ const EventList = ({ data }) => (
     )}
     renderItem={({ item }) => (
       <EventItem
+        id = {item.id}
         month={konwerterDaty(new Date(item.date.date))}
         date={new Date(item.date.date).toLocaleString([], {
           day: "numeric",
