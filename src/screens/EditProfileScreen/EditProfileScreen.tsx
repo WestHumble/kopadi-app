@@ -3,7 +3,7 @@ import {
     Text,
     StyleSheet,
     useWindowDimensions,
-    ScrollView, Image, ActivityIndicator,
+    ScrollView, Image, ActivityIndicator, Alert,
 } from "react-native";
 import React, {useContext, useState} from "react";
 import {AuthContext} from "../../context/AuthContext";
@@ -47,15 +47,23 @@ const EditProfileScreen = () => {
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
-            aspect: [4, 3],
+            aspect: [3, 3],
             quality: 1,
+            selectionLimit: 1,
+            base64: true,
         });
 
+
         if (!result.canceled) {
-            setImage(result.assets[0].uri);
-            sendAvatar(result.assets[0])
+            const fileSize = result.assets[0].base64 ? result.assets[0].base64.length * (3 / 4) - 2 : 0;
+            if (fileSize > 5000000) {
+                Alert.alert('Image size is too large!\nMax file size is 5MB.')
+            } else {
+                setImage(result.assets[0].uri);
+                sendAvatar(result.assets[0])
+            }
         }
     };
 

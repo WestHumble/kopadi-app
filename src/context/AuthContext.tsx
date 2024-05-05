@@ -17,15 +17,12 @@ export const AuthProvider = ({children}) => {
     }
 
     const fetchUserData = () => {
-        console.log('details')
         get('user/details', null,
             res => {
-                console.log(res.data)
                 setUserData(res.data)
                 setIsLoading(false)
             },
             res => {
-                console.error(res)
                 setIsLoading(false)
             }
         );
@@ -45,7 +42,6 @@ export const AuthProvider = ({children}) => {
                 fetchUserData()
             },
             res => {
-                console.error(res)
                 setIsLoading(false)
             },
             true
@@ -56,14 +52,14 @@ export const AuthProvider = ({children}) => {
         setIsLoading(true)
         setUserData(null)
         post('user/location/stop', null
-        , ()=>{
+        , ()=> {
             setUserToken(null)
             setUserRefreshToken(null)
             AsyncStorage.removeItem('userToken')
             AsyncStorage.removeItem('userRefreshToken')
             deleteInstances()
             setIsLoading(false)
-        }, ()=>{
+        }, ()=> {
             setUserToken(null)
             setUserRefreshToken(null)
             AsyncStorage.removeItem('userToken')
@@ -95,9 +91,9 @@ export const AuthProvider = ({children}) => {
             return
         }
         post('auth-ping', null
-            , ()=>{
+            , ()=> {
                 setIsLoading(false)
-            }, (res)=>{
+            }, (res)=> {
                 setUserToken(null)
                 setUserRefreshToken(null)
                 AsyncStorage.removeItem('userToken')
