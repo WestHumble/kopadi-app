@@ -29,41 +29,47 @@ const ConfirmEmailScreen = () => {
   };
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={[styles.root, { height: height * 1 }]}>
-        <Text style={styles.title} resizeMode="contain">
-          Potwierdź swój adres e-mail
-        </Text>
-        <CustomInput
-          placeholder="Podaj kod potwierdzający"
-          value={emailConfirmCode}
-          setValue={setEmailConfirmCode}
-          secureTextEntry={undefined}
-        />
-        <CustomButton
-          text="Potwierdź adres e-mail"
-          onPress={onRegisterPressed}
-          type="PRIMARY"
-          bgColor={undefined}
-          fgColor={undefined}
-        />
+    <View style={[styles.root, { height: height * 1 }]}>
+      <View style={styles.windowTab}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Text style={styles.title} resizeMode="contain">
+            Potwierdź swój adres e-mail
+          </Text>
+          <View style={styles.inputArea}>
+            <CustomInput
+              placeholder="Podaj kod potwierdzający"
+              value={emailConfirmCode}
+              setValue={setEmailConfirmCode}
+              secureTextEntry={undefined}
+              additionalStyle={styles.inputEmail}
+            />
+          </View>
 
-        <CustomButton
-          text="Wyślij ponownie kod potwierdzający"
-          onPress={onResendPressed}
-          type="SECONDARY"
-          bgColor={undefined}
-          fgColor={"white"}
-        />
-        <CustomButton
-          text="Cofnięcie do logowania"
-          onPress={onBackToLoginPressed}
-          type="TERTIARY"
-          bgColor={undefined}
-          fgColor={undefined}
-        />
+          <CustomButton
+            text="Potwierdź adres e-mail"
+            onPress={onRegisterPressed}
+            type="PRIMARY"
+            bgColor={undefined}
+            fgColor={undefined}
+          />
+
+          <CustomButton
+            text="Wyślij ponownie kod potwierdzający"
+            onPress={onResendPressed}
+            type="SECONDARY"
+            bgColor={undefined}
+            fgColor={"white"}
+          />
+          <CustomButton
+            text="Cofnięcie do logowania"
+            onPress={onBackToLoginPressed}
+            type="TERTIARY"
+            bgColor={undefined}
+            fgColor={undefined}
+          />
+        </ScrollView>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -74,8 +80,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#131417",
     flex: 1,
   },
+  windowTab: {
+    height: "92%",
+    width: "100%",
+    backgroundColor: "#1D1F24",
+    top: "7%",
+    borderRadius: 20,
+    padding: 20,
+  },
   text: {
-    color: "#999999",
+    color: "#ffffff",
     marginTop: 20,
     marginBottom: 25,
   },
@@ -87,7 +101,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
     marginTop: "15%",
-    color: "#003f63",
+    marginBottom: 20,
+    color: "#ffffff",
+  },
+  inputEmail: {
+    color: "#ffffff",
+  },
+  inputArea: {
+    marginVertical: 20,
   },
 });
 
