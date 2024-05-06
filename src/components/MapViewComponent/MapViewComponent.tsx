@@ -20,6 +20,7 @@ import { useNavigation } from "@react-navigation/native";
 import { BorderlessButton } from "react-native-gesture-handler";
 import eventsRefreshImg from "../../../assets/images/refresh.png";
 import eventsClearImg from "../../../assets/images/searchClear.png";
+import eventsAddImg from "../../../assets/images/addevent.png";
 
 const MapViewComponent = () => {
   const navigation = useNavigation();
@@ -91,7 +92,9 @@ const MapViewComponent = () => {
     eventsOtherSearch,
     isSearchActive,
   ]);
-
+  const addEventPressed = () => {
+    navigation.navigate("AddEvent");
+  };
   const updateFriendsMarkers = () => {
     get("user/location/get-friends", null, (res) => {
       let latlngData: LatLngData;
@@ -132,7 +135,7 @@ const MapViewComponent = () => {
       >
         {markers.map((marker) => {
           if (marker.latlng === null) {
-            return
+            return;
           }
           return (
             <Marker
@@ -179,53 +182,55 @@ const MapViewComponent = () => {
                 </TouchableOpacity>
               </Callout>
             </Marker>
-          )}
-        )}
+          );
+        })}
         {friendsMarkers.map((marker, index) => {
           if (marker.latlng === null) {
-            return
+            return;
           }
           return (
-          <Marker
-            key={index}
-            coordinate={marker.latlng}
-            title={marker.name}
-            description={marker.description}
-          >
-            <Callout tooltip style={styles.callout}>
-              <View>
-                <Text style={styles.title}>{marker.name}</Text>
-                <Text style={styles.description}>{marker.description}</Text>
-                <CustomButton
-                  text="Details"
-                  onPress={() => {}}
-                  type="PRIMARY"
-                  bgColor={undefined}
-                  fgColor={undefined}
-                  additionalStyles={undefined}
-                />
-              </View>
-            </Callout>
-          </Marker>
-        )})}
+            <Marker
+              key={index}
+              coordinate={marker.latlng}
+              title={marker.name}
+              description={marker.description}
+            >
+              <Callout tooltip style={styles.callout}>
+                <View>
+                  <Text style={styles.title}>{marker.name}</Text>
+                  <Text style={styles.description}>{marker.description}</Text>
+                  <CustomButton
+                    text="Details"
+                    onPress={() => {}}
+                    type="PRIMARY"
+                    bgColor={undefined}
+                    fgColor={undefined}
+                    additionalStyles={undefined}
+                  />
+                </View>
+              </Callout>
+            </Marker>
+          );
+        })}
       </MapView>
-      {isSearchActive && (
-        <View
-          style={{
-            position: "absolute",
-            top: "62.3%",
-            right: "5%",
-            backgroundColor: "#F2B138",
-            borderRadius: 50,
-            padding: 12,
-            borderStyle: "solid",
-            borderWidth: 3,
-            borderColor: "#131417",
-          }}
-        >
-          <Pressable onPress={clearSearchEvents}>
+      <View style={styles.buttonsGroup}>
+        {isSearchActive && (
+          <View style={styles.clearButton}>
+            <Pressable onPress={clearSearchEvents}>
+              <Image
+                source={eventsClearImg}
+                style={{
+                  width: 30,
+                  height: 30,
+                }}
+              />
+            </Pressable>
+          </View>
+        )}
+        <View style={styles.refreshButton}>
+          <Pressable onPress={onLoadCloseEvents}>
             <Image
-              source={eventsClearImg}
+              source={eventsRefreshImg}
               style={{
                 width: 30,
                 height: 30,
@@ -233,29 +238,17 @@ const MapViewComponent = () => {
             />
           </Pressable>
         </View>
-      )}
-      <View
-        style={{
-          position: "absolute",
-          top: "69.5%",
-          right: "5%",
-          backgroundColor: "#F2B138",
-          borderRadius: 50,
-          padding: 12,
-          borderStyle: "solid",
-          borderWidth: 3,
-          borderColor: "#131417",
-        }}
-      >
-        <Pressable onPress={onLoadCloseEvents}>
-          <Image
-            source={eventsRefreshImg}
-            style={{
-              width: 30,
-              height: 30,
-            }}
-          />
-        </Pressable>
+        <View style={styles.addEventButton}>
+          <Pressable onPress={addEventPressed}>
+            <Image
+              source={eventsAddImg}
+              style={{
+                width: 30,
+                height: 30,
+              }}
+            />
+          </Pressable>
+        </View>
       </View>
     </>
   );
@@ -300,6 +293,47 @@ const styles = StyleSheet.create({
     borderBottomColor: "#ccc",
     borderBottomWidth: 1,
     marginVertical: 10,
+  },
+  buttonsGroup: {
+    position: "absolute",
+    top: "60%",
+    right: "5%",
+    height: 215,
+    // borderStyle: "solid",
+    // borderWidth: 3,
+    // borderColor: "#131417",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    alignContent: "space-between",
+  },
+  addEventButton: {
+    backgroundColor: "#F2B138",
+    borderRadius: 50,
+    padding: 12,
+    borderStyle: "solid",
+    borderWidth: 3,
+    borderColor: "#131417",
+    marginVertical: 5,
+  },
+  clearButton: {
+    backgroundColor: "#F2B138",
+    borderRadius: 50,
+    padding: 12,
+    borderStyle: "solid",
+    borderWidth: 3,
+    borderColor: "#131417",
+    marginVertical: 5,
+  },
+  refreshButton: {
+    backgroundColor: "#F2B138",
+    borderRadius: 50,
+    padding: 12,
+    borderStyle: "solid",
+    borderWidth: 3,
+    borderColor: "#131417",
+    marginVertical: 5,
   },
 });
 

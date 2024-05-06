@@ -8,9 +8,7 @@ import userImg from "../../../assets/images/user.png";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const addEventPressed = () => {
-    navigation.navigate("AddEvent");
-  };
+
   const profilePressed = () => {
     navigation.navigate("Profile");
   };
@@ -25,17 +23,6 @@ const HomeScreen = () => {
               width: 30,
               height: 30,
               borderRadius: 10,
-            }}
-          />
-        </Pressable>
-      </View>
-      <View style={styles.addEventButton}>
-        <Pressable onPress={addEventPressed}>
-          <Image
-            source={eventsAddImg}
-            style={{
-              width: 30,
-              height: 30,
             }}
           />
         </Pressable>
