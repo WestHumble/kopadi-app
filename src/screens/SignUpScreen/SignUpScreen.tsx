@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   windowTab: {
-    height: "75%",
+    height: "92%",
     width: "100%",
     backgroundColor: "#1D1F24",
     top: "7%",

@@ -38,9 +38,9 @@ const SignInScreen = () => {
   };
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={[styles.root, { height: height }]}>
-        <View style={styles.windowTab}>
+    <View style={[styles.root, { height: height }]}>
+      <View style={styles.windowTab}>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <Image source={Logo} style={styles.logo} resizeMode="contain" />
           <CustomInput
             placeholder="Podaj adres e-mail"
@@ -65,13 +65,16 @@ const SignInScreen = () => {
             fgColor={undefined}
             additionalStyle={styles.inputLogin}
           />
-
           <CustomButton
             text="Zapomniałem hasła"
             onPress={onForgotPressed}
             type="TERTIARY"
             bgColor={undefined}
             fgColor={undefined}
+            additionalStyles={{
+              marginTop: 20,
+              height: 30,
+            }}
           />
           <CustomButton
             text="Nie mam konta - zarejestruj się"
@@ -79,10 +82,13 @@ const SignInScreen = () => {
             type="TERTIARY"
             bgColor={undefined}
             fgColor={undefined}
+            additionalStyles={{
+              height: 30,
+            }}
           />
-        </View>
+        </ScrollView>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -101,7 +107,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   windowTab: {
-    height: "88%",
+    height: "92%",
     width: "100%",
     backgroundColor: "#1D1F24",
     top: "7%",
