@@ -17,8 +17,8 @@ import { EventsContext } from "../../context/EventsContext";
 import { useNavigation } from "@react-navigation/native";
 import { Event } from "../../types/event";
 import eventImg from "../../../assets/images/emoji-beer-mug.png";
-import {Friend} from "../../types/friend";
-import {EventInvite} from "../../types/eventInvite";
+import { Friend } from "../../types/friend";
+import { EventInvite } from "../../types/eventInvite";
 
 Geocoding.init(process.env.REACT_APP_GEOCODING_API_KEY);
 
@@ -37,28 +37,32 @@ const EventViewScreen = ({ route }) => {
   }, [eventId]);
 
   const joinEvent = () => {
-    post('event/join', {
-      eventId: eventId
-    }, (res) => {
-      loadAllEvents()
-      setEventById(eventId, setEvent, true);
-    })
+    post(
+      "event/join",
+      {
+        eventId: eventId,
+      },
+      (res) => {
+        loadAllEvents();
+        setEventById(eventId, setEvent, true);
+      }
+    );
   };
 
   const leaveEvent = () => {
-    console.log('leaveEvent')
-      // post('event-invite/update-status', {
-      //   "eventInviteId": eventInvite.id,
-      //   "transition": "accept"
-      // }, ()=>{
-      //   getPendingEventInvites()
-      //   loadAllEvents()
-      //   clearSearchEvents()
-      // })
+    console.log("leaveEvent");
+    // post('event-invite/update-status', {
+    //   "eventInviteId": eventInvite.id,
+    //   "transition": "accept"
+    // }, ()=>{
+    //   getPendingEventInvites()
+    //   loadAllEvents()
+    //   clearSearchEvents()
+    // })
   };
 
   const onPressJoinEvent = () => {
-    event.invite_status != 'accepted' ? joinEvent() : leaveEvent()
+    event.invite_status != "accepted" ? joinEvent() : leaveEvent();
   };
 
   const onInviteFriendsPressed = () => {
@@ -77,69 +81,75 @@ const EventViewScreen = ({ route }) => {
     <>
       <View style={[styles.root, { height: height * 1 }]}>
         <View style={styles.windowTab}>
-          <View style={styles.HeaderSection}>
-            <Image
-              source={eventImg}
-              style={styles.eventImg}
-              resizeMode="contain"
-            />
-            <View style={styles.HeaderSectionText}>
-              <Text style={styles.titleSectionHeader} resizeMode="contain">
-                Nazwa wydarzenia
-              </Text>
-              <Text style={styles.title} resizeMode="contain">
-                {event.name}
-              </Text>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={styles.HeaderSection}>
+              <Image
+                source={eventImg}
+                style={styles.eventImg}
+                resizeMode="contain"
+              />
+              <View style={styles.HeaderSectionText}>
+                <Text style={styles.titleSectionHeader} resizeMode="contain">
+                  Nazwa wydarzenia
+                </Text>
+                <Text style={styles.title} resizeMode="contain">
+                  {event.name}
+                </Text>
+              </View>
             </View>
-          </View>
-          <Text style={styles.titleSectionDate} resizeMode="contain">
-            Data i godzina
-          </Text>
-          <Text style={styles.date} resizeMode="contain">
-            {new Date(event.date.date).toLocaleString([], {
-              year: "numeric",
-              month: "numeric",
-              day: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </Text>
-          <View style={styles.hr} />
-          <Text style={styles.titleSectionAddress} resizeMode="contain">
-            Lokalizacja wydarzenia
-          </Text>
-          <Text style={styles.address} resizeMode="contain">
-            {event.address}
-          </Text>
-          <View style={styles.hr} />
-          <Text style={styles.titleSectionDescription} resizeMode="contain">
-            Opis wydarzenia
-          </Text>
-          <Text style={styles.description} resizeMode="contain">
-            {event.description}
-          </Text>
+            <Text style={styles.titleSectionDate} resizeMode="contain">
+              Data i godzina
+            </Text>
+            <Text style={styles.date} resizeMode="contain">
+              {new Date(event.date.date).toLocaleString([], {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </Text>
+            <View style={styles.hr} />
+            <Text style={styles.titleSectionAddress} resizeMode="contain">
+              Lokalizacja wydarzenia
+            </Text>
+            <Text style={styles.address} resizeMode="contain">
+              {event.address}
+            </Text>
+            <View style={styles.hr} />
+            <Text style={styles.titleSectionDescription} resizeMode="contain">
+              Opis wydarzenia
+            </Text>
+            <Text style={styles.description} resizeMode="contain">
+              {event.description}
+            </Text>
 
-          <CustomButton
-            additionalStyles={{
-              margin: 0,
-            }}
-            additionalStylesText={{
-              fontSize: 20,
-            }}
-            text={event.invite_status != 'accepted' ? "Dołącz do wydarzenia" : "Opuść wydarzenie"}
-            onPress={onPressJoinEvent}
-            type="PRIMARY"
-            bgColor={undefined}
-            fgColor={undefined}
-          />
-          <CustomButton
-            text="Zaproś znajomych"
-            onPress={onInviteFriendsPressed}
-            type="PRIMARY"
-            bgColor={undefined}
-            fgColor={undefined}
-            additionalStyles={styles.addEventButton}
-          />
+            <CustomButton
+              additionalStyles={{
+                margin: 0,
+              }}
+              additionalStylesText={{
+                fontSize: 20,
+              }}
+              text={
+                event.invite_status != "accepted"
+                  ? "Dołącz do wydarzenia"
+                  : "Opuść wydarzenie"
+              }
+              onPress={onPressJoinEvent}
+              type="PRIMARY"
+              bgColor={undefined}
+              fgColor={undefined}
+            />
+            <CustomButton
+              text="Zaproś znajomych"
+              onPress={onInviteFriendsPressed}
+              type="PRIMARY"
+              bgColor={undefined}
+              fgColor={undefined}
+              additionalStyles={styles.addEventButton}
+            />
+          </ScrollView>
         </View>
       </View>
     </>
@@ -240,7 +250,7 @@ const styles = StyleSheet.create({
   hr: {
     borderBottomColor: "#676D75",
     borderBottomWidth: 1,
-    marginVertical: 10,
+    marginVertical: 2,
   },
   titleSectionHeader: {
     fontSize: 14,
