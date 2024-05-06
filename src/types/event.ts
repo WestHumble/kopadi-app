@@ -2,6 +2,7 @@ import {LatLngData} from "./marker";
 
 export type Event = {
     id: number,
+    user_id: number,
     latlng: LatLngData,
     name: string,
     description: string,

@@ -31,20 +31,11 @@ const ProfileScreen = () => {
   const onEditProfilePressed = () => {
     navigation.navigate("EditProfile");
   };
-  const onEventHistoryPressed = () => {
-    console.log("Kliknieto historia wydarzeń");
-  };
   const onFriendsPressed = () => {
     navigation.navigate("FriendsList");
   };
   const onAddEventPressed = () => {
     navigation.navigate("AddEvent");
-  };
-  const onSettingsPressed = () => {
-    console.log("Kliknieto ustwienia");
-  };
-  const onStatutePressed = () => {
-    console.log("Kliknieto regulamin");
   };
 
   return (
@@ -77,13 +68,6 @@ const ProfileScreen = () => {
               fgColor={undefined}
             />
             <CustomButton
-              text="Historia wydarzeń"
-              onPress={onEventHistoryPressed}
-              type="PRIMARY"
-              bgColor={undefined}
-              fgColor={undefined}
-            />
-            <CustomButton
               text="Znajomi"
               onPress={onFriendsPressed}
               type="PRIMARY"
@@ -101,20 +85,6 @@ const ProfileScreen = () => {
               additionalStyles={{}}
               text={shareLocation ? "Sharing on" : "Sharing off"}
               onPress={onShareLocationToggle}
-              type="PRIMARY"
-              bgColor={undefined}
-              fgColor={undefined}
-            />
-            <CustomButton
-              text="Ustawienia"
-              onPress={onSettingsPressed}
-              type="PRIMARY"
-              bgColor={undefined}
-              fgColor={undefined}
-            />
-            <CustomButton
-              text="Regulamin"
-              onPress={onStatutePressed}
               type="PRIMARY"
               bgColor={undefined}
               fgColor={undefined}
