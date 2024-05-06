@@ -11,7 +11,6 @@ import {FriendsContext} from "../../context/FriendsContext";
 import FriendList from "../../components/FriendList";
 import {Friend} from "../../types/friend";
 import {ApiContext} from "../../context/ApiContext";
-import friendList from "../../components/FriendList";
 import {Event} from "../../types/event";
 import {EventsContext} from "../../context/EventsContext";
 

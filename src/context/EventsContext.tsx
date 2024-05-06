@@ -106,12 +106,15 @@ export const EventsProvider = ({children}) => {
         },)
     };
 
-    const setEventById = async (eventId, setEvent): Event => {
-        let event: Event = eventsCreated.concat(eventsInvited, eventsOther).find(e => e.id === eventId)
+    const setEventById = async (eventId, setEvent, forceFetch = false): Event => {
 
-        if (event) {
-            setEvent(event)
-            return
+        if (!forceFetch) {
+            let event: Event = eventsCreated.concat(eventsInvited, eventsOther).find(e => e.id === eventId)
+
+            if (event) {
+                setEvent(event)
+                return
+            }
         }
         get('event/' + eventId, null, (res) => {
             setEvent(res.data)

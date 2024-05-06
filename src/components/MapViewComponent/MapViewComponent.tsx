@@ -130,62 +130,62 @@ const MapViewComponent = () => {
         followsUserLocation={true}
         ref={mapViewRef}
       >
-        {markers.map((marker) => (
-          <Marker
-            key={marker.id}
-            coordinate={marker.latlng}
-            title={marker.name}
-            description={marker.description}
-            onPress={() => {
-              navigation.navigate("EventView", { eventId: marker.id });
-            }}
-            onCalloutPress={() => {
-              navigation.navigate("EventView", { eventId: marker.id });
-            }}
-          >
-            <View>
-              <Image
-                source={require("../../../assets/images/pin.png")}
-                style={{
-                  width: 40,
-                  height: 40,
-                }}
-              />
-            </View>
-            <Callout tooltip style={styles.callout}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("EventView", { eventId: marker.id });
-                }}
-              >
-                <Text style={styles.title}>{marker.name}</Text>
-                <View style={styles.hr} />
-                <Text style={styles.date}>
-                  {new Date(marker.date.date).toLocaleString([], {
-                    year: "numeric",
-                    month: "numeric",
-                    day: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </Text>
-                <View style={styles.hr} />
-                <Text style={styles.address}>{marker.address}</Text>
-                <CustomButton
-                  text="Szczegóły wydarzenia"
+        {markers.map((marker) => {
+          if (marker.latlng === null) {
+            return
+          }
+          return (
+            <Marker
+              key={marker.id}
+              coordinate={marker.latlng}
+              title={marker.name}
+              description={marker.description}
+              onPress={() => {
+                navigation.navigate("EventView", { eventId: marker.id });
+              }}
+              onCalloutPress={() => {
+                navigation.navigate("EventView", { eventId: marker.id });
+              }}
+            >
+              <View>
+                <Image
+                  source={require("../../../assets/images/pin.png")}
+                  style={{
+                    width: 40,
+                    height: 40,
+                  }}
+                />
+              </View>
+              <Callout tooltip style={styles.callout}>
+                <TouchableOpacity
                   onPress={() => {
                     navigation.navigate("EventView", { eventId: marker.id });
                   }}
-                  type="PRIMARY"
-                  bgColor={undefined}
-                  fgColor={undefined}
-                  additionalStyles={undefined}
-                />
-              </TouchableOpacity>
-            </Callout>
-          </Marker>
-        ))}
-        {friendsMarkers.map((marker, index) => (
+                >
+                  <Text style={styles.title}>{marker.name}</Text>
+                  <View style={styles.hr} />
+                  <View style={styles.hr} />
+                  <Text style={styles.address}>{marker.address}</Text>
+                  <CustomButton
+                    text="Szczegóły wydarzenia"
+                    onPress={() => {
+                      navigation.navigate("EventView", { eventId: marker.id });
+                    }}
+                    type="PRIMARY"
+                    bgColor={undefined}
+                    fgColor={undefined}
+                    additionalStyles={undefined}
+                  />
+                </TouchableOpacity>
+              </Callout>
+            </Marker>
+          )}
+        )}
+        {friendsMarkers.map((marker, index) => {
+          if (marker.latlng === null) {
+            return
+          }
+          return (
           <Marker
             key={index}
             coordinate={marker.latlng}
@@ -207,7 +207,7 @@ const MapViewComponent = () => {
               </View>
             </Callout>
           </Marker>
-        ))}
+        )})}
       </MapView>
       {isSearchActive && (
         <View

@@ -10,11 +10,9 @@ import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import EventList from "../../components/EventList";
-import {LocationContext} from "../../context/LocationContext";
 import {EventsContext} from "../../context/EventsContext";
 
 const SearchEventsScreen = () => {
-  const navigation = useNavigation();
   const { height } = useWindowDimensions();
   const [searchPhrase, setSearchPhrase] = useState("");
   const {

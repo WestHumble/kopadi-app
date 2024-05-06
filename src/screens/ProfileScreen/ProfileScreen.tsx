@@ -17,7 +17,7 @@ const ProfileScreen = () => {
     useContext(LocationContext);
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
-  const { login, logout, isLoading } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
   const onShareLocationToggle = () => {
     setShareLocation(!shareLocation);
   };
@@ -29,7 +29,7 @@ const ProfileScreen = () => {
     navigation.navigate("EventInvitesScreen");
   };
   const onEditProfilePressed = () => {
-    console.log("Kliknieto edytuj profil");
+    navigation.navigate("EditProfile");
   };
   const onEventHistoryPressed = () => {
     console.log("Kliknieto historia wydarzeń");
