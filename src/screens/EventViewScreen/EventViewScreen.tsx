@@ -19,6 +19,7 @@ import { Event } from "../../types/event";
 import eventImg from "../../../assets/images/emoji-beer-mug.png";
 import { Friend } from "../../types/friend";
 import { EventInvite } from "../../types/eventInvite";
+import { AuthContext } from "../../context/AuthContext";
 
 Geocoding.init(process.env.REACT_APP_GEOCODING_API_KEY);
 
@@ -30,6 +31,8 @@ const EventViewScreen = ({ route }) => {
   const navigation = useNavigation();
   const [event, setEvent] = useState<Event>(null);
   const { post } = useContext(ApiContext);
+  const { userData, fetchUserData } = useContext(AuthContext);
+  const [isLoadingUserData, setIsLoadingUserData] = useState<boolean>(false);
 
   useEffect(() => {
     setEvent(null);
@@ -50,15 +53,16 @@ const EventViewScreen = ({ route }) => {
   };
 
   const leaveEvent = () => {
-    console.log("leaveEvent");
-    // post('event-invite/update-status', {
-    //   "eventInviteId": eventInvite.id,
-    //   "transition": "accept"
-    // }, ()=>{
-    //   getPendingEventInvites()
-    //   loadAllEvents()
-    //   clearSearchEvents()
-    // })
+    post(
+      "event/leave",
+      {
+        eventId: eventId,
+      },
+      (res) => {
+        loadAllEvents();
+        setEventById(eventId, setEvent, true);
+      }
+    );
   };
 
   const onPressJoinEvent = () => {
@@ -69,9 +73,20 @@ const EventViewScreen = ({ route }) => {
     navigation.navigate("InviteFriendsToEvent", { eventId });
   };
 
-  if (!event) {
+  if (!userData || !event) {
+    if (event && !isLoadingUserData) {
+      fetchUserData();
+      setIsLoadingUserData(true);
+    }
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          backgroundColor: "#131417",
+          alignItems: "center",
+        }}
+      >
         <ActivityIndicator size={"large"} />
       </View>
     );
@@ -124,23 +139,25 @@ const EventViewScreen = ({ route }) => {
               {event.description}
             </Text>
 
-            <CustomButton
-              additionalStyles={{
-                margin: 0,
-              }}
-              additionalStylesText={{
-                fontSize: 20,
-              }}
-              text={
-                event.invite_status != "accepted"
-                  ? "Dołącz do wydarzenia"
-                  : "Opuść wydarzenie"
-              }
-              onPress={onPressJoinEvent}
-              type="PRIMARY"
-              bgColor={undefined}
-              fgColor={undefined}
-            />
+            {userData.id !== event.user_id && (
+              <CustomButton
+                additionalStyles={{
+                  margin: 0,
+                }}
+                additionalStylesText={{
+                  fontSize: 20,
+                }}
+                text={
+                  event.invite_status != "accepted"
+                    ? "Dołącz do wydarzenia"
+                    : "Opuść wydarzenie"
+                }
+                onPress={onPressJoinEvent}
+                type="PRIMARY"
+                bgColor={undefined}
+                fgColor={undefined}
+              />
+            )}
             <CustomButton
               text="Zaproś znajomych"
               onPress={onInviteFriendsPressed}

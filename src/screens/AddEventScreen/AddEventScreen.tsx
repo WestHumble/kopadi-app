@@ -4,7 +4,7 @@ import {
   StyleSheet,
   useWindowDimensions,
   ScrollView,
-  Alert, Animated,
+  Alert, Animated, ActivityIndicator,
 } from "react-native";
 import React, {useContext, useEffect, useState} from "react";
 import CustomInput from "../../components/CustomInput";
@@ -30,6 +30,7 @@ const AddEventScreen = () => {
   const { post } = useContext(ApiContext);
   const { loadAllEvents } = useContext(EventsContext);
   const navigation = useNavigation();
+  const [isRegisteringEvent, setIsRegisteringEvent] = useState<boolean>(false)
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -45,8 +46,11 @@ const AddEventScreen = () => {
   };
 
   const onRegisterPressed = async () => {
+    setIsRegisteringEvent(true)
     if (!eventName || !selectedDate || !city || !address || !eventDescription) {
       Alert.alert("Powiadomienie", "Wszystkie pola muszą być wypełnione.");
+
+      setIsRegisteringEvent(false)
       return;
     }
 
@@ -72,21 +76,24 @@ const AddEventScreen = () => {
               isPrivate: false,
             },
             (res) => {
+              setIsRegisteringEvent(false)
               loadAllEvents();
               navigation.navigate("InviteFriendsToEvent", {eventId: res.data["eventId"]});
             },
             (res) => {
-              console.error(res);
+              setIsRegisteringEvent(false)
               Alert.alert("Błąd", "Wystąpił błąd podczas rejestracji wydarzenia.");
             }
         );
       } else {
+        setIsRegisteringEvent(false)
         Alert.alert(
             "Błąd",
             "Nie można znaleźć podanego adresu."
         );
       }
     } catch (error) {
+      setIsRegisteringEvent(false)
       console.error("Błąd geokodowania:", error);
     }
   };
@@ -153,7 +160,7 @@ const AddEventScreen = () => {
             />
           </ScrollView>
           <CustomButton
-            text="Dodaj wydarzenie"
+            text={isRegisteringEvent ? (<ActivityIndicator size={"large"} />) : "Dodaj wydarzenie"}
             onPress={onRegisterPressed}
             type="PRIMARY"
             bgColor={undefined}

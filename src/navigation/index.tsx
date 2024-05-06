@@ -159,7 +159,7 @@ const TabsLoggedIn = () => {
                   size={24}
                   color={focused ? "#F2B138" : "#676D75"}
                 />
-                <View
+                  {unreadChatCounter > 0 && (<View
                   style={{
                     fontSize: 12,
                     color: focused ? "#F2B138" : "#676D75",
@@ -181,7 +181,7 @@ const TabsLoggedIn = () => {
                   >
                     {unreadChatCounter}
                   </Text>
-                </View>
+                </View>)}
                 <Text
                   style={{
                     fontSize: 12,
@@ -207,7 +207,7 @@ const TabsLoggedIn = () => {
                   size={24}
                   color={focused ? "#F2B138" : "#676D75"}
                 />
-                <View
+                  {unreadEventInvitesCounter + unreadFriendInvitesCounter > 0 && (<View
                   style={{
                     fontSize: 12,
                     color: focused ? "#F2B138" : "#676D75",
@@ -229,7 +229,7 @@ const TabsLoggedIn = () => {
                   >
                     {unreadEventInvitesCounter + unreadFriendInvitesCounter}
                   </Text>
-                </View>
+                </View>)}
                 <Text
                   style={{
                     fontSize: 12,
