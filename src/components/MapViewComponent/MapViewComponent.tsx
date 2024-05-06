@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
   },
   buttonsGroup: {
     position: "absolute",
-    top: "60%",
+    top: "57%",
     right: "5%",
     height: 215,
     // borderStyle: "solid",
