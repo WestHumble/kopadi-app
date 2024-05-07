@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import React, { useRef, useEffect, useState, useContext } from "react";
 import MapView, { Marker, PROVIDER_GOOGLE, Callout } from "react-native-maps";
-import CustomButton from "../../components/CustomButton";
 import { LatLngData, MarkerData } from "../../types/marker";
 import { LocationContext } from "../../context/LocationContext";
 import { ApiContext } from "../../context/ApiContext";
@@ -16,8 +15,7 @@ import { EventsContext } from "../../context/EventsContext";
 import { FriendsContext } from "../../context/FriendsContext";
 import { Friend } from "../../types/friend";
 import { Event } from "../../types/event";
-import { useNavigation } from "@react-navigation/native";
-import { BorderlessButton } from "react-native-gesture-handler";
+import {useIsFocused, useNavigation} from "@react-navigation/native";
 import eventsRefreshImg from "../../../assets/images/refresh.png";
 import eventsClearImg from "../../../assets/images/searchClear.png";
 import eventsAddImg from "../../../assets/images/addevent.png";
@@ -35,11 +33,12 @@ const MapViewComponent = () => {
     clearSearchEvents,
     isSearchActive,
   } = useContext(EventsContext);
-  const { userLocation, shareLocation, setShareLocation } =
+  const { userLocation } =
     useContext(LocationContext);
   const { friends } = useContext(FriendsContext);
   const { get, userToken } = useContext(ApiContext);
   const mapViewRef = useRef<MapView>(null);
+  const itemsRef = useRef([]);
   const [isUserLocationHandled, setUserLocationHandled] = useState(false);
   const [region, setRegion] = useState({
     latitude: userLocation?.coords.latitude ?? 52.4064,
@@ -47,6 +46,7 @@ const MapViewComponent = () => {
     latitudeDelta: 0.14,
     longitudeDelta: 0.16,
   });
+
   useEffect(() => {
     if (isUserLocationHandled || !userLocation) return;
     setUserLocationHandled(true);
@@ -67,6 +67,7 @@ const MapViewComponent = () => {
   };
   const onLoadCloseEvents = () => {
     loadCloseEvents(region);
+    reloadMarkers()
   };
 
   useEffect(() => {
@@ -121,6 +122,20 @@ const MapViewComponent = () => {
     return () => clearInterval(interval);
   }, [userToken]);
 
+  const reloadMarkers = () => {
+    console.log('reloadMarkers')
+    itemsRef.current.forEach(marker => {
+      if (marker != null) marker.redraw()
+    })
+  }
+  const isFocused = useIsFocused()
+
+  useEffect(() => {
+    if (isFocused) {
+      reloadMarkers()
+    }
+  }, [isFocused, markers, friendsMarkers])
+
   return (
     <>
       <MapView
@@ -139,7 +154,8 @@ const MapViewComponent = () => {
           }
           return (
             <Marker
-              key={marker.id}
+                ref={el => itemsRef.current[marker.id] = el}
+                key={marker.id}
               coordinate={marker.latlng}
               title={marker.name}
               description={marker.description}
@@ -174,7 +190,17 @@ const MapViewComponent = () => {
               title={marker.name}
               description={marker.description}
               tracksViewChanges={false}
-            />
+            >
+              <View>
+                <Image
+                    source={require("../../../assets/images/pin.png")}
+                    style={{
+                      width: 40,
+                      height: 40,
+                    }}
+                />
+              </View>
+            </Marker>
           );
         })}
       </MapView>

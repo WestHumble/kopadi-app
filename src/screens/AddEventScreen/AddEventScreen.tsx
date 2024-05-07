@@ -15,6 +15,8 @@ import { ApiContext } from "../../context/ApiContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { EventsContext } from "../../context/EventsContext";
 import { useNavigation } from "@react-navigation/native";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
+
 
 Geocoding.init(process.env.REACT_APP_GEOCODING_API_KEY);
 
@@ -22,6 +24,7 @@ const AddEventScreen = () => {
   const [eventName, setEventName] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
+  const [isPrivate, setIsPrivate] = useState<boolean>(false);
 
   const [eventDescription, setEventDescription] = useState("");
   const { height } = useWindowDimensions();
@@ -69,11 +72,11 @@ const AddEventScreen = () => {
               description: eventDescription,
               longitude: location.lng,
               latitude: location.lat,
-              city: "Poznań",
+              city: city,
               postal_code: "12-345",
               address: address,
               date: selectedDate,
-              isPrivate: false,
+              isPrivate: isPrivate,
             },
             (res) => {
               setIsRegisteringEvent(false)
@@ -94,7 +97,10 @@ const AddEventScreen = () => {
       }
     } catch (error) {
       setIsRegisteringEvent(false)
-      console.error("Błąd geokodowania:", error);
+      Alert.alert(
+          "Błąd",
+          "Nie można znaleźć podanego adresu."
+      );
     }
   };
 
@@ -112,6 +118,19 @@ const AddEventScreen = () => {
               setValue={setEventName}
               secureTextEntry={undefined}
               additionalStyle={styles.inputEventName}
+            />
+            <BouncyCheckbox
+                size={25}
+                fillColor="#F2B138"
+                unFillColor="#131417"
+                text="Wydarzenie publiczne"
+                iconStyle={{ borderColor: "#F2B138" }}
+                innerIconStyle={{ borderWidth: 2 }}
+                textStyle={{
+                  color: "#999999",
+                  textDecorationLine: "none",
+                }}
+                onPress={(isChecked: boolean) => {setIsPrivate(!isChecked)}}
             />
             <CustomInput
               placeholder="Data wydarzenia"
