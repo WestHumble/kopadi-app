@@ -87,15 +87,11 @@ export const ApiProvider = ({children}) => {
     }
     const post = async (endpoint, body? = null, success = null, error = null, noAuth = false, customConfig = null)=> {
         if (!noAuth && !userToken){
-            console.error("No Auth")
             if (null !== error){
                 error()
             }
             return
         }
-        // if (customConfig && !noAuth) {
-        //     customConfig ['Authorization'] = `Bearer ${userToken}`;
-        // }
 
         (await getInstance(noAuth, success, error)).post(`/api/${endpoint}`, body, customConfig).then(res => {
             if (!res || null === success){
@@ -112,7 +108,6 @@ export const ApiProvider = ({children}) => {
     }
     const get = async (endpoint, params? = null, success = null, error = null, noAuth = false, customConfig = null)=> {
         if (!noAuth && !userToken){
-            console.error("No Auth")
             return
         }
         (await getInstance(noAuth, success, error)).get(`/api/${endpoint}`, {

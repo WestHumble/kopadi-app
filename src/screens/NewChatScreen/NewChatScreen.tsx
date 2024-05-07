@@ -3,7 +3,7 @@ import {
   Text,
   StyleSheet,
   useWindowDimensions,
-  ScrollView, ActivityIndicator,
+  ScrollView, ActivityIndicator, Alert,
 } from "react-native";
 import React, {useContext, useEffect, useState} from "react";
 import CustomInput from "../../components/CustomInput";
@@ -27,6 +27,10 @@ const NewChatScreen = () => {
     setPickedFriends(pickedFriends.filter(f => f.id !== friend.id));
   };
   const onInitChatPressed = () => {
+    if (pickedFriends.length === 0) {
+      Alert.alert("Wybierz przynajmniej jednego znajomego")
+      return
+    }
     initChat(pickedFriends);
     setPickedFriends([])
   };

@@ -62,7 +62,7 @@ export const ChatProvider = ({children}) => {
     }, [chats, redirectChatId]);
     const setChatMessages = (chatIdParam) => {
         let chatIdUpdate = chatIdParam ?? chatId
-        if (chatIdUpdate !== null) {
+        if (chatIdUpdate !== null && undefined !== getChatById(chatIdUpdate)) {
             get('chat/get-all-messages/' + chatIdUpdate, null, (res) => {
                 getChatById(chatIdUpdate).messages = res.data.sort((c1, c2) => c1.created_at > c2.created_at)
                 setRefreshTime(Date.now())
@@ -93,7 +93,7 @@ export const ChatProvider = ({children}) => {
                         notification.request.trigger.remoteMessage.data.body
                     ).payload
                 ).conversation_id === chatId) {
-                    setChatAsRead()
+                    setChatAsRead(chatId)
                 } else {
                     getChatList()
                 }
