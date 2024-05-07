@@ -5,66 +5,86 @@ import {
   useWindowDimensions,
   ScrollView,
 } from "react-native";
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
-import {AuthContext} from "../../context/AuthContext";
-import {ApiContext} from "../../context/ApiContext";
+import { AuthContext } from "../../context/AuthContext";
+import { ApiContext } from "../../context/ApiContext";
 
 const ForgotPasswordScreen = () => {
   const [emailToResetPassword, setEmailToResetPassword] = useState("");
   const navigation = useNavigation();
-  const { resetPasswordToken, resetPasswordTokenInit } = useContext(AuthContext);
-  const {post} = useContext(ApiContext)
+  const { height } = useWindowDimensions();
+  const { resetPasswordToken, resetPasswordTokenInit } =
+    useContext(AuthContext);
+  const { post } = useContext(ApiContext);
   const onResetPasswordPressed = () => {
-    post('reset_password', {
-      email: emailToResetPassword,
-      token: resetPasswordToken
-    }, navigation.navigate("ResetPassword"), null, true)
+    post(
+      "reset_password",
+      {
+        email: emailToResetPassword,
+        token: resetPasswordToken,
+      },
+      navigation.navigate("ResetPassword"),
+      null,
+      true
+    );
   };
   const onBackToLoginPressed = () => {
     navigation.navigate("SignIn");
   };
 
   useEffect(() => {
-    resetPasswordTokenInit()
+    resetPasswordTokenInit();
   }, []);
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={styles.root}>
-        <Text style={styles.title} resizeMode="contain">
-          Zresetuj swoje hasło
-        </Text>
-        <CustomInput
-          placeholder="Podaj e-mail"
-          value={emailToResetPassword}
-          setValue={setEmailToResetPassword}
-          secureTextEntry={undefined}
-        />
-        <CustomButton
-          text="Wyślij link do resetowania hasła"
-          onPress={onResetPasswordPressed}
-          type="PRIMARY"
-          bgColor={undefined}
-          fgColor={undefined}
-        />
+    <View style={[styles.root, { height: height * 1 }]}>
+      <View style={styles.windowTab}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Text style={styles.title} resizeMode="contain">
+            Zresetuj swoje hasło
+          </Text>
+          <CustomInput
+            placeholder="Podaj e-mail"
+            value={emailToResetPassword}
+            setValue={setEmailToResetPassword}
+            secureTextEntry={undefined}
+          />
+          <CustomButton
+            text="Wyślij link do resetowania hasła"
+            onPress={onResetPasswordPressed}
+            type="PRIMARY"
+            bgColor={undefined}
+            fgColor={undefined}
+          />
 
-        <CustomButton
-          text="Cofnięcie do logowania"
-          onPress={onBackToLoginPressed}
-          type="TERTIARY"
-          bgColor={undefined}
-          fgColor={undefined}
-        />
+          <CustomButton
+            text="Cofnięcie do logowania"
+            onPress={onBackToLoginPressed}
+            type="TERTIARY"
+            bgColor={undefined}
+            fgColor={undefined}
+          />
+        </ScrollView>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   root: {
     alignItems: "center",
+    padding: 20,
+    backgroundColor: "#131417",
+    flex: 1,
+  },
+  windowTab: {
+    height: "92%",
+    width: "100%",
+    backgroundColor: "#1D1F24",
+    top: "7%",
+    borderRadius: 20,
     padding: 20,
   },
   text: {
@@ -80,7 +100,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
     marginTop: "15%",
-    color: "#003f63",
+    color: "#ffffff",
   },
 });
 
