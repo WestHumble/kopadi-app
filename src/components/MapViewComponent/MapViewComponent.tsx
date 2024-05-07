@@ -143,6 +143,7 @@ const MapViewComponent = () => {
               coordinate={marker.latlng}
               title={marker.name}
               description={marker.description}
+              tracksViewChanges={false}
               onPress={() => {
                 navigation.navigate("EventView", { eventId: marker.id });
               }}
@@ -159,28 +160,6 @@ const MapViewComponent = () => {
                   }}
                 />
               </View>
-              <Callout tooltip style={styles.callout}>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate("EventView", { eventId: marker.id });
-                  }}
-                >
-                  <Text style={styles.title}>{marker.name}</Text>
-                  <View style={styles.hr} />
-                  <View style={styles.hr} />
-                  <Text style={styles.address}>{marker.address}</Text>
-                  <CustomButton
-                    text="Szczegóły wydarzenia"
-                    onPress={() => {
-                      navigation.navigate("EventView", { eventId: marker.id });
-                    }}
-                    type="PRIMARY"
-                    bgColor={undefined}
-                    fgColor={undefined}
-                    additionalStyles={undefined}
-                  />
-                </TouchableOpacity>
-              </Callout>
             </Marker>
           );
         })}
@@ -194,22 +173,8 @@ const MapViewComponent = () => {
               coordinate={marker.latlng}
               title={marker.name}
               description={marker.description}
-            >
-              <Callout tooltip style={styles.callout}>
-                <View>
-                  <Text style={styles.title}>{marker.name}</Text>
-                  <Text style={styles.description}>{marker.description}</Text>
-                  <CustomButton
-                    text="Details"
-                    onPress={() => {}}
-                    type="PRIMARY"
-                    bgColor={undefined}
-                    fgColor={undefined}
-                    additionalStyles={undefined}
-                  />
-                </View>
-              </Callout>
-            </Marker>
+              tracksViewChanges={false}
+            />
           );
         })}
       </MapView>

@@ -15,18 +15,25 @@ import friendList from "../../components/FriendList";
 import {ChatContext} from "../../context/ChatContext";
 import ChatList from "../../components/ChatList";
 import CustomButton from "../../components/CustomButton";
-import {useNavigation} from "@react-navigation/native";
+import {useIsFocused, useNavigation} from "@react-navigation/native";
 
 const ChatListScreen = () => {
   const { height } = useWindowDimensions();
   const [searchPhrase, setSearchPhrase] = useState("");
-  const { chats } = useContext(ChatContext);
+  const { chats, getChatList } = useContext(ChatContext);
   const navigation = useNavigation()
 
   const onNewChatPressed = () => {
     navigation.navigate("NewChat");
   };
 
+  const isFocused = useIsFocused()
+
+  useEffect(() => {
+    if (isFocused) {
+      getChatList()
+    }
+  }, [isFocused])
 
   return (
       <>

@@ -3,6 +3,7 @@ import React, {createContext, useContext, useEffect, useState} from 'react';
 import uuid from 'react-native-uuid';
 import {ApiContext} from "./ApiContext";
 import {Friend} from "../types/friend";
+import {Alert} from "react-native";
 
 export const AuthContext = createContext(null);
 
@@ -43,6 +44,7 @@ export const AuthProvider = ({children}) => {
             },
             res => {
                 setIsLoading(false)
+                Alert.alert("Niepoprawny email lub hasło")
             },
             true
         );
@@ -92,14 +94,13 @@ export const AuthProvider = ({children}) => {
         }
         post('auth-ping', null
             , ()=> {
-                setIsLoading(false)
+                fetchUserData()
             }, (res)=> {
                 setUserToken(null)
                 setUserRefreshToken(null)
                 AsyncStorage.removeItem('userToken')
                 AsyncStorage.removeItem('userRefreshToken')
                 deleteInstances()
-                fetchUserData()
             })
     }, [userToken])
 

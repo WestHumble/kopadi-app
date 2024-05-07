@@ -7,7 +7,7 @@ import {
   ScrollView,
   ActivityIndicator,
 } from "react-native";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import Logo from "../../../assets/images/LOGOTYP.png";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
@@ -18,10 +18,9 @@ import { LocationContext } from "../../context/LocationContext";
 import { ApiContext } from "../../context/ApiContext";
 
 const SignInScreen = () => {
-  const { login, logout, isLoading } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
-  const { userLocation } = useContext(LocationContext);
 
   const [password, setPassword] = useState("");
 
