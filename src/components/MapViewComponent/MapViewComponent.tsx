@@ -15,7 +15,7 @@ import { EventsContext } from "../../context/EventsContext";
 import { FriendsContext } from "../../context/FriendsContext";
 import { Friend } from "../../types/friend";
 import { Event } from "../../types/event";
-import {useIsFocused, useNavigation} from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import eventsRefreshImg from "../../../assets/images/refresh.png";
 import eventsClearImg from "../../../assets/images/searchClear.png";
 import eventsAddImg from "../../../assets/images/addevent.png";
@@ -33,8 +33,7 @@ const MapViewComponent = () => {
     clearSearchEvents,
     isSearchActive,
   } = useContext(EventsContext);
-  const { userLocation } =
-    useContext(LocationContext);
+  const { userLocation } = useContext(LocationContext);
   const { friends } = useContext(FriendsContext);
   const { get, userToken } = useContext(ApiContext);
   const mapViewRef = useRef<MapView>(null);
@@ -46,6 +45,101 @@ const MapViewComponent = () => {
     latitudeDelta: 0.14,
     longitudeDelta: 0.16,
   });
+  const mapStyle = [
+    {
+      featureType: "poi.attraction",
+      stylers: [
+        {
+          visibility: "off",
+        },
+      ],
+    },
+    {
+      featureType: "poi.business",
+      stylers: [
+        {
+          visibility: "off",
+        },
+      ],
+    },
+    {
+      featureType: "poi.business",
+      elementType: "geometry.fill",
+      stylers: [
+        {
+          visibility: "off",
+        },
+      ],
+    },
+    {
+      featureType: "poi.business",
+      elementType: "geometry.stroke",
+      stylers: [
+        {
+          visibility: "off",
+        },
+      ],
+    },
+    {
+      featureType: "poi.business",
+      elementType: "labels.text",
+      stylers: [
+        {
+          visibility: "off",
+        },
+      ],
+    },
+    {
+      featureType: "poi.business",
+      elementType: "labels.text.fill",
+      stylers: [
+        {
+          visibility: "off",
+        },
+      ],
+    },
+    {
+      featureType: "poi.business",
+      elementType: "labels.text.stroke",
+      stylers: [
+        {
+          visibility: "off",
+        },
+      ],
+    },
+    {
+      featureType: "poi.government",
+      stylers: [
+        {
+          visibility: "off",
+        },
+      ],
+    },
+    {
+      featureType: "poi.medical",
+      stylers: [
+        {
+          visibility: "off",
+        },
+      ],
+    },
+    {
+      featureType: "poi.school",
+      stylers: [
+        {
+          visibility: "off",
+        },
+      ],
+    },
+    {
+      featureType: "poi.sports_complex",
+      stylers: [
+        {
+          visibility: "off",
+        },
+      ],
+    },
+  ];
 
   useEffect(() => {
     if (isUserLocationHandled || !userLocation) return;
@@ -67,7 +161,7 @@ const MapViewComponent = () => {
   };
   const onLoadCloseEvents = () => {
     loadCloseEvents(region);
-    reloadMarkers()
+    reloadMarkers();
   };
 
   useEffect(() => {
@@ -123,23 +217,24 @@ const MapViewComponent = () => {
   }, [userToken]);
 
   const reloadMarkers = () => {
-    console.log('reloadMarkers')
-    itemsRef.current.forEach(marker => {
-      if (marker != null) marker.redraw()
-    })
-  }
-  const isFocused = useIsFocused()
+    console.log("reloadMarkers");
+    itemsRef.current.forEach((marker) => {
+      if (marker != null) marker.redraw();
+    });
+  };
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     if (isFocused) {
-      reloadMarkers()
+      reloadMarkers();
     }
-  }, [isFocused, markers, friendsMarkers])
+  }, [isFocused, markers, friendsMarkers]);
 
   return (
     <>
       <MapView
         style={styles.map}
+        customMapStyle={mapStyle}
         provider={PROVIDER_GOOGLE}
         initialRegion={region}
         onRegionChange={onRegionChange}
@@ -154,8 +249,8 @@ const MapViewComponent = () => {
           }
           return (
             <Marker
-                ref={el => itemsRef.current[marker.id] = el}
-                key={marker.id}
+              ref={(el) => (itemsRef.current[marker.id] = el)}
+              key={marker.id}
               coordinate={marker.latlng}
               title={marker.name}
               description={marker.description}
@@ -193,11 +288,11 @@ const MapViewComponent = () => {
             >
               <View>
                 <Image
-                    source={require("../../../assets/images/pin.png")}
-                    style={{
-                      width: 40,
-                      height: 40,
-                    }}
+                  source={require("../../../assets/images/pin.png")}
+                  style={{
+                    width: 40,
+                    height: 40,
+                  }}
                 />
               </View>
             </Marker>
