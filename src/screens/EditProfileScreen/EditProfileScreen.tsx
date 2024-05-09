@@ -158,8 +158,9 @@ const EditProfileScreen = () => {
                 value={userData.email}
                 setValue={(value) => {}}
                 secureTextEntry={undefined}
+                editable={false}
                 additionalStyle={{
-                  color: "#fff",
+                  color: "#333333",
                 }}
               />
 
