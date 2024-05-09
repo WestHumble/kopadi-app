@@ -160,7 +160,7 @@ const EditProfileScreen = () => {
                   color: "#333333",
                 }}
               />
-
+              <View style={{ height: 20 }}></View>
               <CustomButton
                 text="Zapisz"
                 onPress={() => {}}
