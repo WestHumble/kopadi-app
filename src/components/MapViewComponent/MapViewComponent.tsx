@@ -123,7 +123,6 @@ const MapViewComponent = () => {
   }, [userToken]);
 
   const reloadMarkers = () => {
-    console.log('reloadMarkers')
     itemsRef.current.forEach(marker => {
       if (marker != null) marker.redraw()
     })

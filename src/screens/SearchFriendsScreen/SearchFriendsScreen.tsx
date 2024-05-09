@@ -33,7 +33,7 @@ const SearchFriendsScreen = () => {
       })
       return matches
     }) : friends)
-  }, [friends]);
+  }, [friends, searchPhrase]);
 
   const onNewFriendRequest = () => {
     navigation.navigate("NewFriend")
