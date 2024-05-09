@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   Alert,
   Pressable,
+  ImageBackground,
 } from "react-native";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
@@ -114,6 +115,7 @@ const EditProfileScreen = () => {
                   <Image source={eventsRefreshImg} style={styles.refreshIcon} />
                 </Pressable>
               </View>
+
               <View style={styles.imageProfile}>
                 <Image
                   source={{
