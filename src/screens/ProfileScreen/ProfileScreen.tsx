@@ -83,7 +83,7 @@ const ProfileScreen = () => {
             />
             <CustomButton
               additionalStyles={{}}
-              text={shareLocation ? "Sharing on" : "Sharing off"}
+              text={shareLocation ? "Udostępnianie lokalizacji: Włączone" : "Udostępnianie lokalizacji: Wyłączone"}
               onPress={onShareLocationToggle}
               type="PRIMARY"
               bgColor={undefined}

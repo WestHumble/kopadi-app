@@ -113,7 +113,7 @@ const TabsLoggedIn = () => {
                                         color: focused ? "#F2B138" : "#676D75",
                                     }}
                                 >
-                                    Home
+                                    Mapa
                                 </Text>
                             </View>
                         );
@@ -188,7 +188,7 @@ const TabsLoggedIn = () => {
                     color: focused ? "#F2B138" : "#676D75",
                   }}
                 >
-                  Chat
+                  Czat
                 </Text>
               </View>
             );

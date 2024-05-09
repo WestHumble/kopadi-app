@@ -24,7 +24,7 @@ const ChatMessageItem = ({ chat, chatMessage, displayFriend }) => {
 
   return (
       <View style={chatMessage.sent_by_logged_user ? styles.selfMessageContainer : styles.messageContainer}>
-        <Text style={styles.messageText}>{(displayFriend ? (friend?.name??'Anon') + ' ' : ' ') + chatMessage.message_text}</Text>
+        <Text style={styles.messageText}>{(!chatMessage.sent_by_logged_user && displayFriend ? (friend?.name??'Anon') + ': ' : ' ') + chatMessage.message_text}</Text>
       </View>
   );
 }
@@ -97,7 +97,7 @@ const ChatScreen = ({route}) => {
           </Text>
           <ScrollView ref={scrollRef} contentOffset={{x:0, y:9999}} showsVerticalScrollIndicator={false}>
             {chat.messages?.map((chatMessage)=>
-                (<ChatMessageItem key={chatMessage.id}  chat={chat} chatMessage={chatMessage} displayFriend={chat.participants.length > 2}/>)
+                (<ChatMessageItem key={chatMessage.id}  chat={chat} chatMessage={chatMessage} displayFriend={chat.event_name !== null || chat.participants.length > 2}/>)
             )}
           </ScrollView>
           <CustomInput

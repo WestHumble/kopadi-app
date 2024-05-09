@@ -3,7 +3,7 @@ import {
   Text,
   StyleSheet,
   useWindowDimensions,
-  ScrollView,
+  ScrollView, Image, TouchableWithoutFeedback, ActivityIndicator,
 } from "react-native";
 import React, {useContext, useEffect, useState} from "react";
 import CustomInput from "../../components/CustomInput";
@@ -12,12 +12,15 @@ import { useNavigation } from "@react-navigation/native";
 import {FriendsContext} from "../../context/FriendsContext";
 import FriendList from "../../components/FriendList";
 import {Friend} from "../../types/friend";
+import {ChatContext} from "../../context/ChatContext";
+import eventButton from "../../../assets/images/right-alt-yellow.png";
 
 const SearchFriendsScreen = () => {
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
   const [searchPhrase, setSearchPhrase] = useState("");
   const { friends } = useContext(FriendsContext);
+  const { initChat, initializingChat } = useContext(ChatContext);
   const [friendsList, setFriendsList] = useState<Friend[]>([]);
 
   useEffect(() => {
@@ -38,7 +41,14 @@ const SearchFriendsScreen = () => {
   const onNewFriendRequest = () => {
     navigation.navigate("NewFriend")
   };
-
+  if (initializingChat) {
+    return (
+        <View style={{ flex: 1, justifyContent: "center",
+          backgroundColor: "#131417",alignItems: "center" }}>
+          <ActivityIndicator size={"large"} />
+        </View>
+    );
+  }
   return (
     <>
       <View style={[styles.root, { height: height * 1 }]}>
@@ -48,7 +58,11 @@ const SearchFriendsScreen = () => {
               title: "Znajomi",
               data: friendsList,
             },
-          ]} />
+          ]}
+            action={(friend) => {initChat([friend])}}
+            actionText={(friend) => {
+              return "Czat";
+          }}/>
           <CustomInput
             placeholder="Szukaj"
             value={searchPhrase}
@@ -98,6 +112,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: "5%",
     color: "#fff",
+  },
+  buttonImg: {
+    width: 30,
+    height: 30,
   },
   searchInput: {color: "#fff"},
 });

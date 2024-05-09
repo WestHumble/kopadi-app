@@ -12,6 +12,7 @@ import FriendList from "../../components/FriendList";
 import {Friend} from "../../types/friend";
 import CustomButton from "../../components/CustomButton";
 import {ChatContext} from "../../context/ChatContext";
+import {useIsFocused} from "@react-navigation/native";
 
 const NewChatScreen = () => {
   const { height } = useWindowDimensions();
@@ -34,7 +35,13 @@ const NewChatScreen = () => {
     initChat(pickedFriends);
     setPickedFriends([])
   };
+  const isFocused = useIsFocused()
 
+  useEffect(() => {
+    if (isFocused) {
+      setPickedFriends([])
+    }
+  }, [isFocused])
   const data = [
     {
       title: "Dodaj znajomych",
