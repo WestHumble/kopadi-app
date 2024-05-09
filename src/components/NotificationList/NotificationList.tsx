@@ -7,6 +7,7 @@ import {FriendsContext} from "../../context/FriendsContext";
 import {FriendInviteNotification} from "../../types/notification";
 import {EventsContext} from "../../context/EventsContext";
 import {EventInvite} from "../../types/eventInvite";
+import Avatar from "../Avatar";
 
 const API_ADDRESS = process.env.EXPO_PUBLIC_API_URL;
 const FriendInviteItem = ({notification }) => {
@@ -31,9 +32,17 @@ const FriendInviteItem = ({notification }) => {
     }
     return (
         <View style={styles.notificationContainer}>
-            <Image
-                style={{width: 100, height: 100}}
-                source={{uri: `${API_ADDRESS}/api/avatar/get/${notification.friendInvite.friend.id}`}}
+            <Avatar
+                style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: 5,
+                    marginRight: 10,
+                    padding: 1,
+                    shadowColor: "black",
+                    backgroundColor: "#222",
+                }}
+                userId={notification.friendInvite.friend.id}
             />
             <Text
                 style={styles.name}>{notification.friendInvite.friend.name} {notification.friendInvite.friend.surname}</Text>

@@ -16,8 +16,8 @@ import CustomButton from "../../components/CustomButton";
 import { ApiContext } from "../../context/ApiContext";
 import mime from "mime";
 import eventsRefreshImg from "../../../assets/images/refresh.png";
-import avatarImg from "../../../assets/images/user-prime.png";
 import CustomInput from "../../components/CustomInput";
+import Avatar from "../../components/Avatar";
 
 const API_ADDRESS = process.env.EXPO_PUBLIC_API_URL;
 const EditProfileScreen = () => {
@@ -39,13 +39,8 @@ const EditProfileScreen = () => {
     post(
       "avatar",
       formData,
-      (res) => {
-        console.log("success");
-      },
-      (res) => {
-        console.error("fail");
-        console.log(res.data);
-      },
+      null,
+      null,
       false,
       {
         headers: {
@@ -100,6 +95,7 @@ const EditProfileScreen = () => {
       </View>
     );
   }
+
   return (
     <>
       <View style={[styles.root, { height: height * 1 }]}>
@@ -115,23 +111,7 @@ const EditProfileScreen = () => {
                 </Pressable>
               </View>
               <View style={styles.imageProfile}>
-                <Image
-                  source={{
-                    uri:
-                      image ??
-                      `${API_ADDRESS}/api/avatar/get/${userData.id}?` +
-                        Date.now(),
-                  }}
-                  style={{
-                    width: 100,
-                    height: 100,
-                    borderRadius: 50,
-                    margin: 20,
-                    alignSelf: "center",
-                    borderWidth: 3,
-                    borderColor: "#F2B138",
-                  }}
-                />
+                <Avatar image={image} userId={userData.id} style={styles.avatarImage}/>
               </View>
             </View>
             <View style={styles.dataDiv}>
@@ -209,6 +189,7 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   avatarDiv: {
+    zIndex: 0,
     flexDirection: "row",
     justifyContent: "center",
   },
@@ -238,6 +219,16 @@ const styles = StyleSheet.create({
   dataDiv: {
     marginTop: 20,
   },
+  avatarImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    margin: 20,
+    alignSelf: "center",
+    borderWidth: 3,
+    borderColor: "#F2B138",
+    backgroundColor: "#F2B138"
+  }
 });
 
 export default EditProfileScreen;

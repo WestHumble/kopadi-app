@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, SectionList, StyleSheet, Image } from "react-native";
 import CustomButton from "../CustomButton";
+import Avatar from "../Avatar";
 
 const API_ADDRESS = process.env.EXPO_PUBLIC_API_URL;
 const FriendItem = ({
@@ -25,7 +26,7 @@ const FriendItem = ({
           alignItems: "center",
         }}
       >
-        <Image
+        <Avatar
           style={{
             width: 50,
             height: 50,
@@ -35,7 +36,7 @@ const FriendItem = ({
             shadowColor: "black",
             backgroundColor: "#222",
           }}
-          source={{ uri: `${API_ADDRESS}/api/avatar/get/${friend.id}` }}
+          userId={friend.id}
         />
         <Text style={styles.name}>
           {friend.name} {friend.surname}
