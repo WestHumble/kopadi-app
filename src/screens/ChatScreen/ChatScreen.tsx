@@ -59,7 +59,7 @@ const ChatScreen = ({route}) => {
 
   useEffect(() => {
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-        setChatMessages(JSON.parse(JSON.parse(notification.request.trigger.remoteMessage.data.body).payload).conversation_id)
+      setTimeout(() => setChatMessages(JSON.parse(JSON.parse(notification.request.trigger.remoteMessage.data.body).payload).conversation_id), 1000)
     });
 
     return () => {

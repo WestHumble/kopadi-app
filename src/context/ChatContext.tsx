@@ -37,11 +37,14 @@ export const ChatProvider = ({children}) => {
                     chatTmp.name = data.name;
                     chatTmp.participants = data.participants;
                     chatTmp.is_seen = data.is_seen;
+                    chatTmp.last_message_id = data.last_message_id;
                     chatsCopy.push(chatTmp)
                 } else {
                     chatsCopy.push(data)
                 }
             })
+
+            chatsCopy.sort((c1, c2) => c1.last_message_id > c2.last_message_id ? -1 : 1)
             setChats(chatsCopy)
         })
     };
@@ -95,7 +98,7 @@ export const ChatProvider = ({children}) => {
                 ).conversation_id === chatId) {
                     setChatAsRead(chatId)
                 } else {
-                    getChatList()
+                    setTimeout(getChatList, 1000)
                 }
             }
         });

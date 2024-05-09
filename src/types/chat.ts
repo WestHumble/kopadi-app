@@ -7,6 +7,7 @@ export type Chat = {
     participants: Friend[],
     is_seen: boolean,
     messages: ChatMessage[],
+    last_message_id: number,
 }
 
 export type ChatMessage = {

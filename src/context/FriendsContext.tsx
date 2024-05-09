@@ -12,7 +12,6 @@ export const FriendsProvider = ({children}) => {
     const [friends, setFriends] = useState<Friend[]>([]);
     const [pendingInvites, setPendingInvites] = useState<FriendInvite[]>([]);
     const [unreadFriendInvitesCounter, setUnreadFriendInvitesCounter] = useState<number>(0);
-    const appState = useRef(AppState.currentState);
 
     const { get, userToken } = useContext(ApiContext);
     const { navigationRef } = useContext(NavigationContext);
@@ -22,7 +21,6 @@ export const FriendsProvider = ({children}) => {
         })
     };
     const getPendingFriendInvites = () => {
-        console.log('getPendingFriendInvites')
         get('friend-invite/invites', null, (res) => {
             setPendingInvites(res.data)
         })
@@ -33,10 +31,10 @@ export const FriendsProvider = ({children}) => {
     useEffect(() => {
         notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
             if ('new_friend' === notification.request.trigger.channelId) {
-                getFriendList()
+                setTimeout(getFriendList, 1000)
             }
             if ('new_friend_invite' === notification.request.trigger.channelId) {
-                getPendingFriendInvites()
+                setTimeout(getPendingFriendInvites, 1000)
             }
         });
 

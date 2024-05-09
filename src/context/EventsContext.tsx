@@ -38,7 +38,7 @@ export const EventsProvider = ({children}) => {
     useEffect(() => {
         notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
             if ('new_event_invite' === notification.request.trigger.channelId) {
-                getPendingEventInvites()
+                setTimeout(getPendingEventInvites, 1000)
             }
         });
 
