@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
   link: {
-    color: "#003f63",
+    color: "#f2b138",
   },
   title: {
     fontSize: 24,

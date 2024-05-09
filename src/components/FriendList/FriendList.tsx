@@ -1,22 +1,58 @@
 import React from "react";
-import {View, Text, SectionList, StyleSheet, Image} from "react-native";
+import { View, Text, SectionList, StyleSheet, Image } from "react-native";
 import CustomButton from "../CustomButton";
 
 const API_ADDRESS = process.env.EXPO_PUBLIC_API_URL;
-const FriendItem = ({ friend, action, actionText, hideAction = () => false }) => (
+const FriendItem = ({
+  friend,
+  action,
+  actionText,
+  hideAction = () => false,
+}) => (
   <View style={styles.friendContainer}>
-      <Image
-          style={{width: 100, height: 100}}
-          source={{uri:`${API_ADDRESS}/api/avatar/get/${friend.id}`}}
-      />
-    <Text style={styles.name}>{friend.name} {friend.surname}</Text>
-      { action && !hideAction(friend) && (<CustomButton
-          text={actionText(friend)}
-          onPress={() => action(friend)}
-          type="PRIMARY"
-          bgColor={undefined}
-          fgColor={undefined}
-      />)}
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        display: "flex",
+      }}
+    >
+      <View
+        style={{
+          flex: 3 / 4,
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <Image
+          style={{
+            width: 50,
+            height: 50,
+            borderRadius: 5,
+            marginRight: 10,
+            padding: 1,
+            shadowColor: "black",
+            backgroundColor: "#222",
+          }}
+          source={{ uri: `${API_ADDRESS}/api/avatar/get/${friend.id}` }}
+        />
+        <Text style={styles.name}>
+          {friend.name} {friend.surname}
+        </Text>
+      </View>
+      <View style={{ flex: 1 / 4 }}>
+        {action && !hideAction(friend) && (
+          <CustomButton
+            text={actionText(friend)}
+            onPress={() => action(friend)}
+            type="PRIMARY"
+            bgColor={undefined}
+            fgColor={undefined}
+          />
+        )}
+      </View>
+    </View>
   </View>
 );
 
@@ -31,10 +67,10 @@ const FriendList = ({ data, action, actionText, hideAction }) => (
     )}
     renderItem={({ item }) => (
       <FriendItem
-          friend={item}
-          action={action}
-          actionText={actionText}
-          hideAction={hideAction}
+        friend={item}
+        action={action}
+        actionText={actionText}
+        hideAction={hideAction}
       />
     )}
     renderSectionFooter={({ section }) =>
