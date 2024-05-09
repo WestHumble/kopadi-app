@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   Alert,
   Pressable,
+  ImageBackground,
 } from "react-native";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
@@ -110,6 +111,7 @@ const EditProfileScreen = () => {
                   <Image source={eventsRefreshImg} style={styles.refreshIcon} />
                 </Pressable>
               </View>
+
               <View style={styles.imageProfile}>
                 <Avatar image={image} userId={userData.id} style={styles.avatarImage}/>
               </View>
@@ -138,11 +140,12 @@ const EditProfileScreen = () => {
                 value={userData.email}
                 setValue={(value) => {}}
                 secureTextEntry={undefined}
+                editable={false}
                 additionalStyle={{
-                  color: "#fff",
+                  color: "#333333",
                 }}
               />
-
+              <View style={{ height: 20 }}></View>
               <CustomButton
                 text="Zapisz"
                 onPress={() => {}}
@@ -208,13 +211,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#1D1F24",
     borderRadius: 50,
     padding: 5,
-    right: 90,
-    bottom: 14,
+    right: 85,
+    bottom: 9,
     borderWidth: 1,
     borderColor: "#F2B138",
   },
   imageProfile: {
     zIndex: 0,
+    borderWidth: 3,
+    borderColor: "#F2B138",
+    borderRadius: 50,
+    margin: 10,
   },
   dataDiv: {
     marginTop: 20,
@@ -223,10 +230,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    margin: 20,
     alignSelf: "center",
-    borderWidth: 3,
-    borderColor: "#F2B138",
     backgroundColor: "#F2B138"
   }
 });
