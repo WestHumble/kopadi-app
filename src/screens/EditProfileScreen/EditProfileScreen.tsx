@@ -10,7 +10,7 @@ import {
   Pressable,
   ImageBackground,
 } from "react-native";
-import React, { useContext, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { AuthContext } from "../../context/AuthContext";
 import * as ImagePicker from "expo-image-picker";
 import CustomButton from "../../components/CustomButton";
@@ -25,7 +25,14 @@ const EditProfileScreen = () => {
   const { userData, fetchUserData } = useContext(AuthContext);
   const [name, setName] = useState(userData?.name ?? '');
   const [surname, setSurname] = useState(userData?.surname ?? '');
+  const [noCacheId] = useState(Date.now());
   const { post } = useContext(ApiContext);
+
+  useEffect(() => {
+    setName(userData?.name ?? '')
+    setSurname(userData?.surname ?? '')
+  }, [userData]);
+
   const sendAvatar = (image) => {
     const formData = new FormData();
     const imageUri = "file:///" + image.uri.split("file:/").join("");
@@ -124,7 +131,7 @@ const EditProfileScreen = () => {
               </View>
 
               <View style={styles.imageProfile}>
-                <Avatar image={image} userId={userData.id} style={styles.avatarImage}/>
+                <Avatar image={image} userId={userData.id} style={styles.avatarImage} noCache={true} noCacheId={noCacheId}/>
               </View>
             </View>
             <View style={styles.dataDiv}>
