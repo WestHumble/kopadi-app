@@ -68,7 +68,8 @@ export const EventsProvider = ({children}) => {
             longitude: region?.longitude??userLocation?.coords.longitude ?? 16.9252,
             distanceInMeters: 1000
         }, (res) => {
-            setEventsOther(res.data)
+            let other = res.data?.sort((e1, e2)=> new Date(e1.date.date) < new Date(e2.date.date) ? -1 : 1)
+            setEventsOther(other)
         })
     };
 
@@ -79,9 +80,12 @@ export const EventsProvider = ({children}) => {
             distanceInMeters: 1000
         }, (res) => {
             let eventsData = res.data
-            setEventsCreated(eventsData['created'] ?? [])
-            setEventsInvited(eventsData['invited'] ?? [])
-            setEventsOther(eventsData['other'] ?? [])
+            let created = eventsData['created']?.sort((e1, e2)=> new Date(e1.date.date) < new Date(e2.date.date) ? -1 : 1)
+            let invited = eventsData['invited']?.sort((e1, e2)=> new Date(e1.date.date) < new Date(e2.date.date) ? -1 : 1)
+            let other = eventsData['other']?.sort((e1, e2)=> new Date(e1.date.date) < new Date(e2.date.date) ? -1 : 1)
+            setEventsCreated(created ?? [])
+            setEventsInvited(invited ?? [])
+            setEventsOther(other ?? [])
         }, (res) => {
             console.log(res.response.data)
         })
@@ -99,9 +103,12 @@ export const EventsProvider = ({children}) => {
                 Alert.alert("Nie znaleziono wydarzeń")
                 return
             }
-            setEventsCreatedSearch(eventsData['created'] ?? [])
-            setEventsInvitedSearch(eventsData['invited'] ?? [])
-            setEventsOtherSearch(eventsData['other'] ?? [])
+            let created = eventsData['created']?.sort((e1, e2)=> new Date(e1.date.date) < new Date(e2.date.date) ? -1 : 1)
+            let invited = eventsData['invited']?.sort((e1, e2)=> new Date(e1.date.date) < new Date(e2.date.date) ? -1 : 1)
+            let other = eventsData['other']?.sort((e1, e2)=> new Date(e1.date.date) < new Date(e2.date.date) ? -1 : 1)
+            setEventsCreatedSearch(created ?? [])
+            setEventsInvitedSearch(invited ?? [])
+            setEventsOtherSearch(other ?? [])
             setSearchActive(true)
         },)
     };
