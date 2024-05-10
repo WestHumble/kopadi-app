@@ -63,6 +63,13 @@ const AddEventScreen = () => {
       return;
     }
 
+    if (selectedDate < Date.now()) {
+      Alert.alert("Powiadomienie", "Data musi być późniejsza niż aktualna.");
+
+      setIsRegisteringEvent(false)
+      return;
+    }
+
     try {
       const response = await Geocoding.from(city + ' ' + address);
       const { results } = response;
