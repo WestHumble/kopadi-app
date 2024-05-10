@@ -53,7 +53,9 @@ const SearchFriendsScreen = () => {
     <>
       <View style={[styles.root, { height: height * 1 }]}>
         <View style={styles.windowTab}>
-          <FriendList data={[
+          <FriendList
+              noDataText={"Brak znajomych"}
+              data={[
             {
               title: "Znajomi",
               data: friendsList,

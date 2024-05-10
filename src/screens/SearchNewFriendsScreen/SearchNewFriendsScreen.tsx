@@ -57,7 +57,7 @@ const SearchNewFriendsScreen = () => {
           <FriendList
               data={[
                 {
-                  title: "Szukaj znajomych",
+                  title: "Szukaj nowych znajomych",
                   data: searchPhrase ? searchFriends : [],
                 },
               ]}

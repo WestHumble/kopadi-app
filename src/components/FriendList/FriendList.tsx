@@ -57,7 +57,7 @@ const FriendItem = ({
   </View>
 );
 
-const FriendList = ({ data, action, actionText, hideAction }) => (
+const FriendList = ({ data, noDataText, action, actionText, hideAction }) => (
   <SectionList
     sections={data}
     keyExtractor={(item, index) => item.id.toString()}
@@ -77,7 +77,7 @@ const FriendList = ({ data, action, actionText, hideAction }) => (
     renderSectionFooter={({ section }) =>
       section.data.length === 0 && (
         <View style={styles.noFriendsContainer}>
-          <Text style={styles.noFriendsText}>Brak znajomych</Text>
+          <Text style={styles.noFriendsText}>{noDataText}</Text>
         </View>
       )
     }

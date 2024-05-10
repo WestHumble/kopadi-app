@@ -73,7 +73,9 @@ const NewChatScreen = () => {
       <>
         <View style={[styles.root, { height: height * 1 }]}>
           <View style={styles.windowTab}>
-            <FriendList data={data}
+            <FriendList
+                noDataText={"Brak znajomych"}
+                data={data}
               action={friend=>{pickedFriends.find(e => e.id === friend.id) ? removeFriend(friend) : pickFriend(friend)}}
               actionText={friend=>{ return pickedFriends.find(e => e.id === friend.id) ? "Usuń" : "Dodaj"}}
             />

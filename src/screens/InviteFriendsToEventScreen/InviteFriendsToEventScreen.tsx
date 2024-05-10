@@ -106,6 +106,7 @@ const InviteFriendsToEventScreen = ({ route }) => {
         <View style={styles.windowTab}>
           <FriendList
             data={data}
+            noDataText={"Brak znajomych"}
             action={(friend) => {
               inviteSent.find((e) => e.id === friend.id)
                 ? deleteFriendInvite(friend)
