@@ -63,6 +63,9 @@ const AddEventScreen = () => {
       return;
     }
 
+    selectedDate.setHours(timeString.split(":")[0]);
+    selectedDate.setMinutes(timeString.split(":")[1]);
+
     if (selectedDate < Date.now()) {
       Alert.alert("Powiadomienie", "Data musi być późniejsza niż aktualna.");
 
