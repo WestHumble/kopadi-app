@@ -9,9 +9,11 @@ const CustomButton = ({
   fgColor,
   additionalStyles,
   additionalStylesText,
+  disabled,
 }) => {
   return (
     <Pressable
+      disabled={disabled}
       onPress={onPress}
       style={[
         styles.container,

@@ -19,10 +19,12 @@ import mime from "mime";
 import eventsRefreshImg from "../../../assets/images/refresh.png";
 import CustomInput from "../../components/CustomInput";
 import Avatar from "../../components/Avatar";
-
-const API_ADDRESS = process.env.EXPO_PUBLIC_API_URL;
 const EditProfileScreen = () => {
   const [image, setImage] = useState(null);
+  const [saving, setSetSaving] = useState(false);
+  const { userData, fetchUserData } = useContext(AuthContext);
+  const [name, setName] = useState(userData?.name ?? '');
+  const [surname, setSurname] = useState(userData?.surname ?? '');
   const { post } = useContext(ApiContext);
   const sendAvatar = (image) => {
     const formData = new FormData();
@@ -51,6 +53,17 @@ const EditProfileScreen = () => {
     );
   };
 
+  const onSavePressed = () => {
+    setSetSaving(true);
+    post('user/update', {
+      name: name,
+      surname: surname,
+    }, () => {
+      setSetSaving(false);
+    }, () => {
+      setSetSaving(false);
+    })
+  }
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -73,8 +86,6 @@ const EditProfileScreen = () => {
       }
     }
   };
-
-  const { userData, fetchUserData } = useContext(AuthContext);
   const { height } = useWindowDimensions();
 
   const [isLoadingUserData, setIsLoadingUserData] = useState<boolean>(false);
@@ -119,8 +130,8 @@ const EditProfileScreen = () => {
             <View style={styles.dataDiv}>
               <CustomInput
                 placeholder="Imię"
-                value={userData.name}
-                setValue={(value) => {}}
+                value={name}
+                setValue={setName}
                 secureTextEntry={undefined}
                 additionalStyle={{
                   color: "#fff",
@@ -128,27 +139,18 @@ const EditProfileScreen = () => {
               />
               <CustomInput
                 placeholder="Nazwisko"
-                value={userData.surname}
-                setValue={(value) => {}}
+                value={surname}
+                setValue={setSurname}
                 secureTextEntry={undefined}
                 additionalStyle={{
                   color: "#fff",
                 }}
               />
-              <CustomInput
-                placeholder="Email"
-                value={userData.email}
-                setValue={(value) => {}}
-                secureTextEntry={undefined}
-                editable={false}
-                additionalStyle={{
-                  color: "#333333",
-                }}
-              />
               <View style={{ height: 20 }}></View>
               <CustomButton
-                text="Zapisz"
-                onPress={() => {}}
+                text={saving ? (<ActivityIndicator size={"large"} />) : "Zapisz"}
+                onPress={onSavePressed}
+                disabled={saving}
                 type="PRIMARY"
                 bgColor={undefined}
                 fgColor={undefined}

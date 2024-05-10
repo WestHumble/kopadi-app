@@ -109,6 +109,7 @@ const ChatScreen = ({route}) => {
           />
           <CustomButton
               text={sendingMessage ? (<ActivityIndicator size={"large"} />) : "Wyślij"}
+              disabled={sendingMessage}
               onPress={onSendMessage}
               type="PRIMARY"
               bgColor={undefined}
