@@ -18,7 +18,7 @@ const InviteFriendsToEventScreen = ({ route }) => {
   const { eventId } = route.params;
   const [event, setEvent] = useState<Event>(null);
 
-  const { eventsCreated, setEventById } = useContext(EventsContext);
+  const { setEventById } = useContext(EventsContext);
   useEffect(() => {
     setEvent(null);
     setEventById(eventId, setEvent);
@@ -58,8 +58,12 @@ const InviteFriendsToEventScreen = ({ route }) => {
   };
 
   useEffect(() => {
+    if (!event) {
+      setInviteSent([]);
+      return
+    }
     get(
-      "event/all-invited-users/" + eventId,
+      "event/all-invited-users/" + event.id,
       null,
       (res) => {
         setInviteSent([...inviteSent, ...res.data]);
@@ -68,7 +72,7 @@ const InviteFriendsToEventScreen = ({ route }) => {
         setInviteSent([]);
       }
     );
-  }, [eventId]);
+  }, [event]);
 
   const data = [
     {

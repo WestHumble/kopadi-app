@@ -37,14 +37,14 @@ export const ChatProvider = ({children}) => {
                     chatTmp.name = data.name;
                     chatTmp.participants = data.participants;
                     chatTmp.is_seen = data.is_seen;
-                    chatTmp.last_message_id = data.last_message_id;
+                    chatTmp.last_message_date = data.last_message_date;
                     chatsCopy.push(chatTmp)
                 } else {
                     chatsCopy.push(data)
                 }
             })
 
-            chatsCopy.sort((c1, c2) => c1.last_message_id > c2.last_message_id ? -1 : 1)
+            chatsCopy.sort((c1, c2) => c1.last_message_date > c2.last_message_date ? -1 : 1)
             setChats(chatsCopy)
         })
     };

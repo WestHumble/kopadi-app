@@ -4,7 +4,7 @@ import {
   StyleSheet,
   useWindowDimensions,
   ScrollView,
-  Alert, Animated, ActivityIndicator,
+  Alert, Animated, ActivityIndicator, TouchableOpacity, Pressable,
 } from "react-native";
 import React, {useContext, useEffect, useState} from "react";
 import CustomInput from "../../components/CustomInput";
@@ -16,6 +16,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { EventsContext } from "../../context/EventsContext";
 import { useNavigation } from "@react-navigation/native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import {TimerPickerModal} from "react-native-timer-picker";
+import {getFormattedTime} from "../../components/Utils/timeFormat.util";
 
 
 Geocoding.init(process.env.REACT_APP_GEOCODING_API_KEY);
@@ -29,6 +31,10 @@ const AddEventScreen = () => {
   const [eventDescription, setEventDescription] = useState("");
   const { height } = useWindowDimensions();
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [showPicker, setShowPicker] = useState(false);
+  const [timeString, setTimeString] = useState<
+      string | null
+  >(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const { post } = useContext(ApiContext);
   const { loadAllEvents } = useContext(EventsContext);
@@ -50,7 +56,7 @@ const AddEventScreen = () => {
 
   const onRegisterPressed = async () => {
     setIsRegisteringEvent(true)
-    if (!eventName || !selectedDate || !city || !address || !eventDescription) {
+    if (!eventName || !selectedDate || !timeString || !city || !address || !eventDescription) {
       Alert.alert("Powiadomienie", "Wszystkie pola muszą być wypełnione.");
 
       setIsRegisteringEvent(false)
@@ -75,12 +81,19 @@ const AddEventScreen = () => {
               city: city,
               postal_code: "12-345",
               address: address,
-              date: selectedDate,
+              date: selectedDate.toDateString() + " " + timeString,
               isPrivate: isPrivate,
             },
             (res) => {
               setIsRegisteringEvent(false)
               loadAllEvents();
+              setSelectedDate(null)
+              setEventName("")
+              setIsPrivate(false)
+              setTimeString("")
+              setCity("")
+              setAddress("")
+              setEventDescription("")
               navigation.navigate("InviteFriendsToEvent", {eventId: res.data["eventId"]});
             },
             (res) => {
@@ -132,28 +145,56 @@ const AddEventScreen = () => {
                 }}
                 onPress={(isChecked: boolean) => {setIsPrivate(!isChecked)}}
             />
-            <CustomInput
-              placeholder="Data wydarzenia"
-              readonly={true}
-              value={selectedDate ? selectedDate.toDateString() : ""}
-              editable={false}
-              setValue={setSelectedDate}
-              secureTextEntry={undefined}
-              additionalStyle={styles.inputDate}
-            />
-            <CustomButton
-              text="Wybierz datę wydarzenia"
-              onPress={showDatePicker}
-              type="PRIMARY"
-              bgColor={undefined}
-              fgColor={undefined}
-              additionalStyles={styles.inputDateButton}
-            />
+
+            <Pressable onPress={showDatePicker}>
+              <CustomInput
+                  placeholder="Data wydarzenia"
+                  readonly={true}
+                  value={selectedDate ? selectedDate.toLocaleString([], {
+                      year: "numeric",
+                      month: "numeric",
+                      day: "numeric",
+                    }) : ""}
+                  editable={false}
+                  secureTextEntry={undefined}
+                  additionalStyle={styles.inputDate}
+              />
+            </Pressable>
+            <Pressable
+                onPress={() => setShowPicker(true)}>
+              <CustomInput
+                  placeholder="Godzina rozpoczęcia"
+                  readonly={true}
+                  value={timeString}
+                  editable={false}
+                  secureTextEntry={undefined}
+                  additionalStyle={styles.inputDate}
+              />
+            </Pressable>
             <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode="date"
-              onConfirm={handleConfirm}
-              onCancel={hideDatePicker}
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={handleConfirm}
+                onCancel={hideDatePicker}
+            />
+            <TimerPickerModal
+                hideSeconds
+                hideCancelButton
+                visible={showPicker}
+                setIsVisible={setShowPicker}
+                onConfirm={(time) => {
+                  setTimeString(getFormattedTime(time.hours, time.minutes));
+                  setShowPicker(false);
+                }}
+                modalTitle="Godzina rozpoczęcia"
+                onCancel={() => setShowPicker(false)}
+                closeOnOverlayPress
+                styles={{
+                  theme: "dark",
+                }}
+                modalProps={{
+                  overlayOpacity: 0.2,
+                }}
             />
             <CustomInput
                 placeholder="Podaj miasto"
