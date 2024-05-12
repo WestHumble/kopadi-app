@@ -180,7 +180,8 @@ const MapViewComponent = () => {
       for (var k in res.data) {
         latlngData = res.data[k];
         friend = friends.filter((friend) => friend.id == k).pop();
-        newMarkers.push({ id: friend.id, latlng: latlngData, name: friend?.name ?? k });
+        if (!friend) continue;
+        newMarkers.push({ id: friend?.id, latlng: latlngData, name: friend?.name ?? k });
       }
       setFriendsMarkers(newMarkers);
     });
