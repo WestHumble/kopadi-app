@@ -16,26 +16,9 @@ const SearchNewFriendsScreen = () => {
   const { height } = useWindowDimensions();
   const [searchPhrase, setSearchPhrase] = useState("");
   const { post } = useContext(ApiContext);
-  const { friends, getFriendList } = useContext(FriendsContext);
+  const { friends, inviteSent, sendFriendInvite, deleteFriendInvite  } = useContext(FriendsContext);
   const [searchFriends, setSearchFriends] = useState<Friend[]>([]);
-  const [inviteSent, setInviteSent] = useState<Friend[]>([]);
-  const sendFriendInvite = (friend: Friend) => {
-    post('friend-invite', {
-      userId: friend.id
-    }, (res) => {
-      setInviteSent([...inviteSent, friend]);
-    }, (res) => {
-      setInviteSent([...inviteSent, friend]);
-    })
-  };
-  const deleteFriendInvite = (friend: Friend) => {
-    post('friend-invite/delete', {
-      userId: friend.id,
-    }, (res) => {
-      setInviteSent(inviteSent.filter(f => f.id !== friend.id));
-      getFriendList()
-    })
-  };
+
   const triggerSearchFriends = () => {
     post('user/search', {
       searchPhrase

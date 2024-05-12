@@ -29,6 +29,7 @@ import {EventsContext} from "../context/EventsContext";
 import {FriendsContext} from "../context/FriendsContext";
 import NewChatScreen from "../screens/NewChatScreen";
 import EditProfileScreen from "../screens/EditProfileScreen";
+import DisplayProfileScreen from "../screens/DisplayProfileScreen";
 
 const Tab = createBottomTabNavigator();
 const screenOptions = {
@@ -147,174 +148,181 @@ const TabsLoggedIn = () => {
                 }}
             />
 
-      <Tab.Screen
-        name="ChatListScreen"
-        component={ChatListScreen}
-        options={{
-          tabBarIcon: ({ focused }) => {
-            return (
-              <View style={{ alignItems: "center", justifyContent: "center" }}>
-                <Ionicons
-                  name="chatbox-outline"
-                  size={24}
-                  color={focused ? "#F2B138" : "#676D75"}
-                />
-                  {unreadChatCounter > 0 && (<View
-                  style={{
-                    fontSize: 12,
-                    color: focused ? "#F2B138" : "#676D75",
-                    position: "absolute",
-                    top: -5,
-                    right: -5,
-                    backgroundColor: "red",
-                    borderRadius: 10,
-                    paddingHorizontal: 4,
-                    paddingVertical: 1,
-                    textAlign: "center",
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: "white",
-                    }}
-                  >
-                    {unreadChatCounter}
-                  </Text>
-                </View>)}
-                <Text
-                  style={{
-                    fontSize: 12,
-                    color: focused ? "#F2B138" : "#676D75",
-                  }}
-                >
-                  Czat
-                </Text>
-              </View>
-            );
-          },
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          tabBarIcon: ({ focused }) => {
-            return (
-              <View style={{ alignItems: "center", justifyContent: "center" }}>
-                <Ionicons
-                  name="person-outline"
-                  size={24}
-                  color={focused ? "#F2B138" : "#676D75"}
-                />
-                  {unreadEventInvitesCounter + unreadFriendInvitesCounter > 0 && (<View
-                  style={{
-                    fontSize: 12,
-                    color: focused ? "#F2B138" : "#676D75",
-                    position: "absolute",
-                    top: -5,
-                    right: -5,
-                    backgroundColor: "red",
-                    borderRadius: 10,
-                    paddingHorizontal: 4,
-                    paddingVertical: 1,
-                    textAlign: "center",
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: "white",
-                    }}
-                  >
-                    {unreadEventInvitesCounter + unreadFriendInvitesCounter}
-                  </Text>
-                </View>)}
-                <Text
-                  style={{
-                    fontSize: 12,
-                    color: focused ? "#F2B138" : "#676D75",
-                  }}
-                >
-                  Profil
-                </Text>
-              </View>
-            );
-          },
-        }}
-      />
-      <Tab.Screen
+            <Tab.Screen
+                name="ChatListScreen"
+                component={ChatListScreen}
+                options={{
+                    tabBarIcon: ({focused}) => {
+                        return (
+                            <View style={{alignItems: "center", justifyContent: "center"}}>
+                                <Ionicons
+                                    name="chatbox-outline"
+                                    size={24}
+                                    color={focused ? "#F2B138" : "#676D75"}
+                                />
+                                {unreadChatCounter > 0 && (<View
+                                    style={{
+                                        fontSize: 12,
+                                        color: focused ? "#F2B138" : "#676D75",
+                                        position: "absolute",
+                                        top: -5,
+                                        right: -5,
+                                        backgroundColor: "red",
+                                        borderRadius: 10,
+                                        paddingHorizontal: 4,
+                                        paddingVertical: 1,
+                                        textAlign: "center",
+                                    }}
+                                >
+                                    <Text
+                                        style={{
+                                            fontSize: 12,
+                                            color: "white",
+                                        }}
+                                    >
+                                        {unreadChatCounter}
+                                    </Text>
+                                </View>)}
+                                <Text
+                                    style={{
+                                        fontSize: 12,
+                                        color: focused ? "#F2B138" : "#676D75",
+                                    }}
+                                >
+                                    Czat
+                                </Text>
+                            </View>
+                        );
+                    },
+                }}
+            />
+            <Tab.Screen
+                name="Profile"
+                component={ProfileScreen}
+                options={{
+                    tabBarIcon: ({focused}) => {
+                        return (
+                            <View style={{alignItems: "center", justifyContent: "center"}}>
+                                <Ionicons
+                                    name="person-outline"
+                                    size={24}
+                                    color={focused ? "#F2B138" : "#676D75"}
+                                />
+                                {unreadEventInvitesCounter + unreadFriendInvitesCounter > 0 && (<View
+                                    style={{
+                                        fontSize: 12,
+                                        color: focused ? "#F2B138" : "#676D75",
+                                        position: "absolute",
+                                        top: -5,
+                                        right: -5,
+                                        backgroundColor: "red",
+                                        borderRadius: 10,
+                                        paddingHorizontal: 4,
+                                        paddingVertical: 1,
+                                        textAlign: "center",
+                                    }}
+                                >
+                                    <Text
+                                        style={{
+                                            fontSize: 12,
+                                            color: "white",
+                                        }}
+                                    >
+                                        {unreadEventInvitesCounter + unreadFriendInvitesCounter}
+                                    </Text>
+                                </View>)}
+                                <Text
+                                    style={{
+                                        fontSize: 12,
+                                        color: focused ? "#F2B138" : "#676D75",
+                                    }}
+                                >
+                                    Profil
+                                </Text>
+                            </View>
+                        );
+                    },
+                }}
+            />
+            <Tab.Screen
                 name="EditProfile"
                 component={EditProfileScreen}
                 options={{
                     tabBarButton: () => null,
                 }}
             />
-      <Tab.Screen
-        name="Chat"
-        component={ChatScreen}
-        options={{
-          tabBarButton: () => null,
-        }}
-      />
-      <Tab.Screen
-        name="NewChat"
-        component={NewChatScreen}
-        options={{
-          tabBarButton: () => null,
-        }}
-      />
-      <Tab.Screen
-        name="AddEvent"
-        component={AddEventScreen}
-        options={{
-          tabBarButton: () => null,
-        }}
-      />
-      <Tab.Screen
-        name="InviteFriendsToEvent"
-        component={InviteFriendsToEventScreen}
-        options={{
-          tabBarButton: () => null,
-        }}
-      />
-      <Tab.Screen
-        name="FriendInvitesScreen"
-        component={FriendInvitesScreen}
-        options={{
-          tabBarButton: () => null,
-        }}
-      />
-      <Tab.Screen
-        name="EventInvitesScreen"
-        component={EventInvitesScreen}
-        options={{
-          tabBarButton: () => null,
-        }}
-      />
-      <Tab.Screen
-        name="FriendsList"
-        component={SearchFriendsScreen}
-        options={{
-          tabBarButton: () => null,
-        }}
-      />
-      <Tab.Screen
-        name="NewFriend"
-        component={SearchNewFriendsScreen}
-        options={{
-          tabBarButton: () => null,
-        }}
-      />
-      <Tab.Screen
-        name="EventView"
-        component={EventViewScreen}
-        options={{
-          tabBarButton: () => null,
-        }}
-      />
-    </Tab.Navigator>
-  );
+            <Tab.Screen
+                name="DisplayProfile"
+                component={DisplayProfileScreen}
+                options={{
+                    tabBarButton: () => null,
+                }}
+            />
+            <Tab.Screen
+                name="Chat"
+                component={ChatScreen}
+                options={{
+                    tabBarButton: () => null,
+                }}
+            />
+            <Tab.Screen
+                name="NewChat"
+                component={NewChatScreen}
+                options={{
+                    tabBarButton: () => null,
+                }}
+            />
+            <Tab.Screen
+                name="AddEvent"
+                component={AddEventScreen}
+                options={{
+                    tabBarButton: () => null,
+                }}
+            />
+            <Tab.Screen
+                name="InviteFriendsToEvent"
+                component={InviteFriendsToEventScreen}
+                options={{
+                    tabBarButton: () => null,
+                }}
+            />
+            <Tab.Screen
+                name="FriendInvitesScreen"
+                component={FriendInvitesScreen}
+                options={{
+                    tabBarButton: () => null,
+                }}
+            />
+            <Tab.Screen
+                name="EventInvitesScreen"
+                component={EventInvitesScreen}
+                options={{
+                    tabBarButton: () => null,
+                }}
+            />
+            <Tab.Screen
+                name="FriendsList"
+                component={SearchFriendsScreen}
+                options={{
+                    tabBarButton: () => null,
+                }}
+            />
+            <Tab.Screen
+                name="NewFriend"
+                component={SearchNewFriendsScreen}
+                options={{
+                    tabBarButton: () => null,
+                }}
+            />
+            <Tab.Screen
+                name="EventView"
+                component={EventViewScreen}
+                options={{
+                    tabBarButton: () => null,
+                }}
+            />
+        </Tab.Navigator>
+    );
 };
 const TabsLoggedOut = () => {
     return (

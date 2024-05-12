@@ -1,27 +1,41 @@
-import {Image} from "react-native";
-import React, {useState} from "react";
+import {Image, Pressable} from "react-native";
+import React, {useContext, useEffect, useState} from "react";
 import userImg from "../../../assets/images/user-prime.png";
+import {NavigationContext} from "../../context/NavigationContext";
 
 const API_ADDRESS = process.env.EXPO_PUBLIC_API_URL;
 
 const Avatar = ({
-  image,
-  userId,
-  style,
-  noCache,
-  noCacheId,
-}) => {
-  const [error, setError] = useState(false);
-  var sourceImage = error && !image ? userImg :  { uri: image ?? (`${API_ADDRESS}/api/avatar/get/${userId}` + (noCache ? '?' + noCacheId : '')) }
+                    image,
+                    userId,
+                    userName,
+                    userSurname,
+                    style,
+                    noCache,
+                    noCacheId,
+                    allowRedirect = true,
+                }) => {
+    const [error, setError] = useState(false);
+    useEffect(() => {
+        setError(false)
+    }, [userId]);
+    var sourceImage = error && !image ? userImg : {uri: image ?? (`${API_ADDRESS}/api/avatar/get/${userId}` + (noCache ? '?' + noCacheId : ''))}
 
-  return (
-      <Image
-          source={sourceImage}
-          onError={() => setError(true)}
-          style={style}
+    const {navigationRef} = useContext(NavigationContext);
+    return (
+        <Pressable onPress={() => allowRedirect ? navigationRef.current?.navigate('DisplayProfile', {
+            userId: userId,
+            userName: userName,
+            userSurname: userSurname,
+        }) : null}>
+            <Image
+                source={sourceImage}
+                onError={() => setError(true)}
+                style={style}
 
-      />
-  );
+            />
+        </Pressable>
+    );
 };
 
 export default Avatar;

@@ -37,6 +37,8 @@ const FriendItem = ({
             backgroundColor: "#222",
           }}
           userId={friend.id}
+          userName={friend.name}
+          userSurname={friend.surname}
         />
         <Text style={styles.name}>
           {friend.name} {friend.surname}

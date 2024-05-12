@@ -12,9 +12,27 @@ export const FriendsProvider = ({children}) => {
     const [friends, setFriends] = useState<Friend[]>([]);
     const [pendingInvites, setPendingInvites] = useState<FriendInvite[]>([]);
     const [unreadFriendInvitesCounter, setUnreadFriendInvitesCounter] = useState<number>(0);
+    const [inviteSent, setInviteSent] = useState<Friend[]>([]);
 
-    const { get, userToken } = useContext(ApiContext);
+    const { post, get, userToken } = useContext(ApiContext);
     const { navigationRef } = useContext(NavigationContext);
+    const sendFriendInvite = (friend: Friend) => {
+        post('friend-invite', {
+            userId: friend.id
+        }, (res) => {
+            setInviteSent([...inviteSent, friend]);
+        }, (res) => {
+            setInviteSent([...inviteSent, friend]);
+        })
+    };
+    const deleteFriendInvite = (friend: Friend) => {
+        post('friend-invite/delete', {
+            userId: friend.id,
+        }, (res) => {
+            setInviteSent(inviteSent.filter(f => f.id !== friend.id));
+            getFriendList()
+        })
+    };
     const getFriendList = () => {
         get('user/get-friends', null, (res) => {
             setFriends(res.data)
@@ -71,6 +89,9 @@ export const FriendsProvider = ({children}) => {
             pendingInvites,
             getPendingFriendInvites,
             unreadFriendInvitesCounter,
+            inviteSent,
+            sendFriendInvite,
+            deleteFriendInvite,
         }}>
             {children}
         </FriendsContext.Provider>

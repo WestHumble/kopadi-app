@@ -131,7 +131,7 @@ const EditProfileScreen = () => {
               </View>
 
               <View style={styles.imageProfile}>
-                <Avatar image={image} userId={userData.id} style={styles.avatarImage} noCache={true} noCacheId={noCacheId}/>
+                <Avatar image={image} userId={userData.id} style={styles.avatarImage} noCache={true} noCacheId={noCacheId} allowRedirect={false}/>
               </View>
             </View>
             <View style={styles.dataDiv}>
