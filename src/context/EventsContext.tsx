@@ -23,9 +23,7 @@ export const EventsProvider = ({children}) => {
     const [pendingInvites, setPendingInvites] = useState<EventInvite[]>([]);
     const [unreadEventInvitesCounter, setUnreadEventInvitesCounter] = useState<number>(0);
     const { navigationRef } = useContext(NavigationContext);
-
-    const { userLocation } =
-        useContext(LocationContext);
+    const { userLocation } = useContext(LocationContext);
     const { get, post, userToken } = useContext(ApiContext);
     const getPendingEventInvites = () => {
         get('event-invite/invites', null, (res) => {
@@ -39,6 +37,7 @@ export const EventsProvider = ({children}) => {
         notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
             if ('new_event_invite' === notification.request.trigger.channelId) {
                 setTimeout(getPendingEventInvites, 1000)
+                setTimeout(() => loadAllEvents(userLocation?.coords), 1000)
             }
         });
 
@@ -52,7 +51,7 @@ export const EventsProvider = ({children}) => {
             Notifications.removeNotificationSubscription(notificationListener.current);
             Notifications.removeNotificationSubscription(responseListener.current);
         };
-    }, []);
+    }, [userLocation]);
 
     useEffect(() => {
         if (userToken) {
@@ -64,8 +63,8 @@ export const EventsProvider = ({children}) => {
 
     const loadCloseEvents = (region) => {
         post('event/close-list', {
-            latitude: region?.latitude??userLocation?.coords.latitude ?? 52.4064,
-            longitude: region?.longitude??userLocation?.coords.longitude ?? 16.9252,
+            latitude: region?.latitude ?? 52.4064,
+            longitude: region?.longitude ?? 16.9252,
             distanceInMeters: 1000
         }, (res) => {
             let other = res.data?.sort((e1, e2)=> new Date(e1.date.date) < new Date(e2.date.date) ? -1 : 1)
@@ -74,9 +73,9 @@ export const EventsProvider = ({children}) => {
     };
 
     const loadAllEvents = (region) => {
-        post('event/logged-user-event-list', {
-            latitude: region?.latitude??userLocation?.coords.latitude ?? 52.4064,
-            longitude: region?.longitude??userLocation?.coords.longitude ?? 16.9252,
+        post('event/logged-user-event-list?' + Date.now(), {
+            latitude: region?.latitude?? 52.4064,
+            longitude: region?.longitude?? 16.9252,
             distanceInMeters: 1000
         }, (res) => {
             let eventsData = res.data
@@ -87,7 +86,7 @@ export const EventsProvider = ({children}) => {
             setEventsInvited(invited ?? [])
             setEventsOther(other ?? [])
         }, (res) => {
-            console.log(res.response.data)
+            console.log(res.data)
         })
     };
 
@@ -137,7 +136,7 @@ export const EventsProvider = ({children}) => {
 
     useEffect(() => {
         if (userToken) {
-            loadAllEvents()
+            loadAllEvents(userLocation?.coords)
         } else {
             setEventsCreated([])
             setEventsInvited([])

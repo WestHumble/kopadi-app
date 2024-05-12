@@ -153,7 +153,6 @@ const MapViewComponent = () => {
     loadCloseEvents(regionUser);
   }, [userLocation]);
 
-  const [markers, setMarkers] = useState<Event[]>([]);
   const [friendsMarkers, setFriendsMarkers] = useState<MarkerData[]>([]);
 
   const onRegionChange = (newRegion) => {
@@ -161,7 +160,7 @@ const MapViewComponent = () => {
   };
   const onLoadCloseEvents = () => {
     loadCloseEvents(region);
-    reloadMarkers();
+    reloadMarkers()
   };
 
   useEffect(() => {
@@ -170,23 +169,6 @@ const MapViewComponent = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (isSearchActive) {
-      setMarkers(
-        eventsCreatedSearch.concat(eventsInvitedSearch, eventsOtherSearch)
-      );
-      return;
-    }
-    setMarkers(eventsCreated.concat(eventsInvited, eventsOther));
-  }, [
-    eventsCreated,
-    eventsInvited,
-    eventsOther,
-    eventsCreatedSearch,
-    eventsInvitedSearch,
-    eventsOtherSearch,
-    isSearchActive,
-  ]);
   const addEventPressed = () => {
     navigation.navigate("AddEvent");
   };
@@ -198,7 +180,7 @@ const MapViewComponent = () => {
       for (var k in res.data) {
         latlngData = res.data[k];
         friend = friends.filter((friend) => friend.id == k).pop();
-        newMarkers.push({ latlng: latlngData, name: friend?.name ?? k });
+        newMarkers.push({ id: friend.id, latlng: latlngData, name: friend?.name ?? k });
       }
       setFriendsMarkers(newMarkers);
     });
@@ -221,13 +203,49 @@ const MapViewComponent = () => {
       if (marker != null) marker.redraw()
     })
   }
+  const renderMarker = (event: Event, source) => {
+    if (event.latlng === null) {
+      return;
+    }
+    return (
+        <Marker
+            ref={(el) => (itemsRef.current[event.id] = el)}
+            key={event.id}
+            coordinate={event.latlng}
+            title={event.name}
+            description={event.description}
+            tracksViewChanges={false}
+            onPress={() => {
+              navigation.navigate("EventView", { eventId: event.id });
+            }}
+            onCalloutPress={() => {
+              navigation.navigate("EventView", { eventId: event.id });
+            }}
+        >
+          <View>
+            <Image
+                source={source}
+                style={{
+                  width: 40,
+                  height: 40,
+                }}
+            />
+          </View>
+        </Marker>
+    );
+  }
+
   const isFocused = useIsFocused()
 
   useEffect(() => {
-    if (isFocused) {
-      reloadMarkers();
+    if (! isFocused) {
+      return
     }
-  }, [isFocused, markers, friendsMarkers]);
+
+    reloadMarkers();
+    const interval = setInterval(() => reloadMarkers(), 5000);
+    return () => clearInterval(interval);
+  }, [isFocused]);
 
   return (
     <>
@@ -240,45 +258,19 @@ const MapViewComponent = () => {
         showsUserLocation={true}
         userInterfaceStyle="dark"
         followsUserLocation={true}
+        rotateEnabled={false}
         ref={mapViewRef}
       >
-        {markers.map((marker) => {
-          if (marker.latlng === null) {
-            return;
-          }
-          return (
-            <Marker
-              ref={(el) => (itemsRef.current[marker.id] = el)}
-              key={marker.id}
-              coordinate={marker.latlng}
-              title={marker.name}
-              description={marker.description}
-              tracksViewChanges={false}
-              onPress={() => {
-                navigation.navigate("EventView", { eventId: marker.id });
-              }}
-              onCalloutPress={() => {
-                navigation.navigate("EventView", { eventId: marker.id });
-              }}
-            >
-              <View>
-                <Image
-                  source={require("../../../assets/images/pin.png")}
-                  style={{
-                    width: 40,
-                    height: 40,
-                  }}
-                />
-              </View>
-            </Marker>
-          );
-        })}
+        {(isSearchActive ? eventsCreatedSearch : eventsCreated).map((marker) => renderMarker(marker, require("../../../assets/images/pin.png")))}
+        {(isSearchActive ? eventsInvitedSearch : eventsInvited).map((marker) => renderMarker(marker, require("../../../assets/images/refresh.png")))}
+        {(isSearchActive ? eventsOtherSearch : eventsOther).map((marker) => renderMarker(marker, require("../../../assets/images/right-alt-yellow.png")))}
         {friendsMarkers.map((marker, index) => {
           if (marker.latlng === null) {
             return;
           }
           return (
             <Marker
+              ref={(el) => (itemsRef.current['f' + marker.id] = el)}
               key={index}
               coordinate={marker.latlng}
               title={marker.name}
@@ -287,7 +279,7 @@ const MapViewComponent = () => {
             >
               <View>
                 <Image
-                  source={require("../../../assets/images/pin.png")}
+                  source={require("../../../assets/images/user.png")}
                   style={{
                     width: 40,
                     height: 40,

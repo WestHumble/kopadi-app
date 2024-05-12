@@ -34,6 +34,9 @@ export const LocationProvider = ({children}) => {
         }
 
         let location = await Location.getCurrentPositionAsync({});
+        if (!location) {
+            return;
+        }
         setUserLocation(location);
         if (shareLocation && (null === lastUpdateDate || ((new Date()) - lastUpdateDate) >= parseInt(process.env.EXPO_PUBLIC_LOCALIZATION_UPDATE_TIME))) {
             lastUpdateDate = new Date()
