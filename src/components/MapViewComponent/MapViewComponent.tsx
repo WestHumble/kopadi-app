@@ -160,7 +160,7 @@ const MapViewComponent = () => {
   };
   const onLoadCloseEvents = () => {
     loadCloseEvents(region);
-    reloadMarkers()
+    reloadMarkers();
   };
 
   useEffect(() => {
@@ -181,7 +181,11 @@ const MapViewComponent = () => {
         latlngData = res.data[k];
         friend = friends.filter((friend) => friend.id == k).pop();
         if (!friend) continue;
-        newMarkers.push({ id: friend?.id, latlng: latlngData, name: friend?.name ?? k });
+        newMarkers.push({
+          id: friend?.id,
+          latlng: latlngData,
+          name: friend?.name ?? k,
+        });
       }
       setFriendsMarkers(newMarkers);
     });
@@ -200,47 +204,47 @@ const MapViewComponent = () => {
   }, [userToken]);
 
   const reloadMarkers = () => {
-    itemsRef.current.forEach(marker => {
-      if (marker != null) marker.redraw()
-    })
-  }
+    itemsRef.current.forEach((marker) => {
+      if (marker != null) marker.redraw();
+    });
+  };
   const renderMarker = (event: Event, source) => {
     if (event.latlng === null) {
       return;
     }
     return (
-        <Marker
-            ref={(el) => (itemsRef.current[event.id] = el)}
-            key={event.id}
-            coordinate={event.latlng}
-            title={event.name}
-            description={event.description}
-            tracksViewChanges={false}
-            onPress={() => {
-              navigation.navigate("EventView", { eventId: event.id });
+      <Marker
+        ref={(el) => (itemsRef.current[event.id] = el)}
+        key={event.id}
+        coordinate={event.latlng}
+        title={event.name}
+        description={event.description}
+        tracksViewChanges={false}
+        onPress={() => {
+          navigation.navigate("EventView", { eventId: event.id });
+        }}
+        onCalloutPress={() => {
+          navigation.navigate("EventView", { eventId: event.id });
+        }}
+      >
+        <View>
+          <Image
+            source={source}
+            style={{
+              width: 40,
+              height: 40,
             }}
-            onCalloutPress={() => {
-              navigation.navigate("EventView", { eventId: event.id });
-            }}
-        >
-          <View>
-            <Image
-                source={source}
-                style={{
-                  width: 40,
-                  height: 40,
-                }}
-            />
-          </View>
-        </Marker>
+          />
+        </View>
+      </Marker>
     );
-  }
+  };
 
-  const isFocused = useIsFocused()
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (! isFocused) {
-      return
+    if (!isFocused) {
+      return;
     }
 
     reloadMarkers();
@@ -262,16 +266,22 @@ const MapViewComponent = () => {
         rotateEnabled={false}
         ref={mapViewRef}
       >
-        {(isSearchActive ? eventsCreatedSearch : eventsCreated).map((marker) => renderMarker(marker, require("../../../assets/images/pin.png")))}
-        {(isSearchActive ? eventsInvitedSearch : eventsInvited).map((marker) => renderMarker(marker, require("../../../assets/images/refresh.png")))}
-        {(isSearchActive ? eventsOtherSearch : eventsOther).map((marker) => renderMarker(marker, require("../../../assets/images/right-alt-yellow.png")))}
+        {(isSearchActive ? eventsCreatedSearch : eventsCreated).map((marker) =>
+          renderMarker(marker, require("../../../assets/images/pin-green.png"))
+        )}
+        {(isSearchActive ? eventsInvitedSearch : eventsInvited).map((marker) =>
+          renderMarker(marker, require("../../../assets/images/pin.png"))
+        )}
+        {(isSearchActive ? eventsOtherSearch : eventsOther).map((marker) =>
+          renderMarker(marker, require("../../../assets/images/pin-blue.png"))
+        )}
         {friendsMarkers.map((marker, index) => {
           if (marker.latlng === null) {
             return;
           }
           return (
             <Marker
-              ref={(el) => (itemsRef.current['f' + marker.id] = el)}
+              ref={(el) => (itemsRef.current["f" + marker.id] = el)}
               key={index}
               coordinate={marker.latlng}
               title={marker.name}
