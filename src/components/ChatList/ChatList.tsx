@@ -6,7 +6,6 @@ import {ChatContext} from "../../context/ChatContext";
 
 const ChatItem = ({ chat }) => {
   const navigation = useNavigation()
-    const {fetchingMessages} = useContext(ChatContext)
   return (
       <View style={styles.chatContainer}>
           <Text style={styles.name}>{chat.name} {chat.is_seen ? 'seen' : 'not seen'}</Text>

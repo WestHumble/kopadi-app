@@ -68,3 +68,72 @@ exports[`renders correctly 1`] = `
   </Text>
 </View>
 `;
+
+exports[`renders with function 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      {
+        "alignItems": "center",
+        "borderRadius": 20,
+        "height": 60,
+        "justifyContent": "center",
+        "marginVertical": 5,
+        "padding": 0,
+        "width": "100%",
+      },
+      {
+        "backgroundColor": "#F2B138",
+      },
+      {},
+      undefined,
+    ]
+  }
+>
+  <Text
+    style={
+      [
+        {
+          "fontWeight": "bold",
+        },
+        {
+          "color": "white",
+        },
+        {},
+        undefined,
+      ]
+    }
+  >
+    Test
+  </Text>
+</View>
+`;

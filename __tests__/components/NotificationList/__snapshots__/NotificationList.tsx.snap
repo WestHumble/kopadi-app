@@ -1,0 +1,533 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders empty 1`] = `
+<RCTScrollView
+  data={[]}
+  getItem={[Function]}
+  getItemCount={[Function]}
+  keyExtractor={[Function]}
+  onContentSizeChange={[Function]}
+  onLayout={[Function]}
+  onMomentumScrollBegin={[Function]}
+  onMomentumScrollEnd={[Function]}
+  onScroll={[Function]}
+  onScrollBeginDrag={[Function]}
+  onScrollEndDrag={[Function]}
+  renderItem={[Function]}
+  scrollEventThrottle={50}
+  stickyHeaderIndices={[]}
+>
+  <View />
+</RCTScrollView>
+`;
+
+exports[`renders multiple 1`] = `
+<RCTScrollView
+  data={
+    [
+      {
+        "data": [
+          {
+            "eventInvite": {
+              "event": {
+                "id": 1,
+              },
+              "id": 1,
+              "status": "new",
+            },
+            "id": 1,
+            "notificationType": "eventInvite",
+            "title": "title",
+          },
+        ],
+        "title": "Zaproszenia na wydarzenia",
+      },
+      {
+        "data": [
+          {
+            "friendInvite": {
+              "friend": {
+                "id": 1,
+              },
+              "id": 1,
+              "status": "new",
+            },
+            "id": 1,
+            "notificationType": "friendInvite",
+            "title": "title",
+          },
+        ],
+        "title": "Zaproszenia do znajomych",
+      },
+    ]
+  }
+  getItem={[Function]}
+  getItemCount={[Function]}
+  keyExtractor={[Function]}
+  onContentSizeChange={[Function]}
+  onLayout={[Function]}
+  onMomentumScrollBegin={[Function]}
+  onMomentumScrollEnd={[Function]}
+  onScroll={[Function]}
+  onScrollBeginDrag={[Function]}
+  onScrollEndDrag={[Function]}
+  renderItem={[Function]}
+  scrollEventThrottle={50}
+  stickyHeaderIndices={
+    [
+      0,
+      3,
+    ]
+  }
+>
+  <View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          {
+            "color": "#fff",
+            "marginTop": 12,
+            "padding": 8,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#fff",
+              "fontSize": 21,
+              "fontWeight": "bold",
+            }
+          }
+        >
+          Zaproszenia na wydarzenia
+        </Text>
+      </View>
+    </View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          {
+            "backgroundColor": "#131417",
+            "borderRadius": 20,
+            "marginVertical": 4,
+            "padding": 16,
+            "shadowColor": "black",
+            "shadowOffset": {
+              "height": -3,
+              "width": 0,
+            },
+            "shadowOpacity": 0.3,
+            "shadowRadius": 4,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#fff",
+              "fontSize": 18,
+              "fontWeight": "bold",
+            }
+          }
+        />
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              {
+                "alignItems": "center",
+                "borderRadius": 20,
+                "height": 60,
+                "justifyContent": "center",
+                "marginVertical": 5,
+                "padding": 0,
+                "width": "100%",
+              },
+              {
+                "backgroundColor": "#F2B138",
+              },
+              {},
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "fontWeight": "bold",
+                },
+                {
+                  "color": "white",
+                },
+                {},
+                undefined,
+              ]
+            }
+          >
+            Zaakceptuj
+          </Text>
+        </View>
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              {
+                "alignItems": "center",
+                "borderRadius": 20,
+                "height": 60,
+                "justifyContent": "center",
+                "marginVertical": 5,
+                "padding": 0,
+                "width": "100%",
+              },
+              {
+                "backgroundColor": "#F2B138",
+              },
+              {},
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "fontWeight": "bold",
+                },
+                {
+                  "color": "white",
+                },
+                {},
+                undefined,
+              ]
+            }
+          >
+            Odrzuć
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    />
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          {
+            "color": "#fff",
+            "marginTop": 12,
+            "padding": 8,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#fff",
+              "fontSize": 21,
+              "fontWeight": "bold",
+            }
+          }
+        >
+          Zaproszenia do znajomych
+        </Text>
+      </View>
+    </View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          {
+            "backgroundColor": "#131417",
+            "borderRadius": 20,
+            "marginVertical": 4,
+            "padding": 16,
+            "shadowColor": "black",
+            "shadowOffset": {
+              "height": -3,
+              "width": 0,
+            },
+            "shadowOpacity": 0.3,
+            "shadowRadius": 4,
+          }
+        }
+      >
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+        >
+          <Image
+            onError={[Function]}
+            source={
+              {
+                "uri": "https://symfony-server-kg.loca.lt/api/avatar/get/1",
+              }
+            }
+            style={
+              {
+                "backgroundColor": "#222",
+                "borderRadius": 5,
+                "height": 50,
+                "marginRight": 10,
+                "padding": 1,
+                "shadowColor": "black",
+                "width": 50,
+              }
+            }
+          />
+        </View>
+        <Text
+          style={
+            {
+              "color": "#fff",
+              "fontSize": 18,
+              "fontWeight": "bold",
+            }
+          }
+        >
+           
+        </Text>
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              {
+                "alignItems": "center",
+                "borderRadius": 20,
+                "height": 60,
+                "justifyContent": "center",
+                "marginVertical": 5,
+                "padding": 0,
+                "width": "100%",
+              },
+              {
+                "backgroundColor": "#F2B138",
+              },
+              {},
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "fontWeight": "bold",
+                },
+                {
+                  "color": "white",
+                },
+                {},
+                undefined,
+              ]
+            }
+          >
+            Zaakceptuj
+          </Text>
+        </View>
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              {
+                "alignItems": "center",
+                "borderRadius": 20,
+                "height": 60,
+                "justifyContent": "center",
+                "marginVertical": 5,
+                "padding": 0,
+                "width": "100%",
+              },
+              {
+                "backgroundColor": "#F2B138",
+              },
+              {},
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "fontWeight": "bold",
+                },
+                {
+                  "color": "white",
+                },
+                {},
+                undefined,
+              ]
+            }
+          >
+            Odrzuć
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    />
+  </View>
+</RCTScrollView>
+`;

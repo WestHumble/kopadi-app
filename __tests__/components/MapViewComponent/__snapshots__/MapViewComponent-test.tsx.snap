@@ -1,0 +1,254 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+[
+  <View
+    customMapStyle={
+      [
+        {
+          "featureType": "poi.attraction",
+          "stylers": [
+            {
+              "visibility": "off",
+            },
+          ],
+        },
+        {
+          "featureType": "poi.business",
+          "stylers": [
+            {
+              "visibility": "off",
+            },
+          ],
+        },
+        {
+          "elementType": "geometry.fill",
+          "featureType": "poi.business",
+          "stylers": [
+            {
+              "visibility": "off",
+            },
+          ],
+        },
+        {
+          "elementType": "geometry.stroke",
+          "featureType": "poi.business",
+          "stylers": [
+            {
+              "visibility": "off",
+            },
+          ],
+        },
+        {
+          "elementType": "labels.text",
+          "featureType": "poi.business",
+          "stylers": [
+            {
+              "visibility": "off",
+            },
+          ],
+        },
+        {
+          "elementType": "labels.text.fill",
+          "featureType": "poi.business",
+          "stylers": [
+            {
+              "visibility": "off",
+            },
+          ],
+        },
+        {
+          "elementType": "labels.text.stroke",
+          "featureType": "poi.business",
+          "stylers": [
+            {
+              "visibility": "off",
+            },
+          ],
+        },
+        {
+          "featureType": "poi.government",
+          "stylers": [
+            {
+              "visibility": "off",
+            },
+          ],
+        },
+        {
+          "featureType": "poi.medical",
+          "stylers": [
+            {
+              "visibility": "off",
+            },
+          ],
+        },
+        {
+          "featureType": "poi.school",
+          "stylers": [
+            {
+              "visibility": "off",
+            },
+          ],
+        },
+        {
+          "featureType": "poi.sports_complex",
+          "stylers": [
+            {
+              "visibility": "off",
+            },
+          ],
+        },
+      ]
+    }
+    followsUserLocation={true}
+    initialRegion={
+      {
+        "latitude": 52.4064,
+        "latitudeDelta": 0.14,
+        "longitude": 16.9252,
+        "longitudeDelta": 0.16,
+      }
+    }
+    onRegionChange={[Function]}
+    provider="google"
+    rotateEnabled={false}
+    showsUserLocation={true}
+    style={
+      {
+        "elevation": 1,
+        "height": "100%",
+        "position": "absolute",
+        "width": "100%",
+        "zIndex": -1,
+      }
+    }
+    userInterfaceStyle="dark"
+  />,
+  <View
+    style={
+      {
+        "alignContent": "space-between",
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "column",
+        "height": 215,
+        "justifyContent": "flex-end",
+        "position": "absolute",
+        "right": "5%",
+        "top": "57%",
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "backgroundColor": "#F2B138",
+          "borderColor": "#131417",
+          "borderRadius": 50,
+          "borderStyle": "solid",
+          "borderWidth": 3,
+          "marginVertical": 5,
+          "padding": 12,
+        }
+      }
+    >
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+      >
+        <Image
+          source={1}
+          style={
+            {
+              "height": 30,
+              "width": 30,
+            }
+          }
+        />
+      </View>
+    </View>
+    <View
+      style={
+        {
+          "backgroundColor": "#F2B138",
+          "borderColor": "#131417",
+          "borderRadius": 50,
+          "borderStyle": "solid",
+          "borderWidth": 3,
+          "marginVertical": 5,
+          "padding": 12,
+        }
+      }
+    >
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+      >
+        <Image
+          source={1}
+          style={
+            {
+              "height": 30,
+              "width": 30,
+            }
+          }
+        />
+      </View>
+    </View>
+  </View>,
+]
+`;
