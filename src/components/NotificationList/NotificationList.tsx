@@ -93,20 +93,6 @@ const FriendInviteItem = ({ notification }) => {
           </TouchableWithoutFeedback>
         </View>
       </View>
-      {/* <CustomButton
-        text="Zaakceptuj"
-        onPress={() => acceptInvite(notification.friendInvite)}
-        type="PRIMARY"
-        bgColor={undefined}
-        fgColor={undefined}
-      />
-      <CustomButton
-        text="Odrzuć"
-        onPress={() => declineInvite(notification.friendInvite)}
-        type="PRIMARY"
-        bgColor={undefined}
-        fgColor={undefined}
-      /> */}
     </View>
   );
 };
