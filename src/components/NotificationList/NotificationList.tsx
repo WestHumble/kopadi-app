@@ -49,25 +49,51 @@ const FriendInviteItem = ({ notification }) => {
   };
   return (
     <View style={styles.notificationContainer}>
-      <Avatar
-        style={{
-          width: 50,
-          height: 50,
-          borderRadius: 5,
-          marginRight: 10,
-          padding: 1,
-          shadowColor: "black",
-          backgroundColor: "#F2B138",
-        }}
-        userId={notification.friendInvite.friend.id}
-        userName={notification.friendInvite.friend.name}
-        userSurname={notification.friendInvite.friend.surname}
-      />
-      <Text style={styles.name}>
-        {notification.friendInvite.friend.name}{" "}
-        {notification.friendInvite.friend.surname}
-      </Text>
-      <CustomButton
+      <View style={styles.notificationFriendsName}>
+        <Avatar
+          style={{
+            width: 50,
+            height: 50,
+            borderRadius: 5,
+            marginRight: 10,
+            padding: 1,
+            shadowColor: "black",
+            backgroundColor: "#F2B138",
+          }}
+          userId={notification.friendInvite.friend.id}
+          userName={notification.friendInvite.friend.name}
+          userSurname={notification.friendInvite.friend.surname}
+        />
+        <Text style={styles.name}>
+          {notification.friendInvite.friend.name}{" "}
+          {notification.friendInvite.friend.surname}
+        </Text>
+      </View>
+      <View style={styles.buttonsFriends}>
+        <View style={styles.acceptButton}>
+          <TouchableWithoutFeedback
+            onPress={() => acceptInvite(notification.friendInvite)}
+          >
+            <Image
+              source={acceptButton}
+              style={styles.acceptButtonImg}
+              resizeMode="contain"
+            />
+          </TouchableWithoutFeedback>
+        </View>
+        <View style={styles.refusalButton}>
+          <TouchableWithoutFeedback
+            onPress={() => declineInvite(notification.friendInvite)}
+          >
+            <Image
+              source={refusalButton}
+              style={styles.refusalButtonImg}
+              resizeMode="contain"
+            />
+          </TouchableWithoutFeedback>
+        </View>
+      </View>
+      {/* <CustomButton
         text="Zaakceptuj"
         onPress={() => acceptInvite(notification.friendInvite)}
         type="PRIMARY"
@@ -80,7 +106,7 @@ const FriendInviteItem = ({ notification }) => {
         type="PRIMARY"
         bgColor={undefined}
         fgColor={undefined}
-      />
+      /> */}
     </View>
   );
 };
@@ -192,6 +218,11 @@ const styles = StyleSheet.create({
     color: "#fff",
     flex: 2 / 3,
   },
+  notificationFriendsName: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 2 / 3,
+  },
   title: {
     fontSize: 18,
     fontWeight: "bold",
@@ -243,6 +274,12 @@ const styles = StyleSheet.create({
   refusalButtonImg: {
     width: 30,
     height: 30,
+  },
+  buttonsFriends: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 10,
+    flex: 1 / 3,
   },
 });
 
