@@ -142,20 +142,6 @@ const EventInviteItem = ({ notification }) => {
           </TouchableWithoutFeedback>
         </View>
       </View>
-      {/* <CustomButton
-        text="Zaakceptuj"
-        type="PRIMARY"
-        onPress={() => acceptInvite(notification.eventInvite)}
-        bgColor={undefined}
-        fgColor={undefined}
-      />
-      <CustomButton
-        text="Odrzuć"
-        type="PRIMARY"
-        onPress={() => declineInvite(notification.eventInvite)}
-        bgColor={undefined}
-        fgColor={undefined}
-      /> */}
     </View>
   );
 };
@@ -198,6 +184,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     flexDirection: "row",
+    alignItems: "center",
   },
   name: {
     fontSize: 18,
