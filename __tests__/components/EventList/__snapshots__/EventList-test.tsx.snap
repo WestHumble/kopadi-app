@@ -1,0 +1,841 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`empty 1`] = `
+<RCTScrollView
+  data={
+    [
+      {
+        "data": [],
+        "title": "Chaty",
+      },
+    ]
+  }
+  getItem={[Function]}
+  getItemCount={[Function]}
+  keyExtractor={[Function]}
+  onContentSizeChange={[Function]}
+  onLayout={[Function]}
+  onMomentumScrollBegin={[Function]}
+  onMomentumScrollEnd={[Function]}
+  onScroll={[Function]}
+  onScrollBeginDrag={[Function]}
+  onScrollEndDrag={[Function]}
+  renderItem={[Function]}
+  scrollEventThrottle={50}
+  stickyHeaderIndices={
+    [
+      0,
+    ]
+  }
+>
+  <View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          {
+            "color": "#fff",
+            "marginTop": 12,
+            "padding": 8,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#fff",
+              "fontSize": 21,
+              "fontWeight": "bold",
+            }
+          }
+        >
+          Chaty
+        </Text>
+      </View>
+    </View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "padding": 16,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#888",
+              "fontSize": 16,
+            }
+          }
+        >
+          Brak znajomych
+        </Text>
+      </View>
+    </View>
+  </View>
+</RCTScrollView>
+`;
+
+exports[`renders empty 1`] = `
+<RCTScrollView
+  data={
+    [
+      {
+        "data": [],
+        "title": "Moje",
+      },
+      {
+        "data": [],
+        "title": "Zaproszone",
+      },
+      {
+        "data": [],
+        "title": "Publiczne",
+      },
+    ]
+  }
+  getItem={[Function]}
+  getItemCount={[Function]}
+  keyExtractor={[Function]}
+  onContentSizeChange={[Function]}
+  onLayout={[Function]}
+  onMomentumScrollBegin={[Function]}
+  onMomentumScrollEnd={[Function]}
+  onScroll={[Function]}
+  onScrollBeginDrag={[Function]}
+  onScrollEndDrag={[Function]}
+  renderItem={[Function]}
+  scrollEventThrottle={50}
+  stickyHeaderIndices={[]}
+>
+  <View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          {
+            "color": "#fff",
+            "marginTop": 12,
+            "padding": 8,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#fff",
+              "fontSize": 21,
+              "fontWeight": "bold",
+              "marginVertical": 4,
+              "paddingVertical": 8,
+            }
+          }
+        >
+          Moje
+        </Text>
+      </View>
+    </View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "padding": 16,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#888",
+              "fontSize": 16,
+            }
+          }
+        >
+          Brak wydarzeń
+        </Text>
+      </View>
+    </View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          {
+            "color": "#fff",
+            "marginTop": 12,
+            "padding": 8,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#fff",
+              "fontSize": 21,
+              "fontWeight": "bold",
+              "marginVertical": 4,
+              "paddingVertical": 8,
+            }
+          }
+        >
+          Zaproszone
+        </Text>
+      </View>
+    </View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "padding": 16,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#888",
+              "fontSize": 16,
+            }
+          }
+        >
+          Brak wydarzeń
+        </Text>
+      </View>
+    </View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          {
+            "color": "#fff",
+            "marginTop": 12,
+            "padding": 8,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#fff",
+              "fontSize": 21,
+              "fontWeight": "bold",
+              "marginVertical": 4,
+              "paddingVertical": 8,
+            }
+          }
+        >
+          Publiczne
+        </Text>
+      </View>
+    </View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "padding": 16,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#888",
+              "fontSize": 16,
+            }
+          }
+        >
+          Brak wydarzeń
+        </Text>
+      </View>
+    </View>
+  </View>
+</RCTScrollView>
+`;
+
+exports[`renders with items 1`] = `
+<RCTScrollView
+  data={
+    [
+      {
+        "data": [
+          {
+            "address": "address",
+            "date": "2024-01-01 11:22",
+            "description": "description",
+            "id": 1,
+            "invite_status": "new",
+            "latlng": null,
+            "name": "name",
+            "title": "title",
+            "user_id": 1,
+          },
+        ],
+        "title": "Moje",
+      },
+      {
+        "data": [
+          {
+            "address": "address",
+            "date": "2024-01-01 11:22",
+            "description": "description",
+            "id": 2,
+            "invite_status": "new",
+            "latlng": null,
+            "name": "name",
+            "title": "title",
+            "user_id": 1,
+          },
+        ],
+        "title": "Zaproszone",
+      },
+      {
+        "data": [
+          {
+            "address": "address",
+            "date": "2024-01-01 11:22",
+            "description": "description",
+            "id": 3,
+            "invite_status": "new",
+            "latlng": null,
+            "name": "name",
+            "title": "title",
+            "user_id": 1,
+          },
+        ],
+        "title": "Publiczne",
+      },
+    ]
+  }
+  getItem={[Function]}
+  getItemCount={[Function]}
+  keyExtractor={[Function]}
+  onContentSizeChange={[Function]}
+  onLayout={[Function]}
+  onMomentumScrollBegin={[Function]}
+  onMomentumScrollEnd={[Function]}
+  onScroll={[Function]}
+  onScrollBeginDrag={[Function]}
+  onScrollEndDrag={[Function]}
+  renderItem={[Function]}
+  scrollEventThrottle={50}
+  stickyHeaderIndices={[]}
+>
+  <View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          {
+            "color": "#fff",
+            "marginTop": 12,
+            "padding": 8,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#fff",
+              "fontSize": 21,
+              "fontWeight": "bold",
+              "marginVertical": 4,
+              "paddingVertical": 8,
+            }
+          }
+        >
+          Moje
+        </Text>
+      </View>
+    </View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          {
+            "backgroundColor": "#131417",
+            "borderRadius": 20,
+            "flexDirection": "row",
+            "marginVertical": 4,
+            "padding": 16,
+            "shadowColor": "black",
+            "shadowOffset": {
+              "height": -3,
+              "width": 0,
+            },
+            "shadowOpacity": 0.3,
+            "shadowRadius": 4,
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "backgroundColor": "#F2B138",
+              "borderRadius": 10,
+              "height": 70,
+              "justifyContent": "center",
+              "marginRight": 16,
+              "padding": 8,
+              "width": 70,
+            }
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#fff",
+                "fontSize": 18,
+                "fontWeight": "bold",
+              }
+            }
+          />
+          <Text
+            style={
+              {
+                "color": "#fff",
+                "fontSize": 24,
+                "fontWeight": "bold",
+              }
+            }
+          >
+            Invalid Date
+          </Text>
+        </View>
+        <View
+          style={
+            {
+              "alignContent": "center",
+              "flex": 1,
+              "justifyContent": "center",
+            }
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#F2B138",
+              }
+            }
+          >
+            Invalid Date
+          </Text>
+          <Text
+            style={
+              {
+                "color": "#fff",
+                "fontSize": 18,
+                "fontWeight": "bold",
+              }
+            }
+          >
+            name
+          </Text>
+        </View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "justifyContent": "center",
+            }
+          }
+        >
+          <Image
+            accessibilityState={
+              {
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": undefined,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            resizeMode="contain"
+            source={1}
+            style={
+              {
+                "height": 30,
+                "width": 30,
+              }
+            }
+          />
+        </View>
+      </View>
+    </View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    />
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          {
+            "color": "#fff",
+            "marginTop": 12,
+            "padding": 8,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#fff",
+              "fontSize": 21,
+              "fontWeight": "bold",
+              "marginVertical": 4,
+              "paddingVertical": 8,
+            }
+          }
+        >
+          Zaproszone
+        </Text>
+      </View>
+    </View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          {
+            "backgroundColor": "#131417",
+            "borderRadius": 20,
+            "flexDirection": "row",
+            "marginVertical": 4,
+            "padding": 16,
+            "shadowColor": "black",
+            "shadowOffset": {
+              "height": -3,
+              "width": 0,
+            },
+            "shadowOpacity": 0.3,
+            "shadowRadius": 4,
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "backgroundColor": "#F2B138",
+              "borderRadius": 10,
+              "height": 70,
+              "justifyContent": "center",
+              "marginRight": 16,
+              "padding": 8,
+              "width": 70,
+            }
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#fff",
+                "fontSize": 18,
+                "fontWeight": "bold",
+              }
+            }
+          />
+          <Text
+            style={
+              {
+                "color": "#fff",
+                "fontSize": 24,
+                "fontWeight": "bold",
+              }
+            }
+          >
+            Invalid Date
+          </Text>
+        </View>
+        <View
+          style={
+            {
+              "alignContent": "center",
+              "flex": 1,
+              "justifyContent": "center",
+            }
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#F2B138",
+              }
+            }
+          >
+            Invalid Date
+          </Text>
+          <Text
+            style={
+              {
+                "color": "#fff",
+                "fontSize": 18,
+                "fontWeight": "bold",
+              }
+            }
+          >
+            name
+          </Text>
+        </View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "justifyContent": "center",
+            }
+          }
+        >
+          <Image
+            accessibilityState={
+              {
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": undefined,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            resizeMode="contain"
+            source={1}
+            style={
+              {
+                "height": 30,
+                "width": 30,
+              }
+            }
+          />
+        </View>
+      </View>
+    </View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    />
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          {
+            "color": "#fff",
+            "marginTop": 12,
+            "padding": 8,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#fff",
+              "fontSize": 21,
+              "fontWeight": "bold",
+              "marginVertical": 4,
+              "paddingVertical": 8,
+            }
+          }
+        >
+          Publiczne
+        </Text>
+      </View>
+    </View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          {
+            "backgroundColor": "#131417",
+            "borderRadius": 20,
+            "flexDirection": "row",
+            "marginVertical": 4,
+            "padding": 16,
+            "shadowColor": "black",
+            "shadowOffset": {
+              "height": -3,
+              "width": 0,
+            },
+            "shadowOpacity": 0.3,
+            "shadowRadius": 4,
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "backgroundColor": "#F2B138",
+              "borderRadius": 10,
+              "height": 70,
+              "justifyContent": "center",
+              "marginRight": 16,
+              "padding": 8,
+              "width": 70,
+            }
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#fff",
+                "fontSize": 18,
+                "fontWeight": "bold",
+              }
+            }
+          />
+          <Text
+            style={
+              {
+                "color": "#fff",
+                "fontSize": 24,
+                "fontWeight": "bold",
+              }
+            }
+          >
+            Invalid Date
+          </Text>
+        </View>
+        <View
+          style={
+            {
+              "alignContent": "center",
+              "flex": 1,
+              "justifyContent": "center",
+            }
+          }
+        >
+          <Text
+            style={
+              {
+                "color": "#F2B138",
+              }
+            }
+          >
+            Invalid Date
+          </Text>
+          <Text
+            style={
+              {
+                "color": "#fff",
+                "fontSize": 18,
+                "fontWeight": "bold",
+              }
+            }
+          >
+            name
+          </Text>
+        </View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "justifyContent": "center",
+            }
+          }
+        >
+          <Image
+            accessibilityState={
+              {
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": undefined,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            resizeMode="contain"
+            source={1}
+            style={
+              {
+                "height": 30,
+                "width": 30,
+              }
+            }
+          />
+        </View>
+      </View>
+    </View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    />
+  </View>
+</RCTScrollView>
+`;

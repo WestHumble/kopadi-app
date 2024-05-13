@@ -14,4 +14,18 @@ test('renders correctly', () => {
       additionalStylesText={undefined}
   />).toJSON();
   expect(tree).toMatchSnapshot();
-});                                                                                                  ``
+});
+
+
+test('renders with function', () => {
+  const tree = renderer.create(<CustomButton
+      text="Test"
+      onPress={()=>{}}
+      type="PRIMARY"
+      bgColor={undefined}
+      fgColor={undefined}
+      additionalStyles={undefined}
+      additionalStylesText={undefined}
+  />).toJSON();
+  expect(tree).toMatchSnapshot();
+});

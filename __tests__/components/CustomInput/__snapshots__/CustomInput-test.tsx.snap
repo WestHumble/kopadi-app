@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "#131417",
+        "borderColor": "#131417",
+        "borderRadius": 20,
+        "borderWidth": 1,
+        "color": "#fff",
+        "marginVertical": 5,
+        "paddingHorizontal": 10,
+        "width": "100%",
+      },
+      undefined,
+    ]
+  }
+>
+  <TextInput
+    editable={true}
+    multiline={false}
+    onChangeText={[Function]}
+    placeholder="Name"
+    placeholderTextColor="#f9f9f9"
+    style={
+      [
+        {
+          "height": 60,
+        },
+        undefined,
+        false,
+      ]
+    }
+    value="value"
+  />
+</View>
+`;
