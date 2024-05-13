@@ -10,7 +10,7 @@ import {
   Pressable,
   ImageBackground,
 } from "react-native";
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import * as ImagePicker from "expo-image-picker";
 import CustomButton from "../../components/CustomButton";
@@ -23,14 +23,14 @@ const EditProfileScreen = () => {
   const [image, setImage] = useState(null);
   const [saving, setSetSaving] = useState(false);
   const { userData, fetchUserData } = useContext(AuthContext);
-  const [name, setName] = useState(userData?.name ?? '');
-  const [surname, setSurname] = useState(userData?.surname ?? '');
+  const [name, setName] = useState(userData?.name ?? "");
+  const [surname, setSurname] = useState(userData?.surname ?? "");
   const [noCacheId] = useState(Date.now());
   const { post } = useContext(ApiContext);
 
   useEffect(() => {
-    setName(userData?.name ?? '')
-    setSurname(userData?.surname ?? '')
+    setName(userData?.name ?? "");
+    setSurname(userData?.surname ?? "");
   }, [userData]);
 
   const sendAvatar = (image) => {
@@ -46,31 +46,29 @@ const EditProfileScreen = () => {
     };
     formData.append("file", imageObject);
 
-    post(
-      "avatar",
-      formData,
-      null,
-      null,
-      false,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    post("avatar", formData, null, null, false, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   };
 
   const onSavePressed = () => {
     setSetSaving(true);
-    post('user/update', {
-      name: name,
-      surname: surname,
-    }, () => {
-      setSetSaving(false);
-    }, () => {
-      setSetSaving(false);
-    })
-  }
+    post(
+      "user/update",
+      {
+        name: name,
+        surname: surname,
+      },
+      () => {
+        setSetSaving(false);
+      },
+      () => {
+        setSetSaving(false);
+      }
+    );
+  };
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -131,7 +129,14 @@ const EditProfileScreen = () => {
               </View>
 
               <View style={styles.imageProfile}>
-                <Avatar image={image} userId={userData.id} style={styles.avatarImage} noCache={true} noCacheId={noCacheId} allowRedirect={false}/>
+                <Avatar
+                  image={image}
+                  userId={userData.id}
+                  style={styles.avatarImage}
+                  noCache={true}
+                  noCacheId={noCacheId}
+                  allowRedirect={false}
+                />
               </View>
             </View>
             <View style={styles.dataDiv}>
@@ -155,7 +160,7 @@ const EditProfileScreen = () => {
               />
               <View style={{ height: 20 }}></View>
               <CustomButton
-                text={saving ? (<ActivityIndicator size={"large"} />) : "Zapisz"}
+                text={saving ? <ActivityIndicator size={"large"} /> : "Zapisz"}
                 onPress={onSavePressed}
                 disabled={saving}
                 type="PRIMARY"
@@ -227,8 +232,7 @@ const styles = StyleSheet.create({
   },
   imageProfile: {
     zIndex: 0,
-    borderWidth: 3,
-    borderColor: "#F2B138",
+
     borderRadius: 50,
     margin: 10,
   },
@@ -240,8 +244,10 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     alignSelf: "center",
-    backgroundColor: "#F2B138"
-  }
+    backgroundColor: "#F2B138",
+    borderWidth: 4,
+    borderColor: "#F2B138",
+  },
 });
 
 export default EditProfileScreen;
