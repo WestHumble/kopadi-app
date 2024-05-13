@@ -34,7 +34,7 @@ const FriendItem = ({
             marginRight: 10,
             padding: 1,
             shadowColor: "black",
-            backgroundColor: "#222",
+            backgroundColor: "#F2B138",
           }}
           userId={friend.id}
           userName={friend.name}
