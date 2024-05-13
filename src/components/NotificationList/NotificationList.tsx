@@ -57,7 +57,7 @@ const FriendInviteItem = ({ notification }) => {
           marginRight: 10,
           padding: 1,
           shadowColor: "black",
-          backgroundColor: "#222",
+          backgroundColor: "#F2B138",
         }}
         userId={notification.friendInvite.friend.id}
         userName={notification.friendInvite.friend.name}
