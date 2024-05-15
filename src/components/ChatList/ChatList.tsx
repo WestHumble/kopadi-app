@@ -1,23 +1,45 @@
 import React, { useContext } from "react";
-import { View, Text, SectionList, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  SectionList,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Image,
+} from "react-native";
 import CustomButton from "../CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { ChatContext } from "../../context/ChatContext";
+import eventButton from "../../../assets/images/right-alt-yellow.png";
 
 const ChatItem = ({ chat }) => {
   const navigation = useNavigation();
   return (
     <View style={styles.chatContainer}>
-      <Text style={styles.name}>
-        {chat.name} {chat.is_seen ? "Wyświetlono" : "Nie wyświetlono"}
-      </Text>
-      <CustomButton
-        text="Otwórz"
-        onPress={() => navigation.navigate("Chat", { chatId: chat.id })}
-        type="PRIMARY"
-        bgColor={undefined}
-        fgColor={undefined}
-      />
+      <View style={styles.chatDivText}>
+        <Text style={styles.name}>{chat.name}</Text>
+        <Text style={styles.nameNewMessage}>
+          {chat.is_seen ? "" : "Nowa wiadomość"}
+        </Text>
+      </View>
+      <View style={styles.chatDivButton}>
+        <TouchableWithoutFeedback
+          onPress={() => navigation.navigate("Chat", { chatId: chat.id })}
+        >
+          <Image
+            source={eventButton}
+            style={styles.eventButtonImg}
+            resizeMode="contain"
+          />
+        </TouchableWithoutFeedback>
+        {/* <CustomButton
+          text="Otwórz"
+          onPress={() => navigation.navigate("Chat", { chatId: chat.id })}
+          type="PRIMARY"
+          bgColor={undefined}
+          fgColor={undefined}
+        /> */}
+      </View>
     </View>
   );
 };
@@ -52,6 +74,8 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: -3 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
+    flexDirection: "row",
+    alignItems: "center",
   },
   name: {
     fontSize: 18,
@@ -75,6 +99,22 @@ const styles = StyleSheet.create({
   noFriendsText: {
     fontSize: 16,
     color: "#888",
+  },
+  chatDivText: {
+    flex: 2 / 3,
+  },
+  chatDivButton: {
+    flex: 1 / 3,
+  },
+  eventButtonImg: {
+    width: 30,
+    height: 30,
+  },
+  nameNewMessage: {
+    color: "#ffffff",
+    backgroundColor: "#1D1F24",
+    padding: 5,
+    borderRadius: 10,
   },
 });
 
