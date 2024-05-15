@@ -36,30 +36,9 @@ const ConfirmEmailScreen = () => {
             Potwierdź swój adres e-mail
           </Text>
           <View style={styles.inputArea}>
-            <CustomInput
-              placeholder="Podaj kod potwierdzający"
-              value={emailConfirmCode}
-              setValue={setEmailConfirmCode}
-              secureTextEntry={undefined}
-              additionalStyle={styles.inputEmail}
-            />
-          </View>
-
-          <CustomButton
-            text="Potwierdź adres e-mail"
-            onPress={onRegisterPressed}
-            type="PRIMARY"
-            bgColor={undefined}
-            fgColor={undefined}
-          />
-
-          <CustomButton
-            text="Wyślij ponownie kod potwierdzający"
-            onPress={onResendPressed}
-            type="SECONDARY"
-            bgColor={undefined}
-            fgColor={"white"}
-          />
+           <Text style={styles.text}>
+            Wysłaliśmy Ci link potwierdzający na adres e-mail. Kliknij w link, aby potwierdzić swój adres e-mail. Jeśli nie otrzymałeś e-maila, sprawdź folder ze spamem.
+          </Text>
           <CustomButton
             text="Cofnięcie do logowania"
             onPress={onBackToLoginPressed}
@@ -110,6 +89,8 @@ const styles = StyleSheet.create({
   inputArea: {
     marginVertical: 20,
   },
+  
+
 });
 
 export default ConfirmEmailScreen;
