@@ -294,7 +294,7 @@ const MapViewComponent = () => {
             >
               <View>
                 <Image
-                  source={require("../../../assets/images/user.png")}
+                  source={require("../../../assets/images/user-pin.png")}
                   style={{
                     width: 40,
                     height: 40,
