@@ -3,7 +3,7 @@ import {
   Text,
   StyleSheet,
   useWindowDimensions,
-  ScrollView,
+  ScrollView, Alert,
 } from "react-native";
 import React, { useContext, useState } from "react";
 import CustomInput from "../../components/CustomInput";
@@ -30,7 +30,7 @@ const ResetPasswordScreen = () => {
         code: resetPasswordCode,
       },
       navigation.navigate("SignIn"),
-      null,
+      () => Alert.alert("Błąd przy próbie zmiany hasłą"),
       true
     );
   };

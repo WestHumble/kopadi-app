@@ -11,10 +11,16 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { LocationContext } from "../../context/LocationContext";
+import {FriendsContext} from "../../context/FriendsContext";
+import {EventsContext} from "../../context/EventsContext";
 
 const ProfileScreen = () => {
-  const { userLocation, shareLocation, setShareLocation } =
+  const { shareLocation, setShareLocation } =
     useContext(LocationContext);
+
+  const {unreadFriendInvitesCounter} = useContext(FriendsContext);
+  const {unreadEventInvitesCounter} = useContext(EventsContext);
+
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
   const { logout } = useContext(AuthContext);
@@ -54,14 +60,58 @@ const ProfileScreen = () => {
               fgColor={undefined}
             />
             <CustomButton
-              text="Zaproszenia do znajomych"
+                text={(<>Zaproszenia do znajomych { unreadFriendInvitesCounter > 0 && (<View
+                    style={{
+                      fontSize: 12,
+                      color:"#F2B138",
+                      position: "absolute",
+                      top: -5,
+                      right: -5,
+                      backgroundColor: "red",
+                      borderRadius: 10,
+                      paddingHorizontal: 4,
+                      paddingVertical: 1,
+                      textAlign: "center",
+                    }}
+                >
+                  <Text
+                      style={{
+                        fontSize: 12,
+                        color: "white",
+                      }}
+                  >
+                    {unreadFriendInvitesCounter}
+                  </Text>
+                </View>)}</>)}
               onPress={onFriendInvitesPressed}
               type="PRIMARY"
               bgColor={undefined}
               fgColor={undefined}
             />
             <CustomButton
-              text="Zaproszenia na wydarzenia"
+              text={(<>Zaproszenia na wydarzenia { unreadEventInvitesCounter > 0 && (<View
+                  style={{
+                    fontSize: 12,
+                    color:"#F2B138",
+                    position: "absolute",
+                    top: -5,
+                    right: -5,
+                    backgroundColor: "red",
+                    borderRadius: 10,
+                    paddingHorizontal: 4,
+                    paddingVertical: 1,
+                    textAlign: "center",
+                  }}
+              >
+                <Text
+                    style={{
+                      fontSize: 12,
+                      color: "white",
+                    }}
+                >
+                  {unreadEventInvitesCounter}
+                </Text>
+              </View>)}</>)}
               onPress={onEventInvitesPressed}
               type="PRIMARY"
               bgColor={undefined}
