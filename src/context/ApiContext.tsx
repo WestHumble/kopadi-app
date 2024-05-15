@@ -43,7 +43,6 @@ export const ApiProvider = ({children}) => {
                 },
                 error => {
                     if (error.request && error.request.status !== 401) {
-                        //console.log(error.response)
                         throw error;
                     }
                     let failedRequest = error.config;
@@ -65,7 +64,6 @@ export const ApiProvider = ({children}) => {
                                 successCallback(res)
                             })
                             .catch(res => {
-                                console.error(res)
                                 if (!res || null === errorCallback){
                                     return
                                 }
@@ -74,7 +72,6 @@ export const ApiProvider = ({children}) => {
                     }).catch((res)=>{
                         setUserToken(null)
                         setUserRefreshToken(null)
-                        console.error(res)
                         if (!res || null === errorCallback){
                             return
                         }
@@ -99,7 +96,6 @@ export const ApiProvider = ({children}) => {
             }
             success(res)
         }).catch(res => {
-            console.error(res)
             if (!res || null === error){
                 return
             }
@@ -118,7 +114,6 @@ export const ApiProvider = ({children}) => {
             }
             success(res)
         }).catch(res => {
-            console.error(res)
             if (!res || null === error){
                 return
             }

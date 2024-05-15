@@ -51,7 +51,7 @@ export const EventsProvider = ({children}) => {
             Notifications.removeNotificationSubscription(notificationListener.current);
             Notifications.removeNotificationSubscription(responseListener.current);
         };
-    }, [userLocation]);
+    }, [userLocation, userToken]);
 
     useEffect(() => {
         if (userToken) {
@@ -85,8 +85,6 @@ export const EventsProvider = ({children}) => {
             setEventsCreated(created ?? [])
             setEventsInvited(invited ?? [])
             setEventsOther(other ?? [])
-        }, (res) => {
-            console.log(res.data)
         })
     };
 
