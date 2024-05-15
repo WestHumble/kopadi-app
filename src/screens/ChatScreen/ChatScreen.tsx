@@ -265,14 +265,14 @@ const styles = StyleSheet.create({
   },
   avatarColumn: {
     flexDirection: "column",
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "flex-start",
     flex: 0.2,
   },
   messColumn: {
     flexDirection: "column",
     alignItems: "flex-start",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     flex: 1,
   },
   selfMessageFriendName: {
