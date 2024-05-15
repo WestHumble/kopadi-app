@@ -32,15 +32,26 @@ const ChatMessageItem = ({ chat, chatMessage, displayFriend }) => {
           : styles.messageContainer
       }
     >
-      <Avatar
-        userId={friend?.id}
-        userName={friend?.name}
-        userSurname={friend?.surname}
-        style={styles.avatarImage}
-        allowRedirect={!chatMessage.sent_by_logged_user}
-      />
-      <View>
-        <Text style={styles.messageFriendName}>{friend?.name}</Text>
+      <View style={styles.avatarColumn}>
+        <Avatar
+          userId={friend?.id}
+          userName={friend?.name}
+          userSurname={friend?.surname}
+          style={styles.avatarImage}
+          allowRedirect={!chatMessage.sent_by_logged_user}
+        />
+      </View>
+
+      <View style={styles.messColumn}>
+        <Text
+          style={
+            chatMessage.sent_by_logged_user
+              ? styles.selfMessageFriendName
+              : styles.messageFriendName
+          }
+        >
+          {friend?.name}
+        </Text>
         <Text style={styles.messageText}>{chatMessage.message_text}</Text>
       </View>
     </View>
@@ -204,7 +215,6 @@ const styles = StyleSheet.create({
     maxWidth: "75%",
     alignSelf: "flex-start",
     flexDirection: "row",
-    alignItems: "center",
   },
   selfMessageContainer: {
     padding: 16,
@@ -218,7 +228,6 @@ const styles = StyleSheet.create({
     maxWidth: "75%",
     alignSelf: "flex-end",
     flexDirection: "row",
-    alignItems: "center",
   },
   windowTab: {
     height: "75%",
@@ -247,11 +256,27 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: "#F2B138",
     marginRight: 5,
+    marginTop: 3,
   },
   messageFriendName: {
     fontSize: 10,
     fontWeight: "bold",
     color: "#fff",
+  },
+  avatarColumn: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    flex: 0.2,
+  },
+  messColumn: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    flex: 1,
+  },
+  selfMessageFriendName: {
+    display: "none",
   },
 });
 
