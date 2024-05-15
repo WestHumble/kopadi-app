@@ -36,16 +36,19 @@ const ConfirmEmailScreen = () => {
             Potwierdź swój adres e-mail
           </Text>
           <View style={styles.inputArea}>
-           <Text style={styles.text}>
-            Wysłaliśmy Ci link potwierdzający na adres e-mail. Kliknij w link, aby potwierdzić swój adres e-mail. Jeśli nie otrzymałeś e-maila, sprawdź folder ze spamem.
-          </Text>
-          <CustomButton
-            text="Cofnięcie do logowania"
-            onPress={onBackToLoginPressed}
-            type="TERTIARY"
-            bgColor={undefined}
-            fgColor={undefined}
-          />
+            <Text style={styles.text}>
+              Wysłaliśmy Ci link potwierdzający na adres e-mail. Kliknij w link,
+              aby potwierdzić swój adres e-mail. Jeśli nie otrzymałeś e-maila,
+              sprawdź folder ze spamem.
+            </Text>
+            <CustomButton
+              text="Cofnięcie do logowania"
+              onPress={onBackToLoginPressed}
+              type="TERTIARY"
+              bgColor={undefined}
+              fgColor={undefined}
+            />
+          </View>
         </ScrollView>
       </View>
     </View>
@@ -89,8 +92,6 @@ const styles = StyleSheet.create({
   inputArea: {
     marginVertical: 20,
   },
-  
-
 });
 
 export default ConfirmEmailScreen;

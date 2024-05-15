@@ -50,18 +50,27 @@ const ResetPasswordScreen = () => {
             value={resetPasswordCode}
             setValue={setResetPasswordCode}
             secureTextEntry={undefined}
+            additionalStyle={{
+              color: "#fff",
+            }}
           />
           <CustomInput
             placeholder="Podaj hasło"
             value={resetPassword}
             setValue={setResetPassword}
             secureTextEntry={undefined}
+            additionalStyle={{
+              color: "#fff",
+            }}
           />
           <CustomInput
             placeholder="Powtórz hasło"
             value={resetPasswordConfirm}
             setValue={setResetPasswordConfirm}
             secureTextEntry={undefined}
+            additionalStyle={{
+              color: "#fff",
+            }}
           />
           <CustomButton
             text="Wyślij"
@@ -112,7 +121,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
     marginTop: "15%",
-    color: "#003f63",
+    color: "#ffffff",
   },
 });
 

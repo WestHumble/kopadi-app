@@ -50,6 +50,9 @@ const ForgotPasswordScreen = () => {
             value={emailToResetPassword}
             setValue={setEmailToResetPassword}
             secureTextEntry={undefined}
+            additionalStyle={{
+              color: "#fff",
+            }}
           />
           <CustomButton
             text="Wyślij link do resetowania hasła"
