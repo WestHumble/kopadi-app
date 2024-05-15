@@ -32,16 +32,17 @@ const ChatMessageItem = ({ chat, chatMessage, displayFriend }) => {
           : styles.messageContainer
       }
     >
-      {
-        <Avatar
-          userId={friend?.id}
-          userName={friend?.name}
-          userSurname={friend?.surname}
-          style={styles.avatarImage}
-          allowRedirect={!chatMessage.sent_by_logged_user}
-        />
-      }
-      <Text style={styles.messageText}>{chatMessage.message_text}</Text>
+      <Avatar
+        userId={friend?.id}
+        userName={friend?.name}
+        userSurname={friend?.surname}
+        style={styles.avatarImage}
+        allowRedirect={!chatMessage.sent_by_logged_user}
+      />
+      <View>
+        <Text style={styles.messageFriendName}>{friend?.name}</Text>
+        <Text style={styles.messageText}>{chatMessage.message_text}</Text>
+      </View>
     </View>
   );
 };
@@ -201,6 +202,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     maxWidth: "75%",
+    alignSelf: "flex-start",
+    flexDirection: "row",
+    alignItems: "center",
   },
   selfMessageContainer: {
     padding: 16,
@@ -213,6 +217,8 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     maxWidth: "75%",
     alignSelf: "flex-end",
+    flexDirection: "row",
+    alignItems: "center",
   },
   windowTab: {
     height: "75%",
@@ -236,10 +242,16 @@ const styles = StyleSheet.create({
   },
   searchInput: { color: "#fff" },
   avatarImage: {
-    width: 50,
-    height: 50,
+    width: 25,
+    height: 25,
     borderRadius: 25,
     backgroundColor: "#F2B138",
+    marginRight: 5,
+  },
+  messageFriendName: {
+    fontSize: 10,
+    fontWeight: "bold",
+    color: "#fff",
   },
 });
 
