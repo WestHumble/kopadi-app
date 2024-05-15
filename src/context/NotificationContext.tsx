@@ -9,7 +9,6 @@ export const NotificationContext = createContext(null);
 
 Notifications.setNotificationHandler({
     handleNotification: async (notification) => {
-        //console.log(notification.request.trigger.channelId !== 'chat')
         return ({
             shouldShowAlert: true,
             shouldPlaySound: false,

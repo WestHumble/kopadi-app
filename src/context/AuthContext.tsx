@@ -73,13 +73,9 @@ export const AuthProvider = ({children}) => {
     }
 
     const isLoggedIn = async() => {
-        try {
-            setIsLoading(true)
-            setUserToken(await AsyncStorage.getItem('userToken'))
-            setUserRefreshToken(await AsyncStorage.getItem('userRefreshToken'))
-        } catch (e) {
-            console.log(`isLoggedIn error ${e}`)
-        }
+        setIsLoading(true)
+        setUserToken(await AsyncStorage.getItem('userToken'))
+        setUserRefreshToken(await AsyncStorage.getItem('userRefreshToken'))
     }
 
     useEffect(() => {

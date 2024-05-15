@@ -30,7 +30,7 @@ export const ChatProvider = ({children}) => {
     const getChatList = () => {
         get('chat/get-all-chats', null, (res) => {
             let chatsCopy = []
-            res.data.forEach((data)=> {
+            res.data?.forEach((data)=> {
                 let chatTmp = chats.find(e => e.id === data.id)
 
                 if (chatTmp) {
@@ -67,7 +67,7 @@ export const ChatProvider = ({children}) => {
         let chatIdUpdate = chatIdParam ?? chatId
         if (chatIdUpdate !== null && undefined !== getChatById(chatIdUpdate)) {
             get('chat/get-all-messages/' + chatIdUpdate, null, (res) => {
-                getChatById(chatIdUpdate).messages = res.data.sort((c1, c2) => c1.created_at > c2.created_at)
+                getChatById(chatIdUpdate).messages = res.data?.sort((c1, c2) => c1.created_at > c2.created_at)
                 setRefreshTime(Date.now())
             })
         }
@@ -106,7 +106,7 @@ export const ChatProvider = ({children}) => {
         return () => {
             Notifications.removeNotificationSubscription(notificationListener.current);
         };
-    }, [chatId]);
+    }, [chatId, userToken]);
 
     useEffect(() => {
         responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {

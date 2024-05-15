@@ -66,7 +66,7 @@ export const FriendsProvider = ({children}) => {
             Notifications.removeNotificationSubscription(notificationListener.current);
             Notifications.removeNotificationSubscription(responseListener.current);
         };
-    }, []);
+    }, [userToken]);
 
     useEffect(() => {
         if (userToken) {
