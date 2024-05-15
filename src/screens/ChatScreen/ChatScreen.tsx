@@ -19,6 +19,7 @@ import { ApiContext } from "../../context/ApiContext";
 import * as Notifications from "expo-notifications";
 import { NavigationContext } from "../../context/NavigationContext";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+import Avatar from "../../components/Avatar";
 
 const ChatMessageItem = ({ chat, chatMessage, displayFriend }) => {
   let friend = chat.participants.find((f) => f.id === chatMessage.sender_id);
@@ -31,11 +32,16 @@ const ChatMessageItem = ({ chat, chatMessage, displayFriend }) => {
           : styles.messageContainer
       }
     >
-      <Text style={styles.messageText}>
-        {(!chatMessage.sent_by_logged_user && displayFriend
-          ? (friend?.name ?? "Anon") + ": "
-          : " ") + chatMessage.message_text}
-      </Text>
+      {
+        <Avatar
+          userId={friend?.id}
+          userName={friend?.name}
+          userSurname={friend?.surname}
+          style={styles.avatarImage}
+          allowRedirect={!chatMessage.sent_by_logged_user}
+        />
+      }
+      <Text style={styles.messageText}>{chatMessage.message_text}</Text>
     </View>
   );
 };
@@ -229,6 +235,12 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   searchInput: { color: "#fff" },
+  avatarImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: "#F2B138",
+  },
 });
 
 export default ChatScreen;
