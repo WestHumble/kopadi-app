@@ -1,25 +1,26 @@
-import React, {useContext} from "react";
-import {View, Text, SectionList, StyleSheet} from "react-native";
+import React, { useContext } from "react";
+import { View, Text, SectionList, StyleSheet } from "react-native";
 import CustomButton from "../CustomButton";
-import {useNavigation} from "@react-navigation/native";
-import {ChatContext} from "../../context/ChatContext";
+import { useNavigation } from "@react-navigation/native";
+import { ChatContext } from "../../context/ChatContext";
 
 const ChatItem = ({ chat }) => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   return (
-      <View style={styles.chatContainer}>
-          <Text style={styles.name}>{chat.name} {chat.is_seen ? 'seen' : 'not seen'}</Text>
-
-        <CustomButton
-            text="Otwórz"
-            onPress={() => navigation.navigate("Chat", {chatId: chat.id})}
-            type="PRIMARY"
-            bgColor={undefined}
-            fgColor={undefined}
-        />
-      </View>
+    <View style={styles.chatContainer}>
+      <Text style={styles.name}>
+        {chat.name} {chat.is_seen ? "Wyświetlono" : "Nie wyświetlono"}
+      </Text>
+      <CustomButton
+        text="Otwórz"
+        onPress={() => navigation.navigate("Chat", { chatId: chat.id })}
+        type="PRIMARY"
+        bgColor={undefined}
+        fgColor={undefined}
+      />
+    </View>
   );
-}
+};
 
 const ChatList = ({ data }) => (
   <SectionList
@@ -30,11 +31,7 @@ const ChatList = ({ data }) => (
         <Text style={styles.sectionHeaderText}>{title}</Text>
       </View>
     )}
-    renderItem={({ item }) => (
-      <ChatItem
-          chat={item}
-      />
-    )}
+    renderItem={({ item }) => <ChatItem chat={item} />}
     renderSectionFooter={({ section }) =>
       section.data.length === 0 && (
         <View style={styles.noFriendsContainer}>
