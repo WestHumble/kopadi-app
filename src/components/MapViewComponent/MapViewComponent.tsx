@@ -19,6 +19,7 @@ import { useIsFocused, useNavigation } from "@react-navigation/native";
 import eventsRefreshImg from "../../../assets/images/refresh.png";
 import eventsClearImg from "../../../assets/images/searchClear.png";
 import eventsAddImg from "../../../assets/images/addevent.png";
+import Avatar from "../Avatar";
 
 const MapViewComponent = () => {
   const navigation = useNavigation();
@@ -185,7 +186,8 @@ const MapViewComponent = () => {
         newMarkers.push({
           id: friend?.id,
           latlng: latlngData,
-          name: friend?.name ?? k,
+          name: friend?.name,
+          surname: friend?.surname,
         });
       }
       setFriendsMarkers(newMarkers);
@@ -202,7 +204,7 @@ const MapViewComponent = () => {
       parseInt(process.env.EXPO_PUBLIC_LOCALIZATION_UPDATE_TIME)
     );
     return () => clearInterval(interval);
-  }, [userToken]);
+  }, [userToken, friends]);
 
   const reloadMarkers = () => {
     eventsRef.current.forEach((marker) => {
@@ -254,7 +256,7 @@ const MapViewComponent = () => {
     reloadMarkers();
     const interval = setInterval(() => reloadMarkers(), 5000);
     return () => clearInterval(interval);
-  }, [isFocused, eventsRef, friendsRef]);
+  }, [isFocused, friendsMarkers, eventsRef, friendsRef]);
 
   return (
     <>
@@ -291,16 +293,28 @@ const MapViewComponent = () => {
               title={marker.name}
               description={marker.description}
               tracksViewChanges={false}
+              onPress={() => {
+                navigation.navigate('DisplayProfile', {
+                  userId: marker.id,
+                  userName: marker.name,
+                  userSurname: marker.surname,
+                })
+              }}
             >
-              <View>
-                <Image
-                  source={require("../../../assets/images/user.png")}
+              <Avatar
                   style={{
-                    width: 40,
-                    height: 40,
+                    width: 50,
+                    height: 50,
+                    borderRadius: 25,
+                    marginRight: 10,
+                    padding: 1,
+                    shadowColor: "black",
+                    backgroundColor: "#F2B138",
                   }}
-                />
-              </View>
+                  userId={marker.id}
+                  userName={marker.name}
+                  userSurname={marker.surname}
+              />
             </Marker>
           );
         })}

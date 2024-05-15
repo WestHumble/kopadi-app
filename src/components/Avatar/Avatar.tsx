@@ -18,16 +18,16 @@ const Avatar = ({
     const [error, setError] = useState(false);
     useEffect(() => {
         setError(false)
-    }, [userId]);
+    }, [userId, noCacheId]);
     var sourceImage = error && !image ? userImg : {uri: image ?? (`${API_ADDRESS}/api/avatar/get/${userId}` + (noCache ? '?' + noCacheId : ''))}
 
     const {navigationRef} = useContext(NavigationContext);
     return (
-        <Pressable onPress={() => allowRedirect ? navigationRef.current?.navigate('DisplayProfile', {
+        <Pressable disabled={!allowRedirect} onPress={() => navigationRef.current?.navigate('DisplayProfile', {
             userId: userId,
             userName: userName,
             userSurname: userSurname,
-        }) : null}>
+        })}>
             <Image
                 source={sourceImage}
                 onError={() => setError(true)}

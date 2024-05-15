@@ -32,15 +32,16 @@ const ChatMessageItem = ({ chat, chatMessage, displayFriend }) => {
           : styles.messageContainer
       }
     >
-      <View style={styles.avatarColumn}>
+      {!chatMessage.sent_by_logged_user && (<View style={styles.avatarColumn}>
         <Avatar
-          userId={friend?.id}
-          userName={friend?.name}
-          userSurname={friend?.surname}
-          style={styles.avatarImage}
-          allowRedirect={!chatMessage.sent_by_logged_user}
+            userId={friend?.id}
+            userName={friend?.name}
+            userSurname={friend?.surname}
+            style={styles.avatarImage}
+            allowRedirect={true}
         />
-      </View>
+      </View>)}
+
 
       <View style={styles.messColumn}>
         <Text
