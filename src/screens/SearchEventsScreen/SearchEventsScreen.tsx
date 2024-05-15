@@ -50,7 +50,27 @@ const SearchEventsScreen = () => {
               },
             ]}
           />
-          <CustomInput
+          <View style={styles.searchContainer}>
+            <View style={{ flex: 3 / 4, marginRight: 10 }}>
+              <CustomInput
+                placeholder="Szukaj"
+                value={searchPhrase}
+                setValue={setSearchPhrase}
+                secureTextEntry={undefined}
+                additionalStyle={styles.searchInput}
+              />
+            </View>
+            <View style={{ flex: 1 / 4 }}>
+              <CustomButton
+                text="Szukaj"
+                onPress={onSearchPressed}
+                type="PRIMARY"
+                bgColor={undefined}
+                fgColor={undefined}
+              />
+            </View>
+          </View>
+          {/* <CustomInput
             placeholder="Szukaj"
             value={searchPhrase}
             setValue={setSearchPhrase}
@@ -63,7 +83,7 @@ const SearchEventsScreen = () => {
             type="PRIMARY"
             bgColor={undefined}
             fgColor={undefined}
-          />
+          /> */}
         </View>
       </View>
     </>
@@ -101,6 +121,12 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   searchInput: { color: "#fff" },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+  },
 });
 
 export default SearchEventsScreen;
