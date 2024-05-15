@@ -102,9 +102,13 @@ const styles = StyleSheet.create({
   },
   chatDivText: {
     flex: 2 / 3,
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   chatDivButton: {
     flex: 1 / 3,
+    flexDirection: "row",
+    justifyContent: "flex-end",
   },
   eventButtonImg: {
     width: 30,
