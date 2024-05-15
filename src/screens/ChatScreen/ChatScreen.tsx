@@ -4,87 +4,126 @@ import {
   StyleSheet,
   useWindowDimensions,
   ScrollView,
-  Alert, ActivityIndicator,
+  Alert,
+  ActivityIndicator,
 } from "react-native";
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Geocoding from "react-native-geocoding";
-import {Event} from "../../types/event";
-import {Chat, ChatMessage} from "../../types/chat";
-import {ChatContext} from "../../context/ChatContext";
-import {ApiContext} from "../../context/ApiContext";
+import { Event } from "../../types/event";
+import { Chat, ChatMessage } from "../../types/chat";
+import { ChatContext } from "../../context/ChatContext";
+import { ApiContext } from "../../context/ApiContext";
 import * as Notifications from "expo-notifications";
-import {NavigationContext} from "../../context/NavigationContext";
-import {useFocusEffect, useIsFocused} from "@react-navigation/native";
+import { NavigationContext } from "../../context/NavigationContext";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 
 const ChatMessageItem = ({ chat, chatMessage, displayFriend }) => {
-  let friend = chat.participants.find(f => f.id === chatMessage.sender_id)
+  let friend = chat.participants.find((f) => f.id === chatMessage.sender_id);
 
   return (
-      <View style={chatMessage.sent_by_logged_user ? styles.selfMessageContainer : styles.messageContainer}>
-        <Text style={styles.messageText}>{(!chatMessage.sent_by_logged_user && displayFriend ? (friend?.name??'Anon') + ': ' : ' ') + chatMessage.message_text}</Text>
-      </View>
+    <View
+      style={
+        chatMessage.sent_by_logged_user
+          ? styles.selfMessageContainer
+          : styles.messageContainer
+      }
+    >
+      <Text style={styles.messageText}>
+        {(!chatMessage.sent_by_logged_user && displayFriend
+          ? (friend?.name ?? "Anon") + ": "
+          : " ") + chatMessage.message_text}
+      </Text>
+    </View>
   );
-}
-const ChatScreen = ({route}) => {
+};
+const ChatScreen = ({ route }) => {
   const { chatId } = route.params;
-  const scrollRef = useRef(null)
+  const scrollRef = useRef(null);
   const { height } = useWindowDimensions();
   const [message, setMessage] = useState<string>(null);
   const [sendingMessage, setSendingMessage] = useState<string>(null);
-  const { setChatId, getChatById, setChatMessages, setChatAsRead, refreshTime } = useContext(ChatContext)
+  const {
+    setChatId,
+    getChatById,
+    setChatMessages,
+    setChatAsRead,
+    refreshTime,
+  } = useContext(ChatContext);
   const [chat, setChat] = useState<Chat>(null);
   const { post } = useContext(ApiContext);
   const notificationListener = useRef();
 
   const onSendMessage = () => {
-    setSendingMessage(true)
-    post('chat/message', {
-      conversationId: chatId,
-      textMessage: message
-    }, (res) => {
-      setChatMessages(chatId)
-      setSendingMessage(false)
-    }, (res) => {
-      setSendingMessage(false)
-    })
-    setMessage(null)
-  }
+    setSendingMessage(true);
+    post(
+      "chat/message",
+      {
+        conversationId: chatId,
+        textMessage: message,
+      },
+      (res) => {
+        setChatMessages(chatId);
+        setSendingMessage(false);
+      },
+      (res) => {
+        setSendingMessage(false);
+      }
+    );
+    setMessage(null);
+  };
 
   useEffect(() => {
-    scrollRef.current?.scrollToEnd({animated: false})
+    scrollRef.current?.scrollToEnd({ animated: false });
   }, [chat, refreshTime]);
 
   useEffect(() => {
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      setTimeout(() => setChatMessages(JSON.parse(JSON.parse(notification.request.trigger.remoteMessage.data.body).payload).conversation_id), 1000)
-    });
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        setTimeout(
+          () =>
+            setChatMessages(
+              JSON.parse(
+                JSON.parse(notification.request.trigger.remoteMessage.data.body)
+                  .payload
+              ).conversation_id
+            ),
+          1000
+        );
+      });
 
     return () => {
-      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
     };
   }, [chat]);
 
-  const isFocused = useIsFocused()
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     if (isFocused) {
-      setChatId(chatId)
-      setChat(getChatById(chatId))
-      setChatMessages(chatId)
-      setChatAsRead(chatId)
+      setChatId(chatId);
+      setChat(getChatById(chatId));
+      setChatMessages(chatId);
+      setChatAsRead(chatId);
     }
-  }, [isFocused, chatId])
-
+  }, [isFocused, chatId]);
 
   if (!chat || chat.id !== chatId) {
     return (
-        <View style={{ flex: 1, justifyContent: "center",
-          backgroundColor: "#131417",alignItems: "center" }}>
-          <ActivityIndicator size={"large"} />
-        </View>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          backgroundColor: "#131417",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator size={"large"} />
+      </View>
     );
   }
 
@@ -95,25 +134,38 @@ const ChatScreen = ({route}) => {
           <Text style={styles.title} resizeMode="contain">
             {chat.name}
           </Text>
-          <ScrollView ref={scrollRef} contentOffset={{x:0, y:9999}} showsVerticalScrollIndicator={false}>
-            {chat.messages?.map((chatMessage)=>
-                (<ChatMessageItem key={chatMessage.id}  chat={chat} chatMessage={chatMessage} displayFriend={chat.event_name !== null || chat.participants.length > 2}/>)
-            )}
+          <ScrollView
+            ref={scrollRef}
+            contentOffset={{ x: 0, y: 9999 }}
+            showsVerticalScrollIndicator={false}
+          >
+            {chat.messages?.map((chatMessage) => (
+              <ChatMessageItem
+                key={chatMessage.id}
+                chat={chat}
+                chatMessage={chatMessage}
+                displayFriend={
+                  chat.event_name !== null || chat.participants.length > 2
+                }
+              />
+            ))}
           </ScrollView>
           <CustomInput
-              placeholder="Napisz wiadomość"
-              value={message}
-              setValue={setMessage}
-              secureTextEntry={undefined}
-              additionalStyle={styles.searchInput}
+            placeholder="Napisz wiadomość"
+            value={message}
+            setValue={setMessage}
+            secureTextEntry={undefined}
+            additionalStyle={styles.searchInput}
           />
           <CustomButton
-              text={sendingMessage ? (<ActivityIndicator size={"large"} />) : "Wyślij"}
-              disabled={sendingMessage}
-              onPress={onSendMessage}
-              type="PRIMARY"
-              bgColor={undefined}
-              fgColor={undefined}
+            text={
+              sendingMessage ? <ActivityIndicator size={"large"} /> : "Wyślij"
+            }
+            disabled={sendingMessage}
+            onPress={onSendMessage}
+            type="PRIMARY"
+            bgColor={undefined}
+            fgColor={undefined}
           />
         </View>
       </View>
@@ -154,6 +206,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     maxWidth: "75%",
+    alignSelf: "flex-end",
   },
   windowTab: {
     height: "75%",
@@ -175,7 +228,7 @@ const styles = StyleSheet.create({
     marginTop: "5%",
     color: "#fff",
   },
-  searchInput: {color: "#fff"},
+  searchInput: { color: "#fff" },
 });
 
 export default ChatScreen;

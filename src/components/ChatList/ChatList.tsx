@@ -17,10 +17,12 @@ const ChatItem = ({ chat }) => {
   return (
     <View style={styles.chatContainer}>
       <View style={styles.chatDivText}>
+        {chat.is_seen ? (
+          ""
+        ) : (
+          <Text style={styles.nameNewMessage}>Nowa wiadomość</Text>
+        )}
         <Text style={styles.name}>{chat.name}</Text>
-        <Text style={styles.nameNewMessage}>
-          {chat.is_seen ? "" : "Nowa wiadomość"}
-        </Text>
       </View>
       <View style={styles.chatDivButton}>
         <TouchableWithoutFeedback
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
   },
   chatDivText: {
     flex: 2 / 3,
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between",
   },
   chatDivButton: {
@@ -116,9 +118,11 @@ const styles = StyleSheet.create({
   },
   nameNewMessage: {
     color: "#ffffff",
-    backgroundColor: "#1D1F24",
+    backgroundColor: "#F2B138",
     padding: 5,
     borderRadius: 10,
+    marginBottom: 5,
+    width: 125,
   },
 });
 
