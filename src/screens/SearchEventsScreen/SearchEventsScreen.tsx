@@ -29,7 +29,6 @@ const SearchEventsScreen = () => {
   const onSearchPressed = () => {
     searchEvents(searchPhrase);
   };
-  console.log(eventsInvited);
 
   return (
     <>
