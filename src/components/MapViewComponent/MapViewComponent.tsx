@@ -37,7 +37,8 @@ const MapViewComponent = () => {
   const { friends } = useContext(FriendsContext);
   const { get, userToken } = useContext(ApiContext);
   const mapViewRef = useRef<MapView>(null);
-  const itemsRef = useRef([]);
+  const eventsRef = useRef([]);
+  const friendsRef = useRef([]);
   const [isUserLocationHandled, setUserLocationHandled] = useState(false);
   const [region, setRegion] = useState({
     latitude: userLocation?.coords.latitude ?? 52.4064,
@@ -204,8 +205,11 @@ const MapViewComponent = () => {
   }, [userToken]);
 
   const reloadMarkers = () => {
-    itemsRef.current.forEach((marker) => {
-      if (marker != null) marker.redraw();
+    eventsRef.current.forEach((marker) => {
+      if (marker !== null) marker.redraw();
+    });
+    friendsRef.current.forEach((marker) => {
+      if (marker !== null) marker.redraw();
     });
   };
   const renderMarker = (event: Event, source) => {
@@ -214,7 +218,7 @@ const MapViewComponent = () => {
     }
     return (
       <Marker
-        ref={(el) => (itemsRef.current[event.id] = el)}
+        ref={(el) => (eventsRef.current[event.id] = el)}
         key={event.id}
         coordinate={event.latlng}
         title={event.name}
@@ -250,7 +254,7 @@ const MapViewComponent = () => {
     reloadMarkers();
     const interval = setInterval(() => reloadMarkers(), 5000);
     return () => clearInterval(interval);
-  }, [isFocused]);
+  }, [isFocused, eventsRef, friendsRef]);
 
   return (
     <>
@@ -281,7 +285,7 @@ const MapViewComponent = () => {
           }
           return (
             <Marker
-              ref={(el) => (itemsRef.current["f" + marker.id] = el)}
+              ref={(el) => (friendsRef.current[marker.id] = el)}
               key={index}
               coordinate={marker.latlng}
               title={marker.name}
