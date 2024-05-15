@@ -145,7 +145,7 @@ const EventViewScreen = ({ route }) => {
                   margin: 0,
                 }}
                 additionalStylesText={{
-                  fontSize: 20,
+                  fontSize: 18,
                 }}
                 text={
                   event.invite_status != "accepted"
@@ -211,6 +211,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingVertical: 0,
     bottom: 0,
+    fontSize: 18,
   },
   inputAddress: {
     color: "#fff",

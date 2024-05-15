@@ -3,18 +3,20 @@ import {
   StyleSheet,
   useWindowDimensions,
   ScrollView,
-  Text, ActivityIndicator,
+  Text,
+  ActivityIndicator,
 } from "react-native";
-import React, {useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import Avatar from "../../components/Avatar";
-import {ChatContext} from "../../context/ChatContext";
+import { ChatContext } from "../../context/ChatContext";
 import CustomButton from "../../components/CustomButton";
-import {FriendsContext} from "../../context/FriendsContext";
-import {Friend} from "../../types/friend";
+import { FriendsContext } from "../../context/FriendsContext";
+import { Friend } from "../../types/friend";
 const DisplayProfileScreen = ({ route }) => {
   const { userId, userName, userSurname } = route.params;
   const { initChat, initializingChat } = useContext(ChatContext);
-  const { friends, inviteSent, sendFriendInvite, deleteFriendInvite  } = useContext(FriendsContext);
+  const { friends, inviteSent, sendFriendInvite, deleteFriendInvite } =
+    useContext(FriendsContext);
 
   const { height } = useWindowDimensions();
 
@@ -26,11 +28,11 @@ const DisplayProfileScreen = ({ route }) => {
             <View style={styles.avatarDiv}>
               <View style={styles.imageProfile}>
                 <Avatar
-                    userId={userId}
-                    userName={userName}
-                    userSurname={userSurname}
-                    style={styles.avatarImage}
-                    allowRedirect={false}
+                  userId={userId}
+                  userName={userName}
+                  userSurname={userSurname}
+                  style={styles.avatarImage}
+                  allowRedirect={false}
                 />
               </View>
             </View>
@@ -43,29 +45,44 @@ const DisplayProfileScreen = ({ route }) => {
               </Text>
               <View style={{ height: 20 }}></View>
               <CustomButton
-                  additionalStyles={{
-                    margin: 0,
-                  }}
-                  additionalStylesText={{
-                    fontSize: 20,
-                  }}
-                  text={
-                    inviteSent.find(e => e.id === userId) || friends.find(e => e.id === userId)
-                        ? "Usuń znajomego"
-                        : "Dodaj znajomego"
-                  }
-                  onPress={() => inviteSent.find(e => e.id === userId) || friends.find(e => e.id === userId) ? deleteFriendInvite({id: userId}) : sendFriendInvite({id: userId})}
-                  type="PRIMARY"
-                  bgColor={undefined}
-                  fgColor={undefined}
+                additionalStyles={{
+                  margin: 0,
+                }}
+                additionalStylesText={{
+                  fontSize: 18,
+                }}
+                text={
+                  inviteSent.find((e) => e.id === userId) ||
+                  friends.find((e) => e.id === userId)
+                    ? "Usuń znajomego"
+                    : "Dodaj znajomego"
+                }
+                onPress={() =>
+                  inviteSent.find((e) => e.id === userId) ||
+                  friends.find((e) => e.id === userId)
+                    ? deleteFriendInvite({ id: userId })
+                    : sendFriendInvite({ id: userId })
+                }
+                type="PRIMARY"
+                bgColor={undefined}
+                fgColor={undefined}
               />
               <CustomButton
-                  text={initializingChat ? (<ActivityIndicator size={"large"} />) : "Czat"}
-                  disabled={initializingChat}
-                  onPress={()=>initChat([{id: userId}])}
-                  type="PRIMARY"
-                  bgColor={undefined}
-                  fgColor={undefined}
+                text={
+                  initializingChat ? (
+                    <ActivityIndicator size={"large"} />
+                  ) : (
+                    "Czat"
+                  )
+                }
+                disabled={initializingChat}
+                onPress={() => initChat([{ id: userId }])}
+                type="PRIMARY"
+                bgColor={undefined}
+                fgColor={undefined}
+                additionalStylesText={{
+                  fontSize: 18,
+                }}
               />
             </View>
           </ScrollView>
@@ -150,8 +167,8 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     alignSelf: "center",
-    backgroundColor: "#F2B138"
-  }
+    backgroundColor: "#F2B138",
+  },
 });
 
 export default DisplayProfileScreen;
