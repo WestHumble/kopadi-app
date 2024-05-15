@@ -168,23 +168,34 @@ const ChatScreen = ({ route }) => {
               />
             ))}
           </ScrollView>
-          <CustomInput
-            placeholder="Napisz wiadomość"
-            value={message}
-            setValue={setMessage}
-            secureTextEntry={undefined}
-            additionalStyle={styles.searchInput}
-          />
-          <CustomButton
-            text={
-              sendingMessage ? <ActivityIndicator size={"large"} /> : "Wyślij"
-            }
-            disabled={sendingMessage}
-            onPress={onSendMessage}
-            type="PRIMARY"
-            bgColor={undefined}
-            fgColor={undefined}
-          />
+          <View style={styles.messSendContainer}>
+            <View style={{ flex: 3 / 4, marginRight: 10 }}>
+              <CustomInput
+                placeholder="Napisz wiadomość"
+                value={message}
+                setValue={setMessage}
+                secureTextEntry={undefined}
+                additionalStyle={styles.searchInput}
+              />
+            </View>
+            <View style={{ flex: 1 / 4 }}>
+              <CustomButton
+                text={
+                  sendingMessage ? (
+                    <ActivityIndicator size={"large"} />
+                  ) : (
+                    "Wyślij"
+                  )
+                }
+                disabled={sendingMessage}
+                onPress={onSendMessage}
+                type="PRIMARY"
+                bgColor={undefined}
+                fgColor={undefined}
+                additionalStylesText={styles.sendButton}
+              />
+            </View>
+          </View>
         </View>
       </View>
     </>
@@ -202,6 +213,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "normal",
     color: "#999999",
+  },
+  sendButton: {
+    fontSize: 16,
+  },
+  searchInput: { color: "#fff" },
+  messSendContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
   },
   messageContainer: {
     padding: 16,
@@ -249,7 +270,7 @@ const styles = StyleSheet.create({
     marginTop: "5%",
     color: "#fff",
   },
-  searchInput: { color: "#fff" },
+
   avatarImage: {
     width: 25,
     height: 25,
