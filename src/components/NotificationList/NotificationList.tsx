@@ -177,7 +177,7 @@ const NotificationList = ({ inviteData }) => {
       renderSectionFooter={({ section }) =>
         section.data.length === 0 && (
           <View style={styles.noEventsContainer}>
-            <Text style={styles.noEventsText}>Brak wydarzeń</Text>
+            <Text style={styles.noEventsText}>Brak</Text>
           </View>
         )
       }
