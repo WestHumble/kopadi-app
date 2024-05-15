@@ -5,12 +5,12 @@ import {
   useWindowDimensions,
   ScrollView,
 } from "react-native";
-import React, {useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import EventList from "../../components/EventList";
-import {EventsContext} from "../../context/EventsContext";
+import { EventsContext } from "../../context/EventsContext";
 
 const SearchEventsScreen = () => {
   const { height } = useWindowDimensions();
@@ -24,31 +24,33 @@ const SearchEventsScreen = () => {
     eventsInvitedSearch,
     eventsOtherSearch,
     isSearchActive,
-  } =
-      useContext(EventsContext);
+  } = useContext(EventsContext);
 
   const onSearchPressed = () => {
-    searchEvents(searchPhrase)
+    searchEvents(searchPhrase);
   };
+  console.log(eventsInvited);
 
   return (
     <>
       <View style={[styles.root, { height: height * 1 }]}>
         <View style={styles.windowTab}>
-          <EventList data={[
-            {
-              title: "Moje",
-              data: isSearchActive ? eventsCreatedSearch : eventsCreated,
-            },
-            {
-              title: "Zaproszone",
-              data: isSearchActive ? eventsInvitedSearch : eventsInvited,
-            },
-            {
-              title: "Publiczne",
-              data: isSearchActive ? eventsOtherSearch : eventsOther,
-            },
-          ]} />
+          <EventList
+            data={[
+              {
+                title: "Moje",
+                data: isSearchActive ? eventsCreatedSearch : eventsCreated,
+              },
+              {
+                title: "Zaproszone",
+                data: isSearchActive ? eventsInvitedSearch : eventsInvited,
+              },
+              {
+                title: "Publiczne",
+                data: isSearchActive ? eventsOtherSearch : eventsOther,
+              },
+            ]}
+          />
           <CustomInput
             placeholder="Szukaj"
             value={searchPhrase}
@@ -99,7 +101,7 @@ const styles = StyleSheet.create({
     marginTop: "5%",
     color: "#fff",
   },
-  searchInput: {color: "#fff"},
+  searchInput: { color: "#fff" },
 });
 
 export default SearchEventsScreen;

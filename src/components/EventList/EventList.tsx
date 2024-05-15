@@ -1,35 +1,45 @@
 import React from "react";
-import {View, Text, Image, SectionList, StyleSheet, TouchableWithoutFeedback} from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  SectionList,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from "react-native";
 import eventButton from "../../../assets/images/right-alt-yellow.png";
-import {useNavigation} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
-const EventItem = ({ date, month, title, hour, id }) => {
-  const navigation = useNavigation()
+const EventItem = ({ date, month, title, hour, id, invite_status }) => {
+  const navigation = useNavigation();
   const onEventPressed = () => {
-    navigation.navigate("EventView", {eventId: id})
-  }
+    navigation.navigate("EventView", { eventId: id });
+  };
   return (
-      <View style={styles.eventContainer}>
-        <View style={styles.eventDate}>
-          <Text style={styles.month}>{month}</Text>
-          <Text style={styles.date}>{date}</Text>
-        </View>
-        <View style={styles.eventContent}>
-          <Text style={styles.hour}>{hour}</Text>
-          <Text style={styles.title}>{title}</Text>
-        </View>
-        <View style={styles.eventButton}>
-          <TouchableWithoutFeedback  onPress={onEventPressed}>
-            <Image
-                source={eventButton}
-                style={styles.eventButtonImg}
-                resizeMode="contain"
-            />
-          </TouchableWithoutFeedback>
-        </View>
+    <View style={styles.eventContainer}>
+      <View style={styles.eventDate}>
+        <Text style={styles.month}>{month}</Text>
+        <Text style={styles.date}>{date}</Text>
       </View>
+      <View style={styles.eventContent}>
+        <Text style={styles.hour}>{hour}</Text>
+        <Text style={styles.title}>{title}</Text>
+        {invite_status === "accepted" && (
+          <Text style={styles.statusInv}>Zaakceptowano</Text>
+        )}
+      </View>
+      <View style={styles.eventButton}>
+        <TouchableWithoutFeedback onPress={onEventPressed}>
+          <Image
+            source={eventButton}
+            style={styles.eventButtonImg}
+            resizeMode="contain"
+          />
+        </TouchableWithoutFeedback>
+      </View>
+    </View>
   );
-}
+};
 
 function konwerterDaty(data) {
   const months = [
@@ -62,7 +72,7 @@ const EventList = ({ data }) => (
     )}
     renderItem={({ item }) => (
       <EventItem
-        id = {item.id}
+        id={item.id}
         month={konwerterDaty(new Date(item.date.date))}
         date={new Date(item.date.date).toLocaleString([], {
           day: "numeric",
@@ -72,6 +82,7 @@ const EventList = ({ data }) => (
           hour: "2-digit",
           minute: "2-digit",
         })}
+        invite_status={item.invite_status}
       />
     )}
     renderSectionFooter={({ section }) =>
@@ -162,6 +173,9 @@ const styles = StyleSheet.create({
   eventButtonImg: {
     width: 30,
     height: 30,
+  },
+  statusInv: {
+    color: "#F2B138",
   },
 });
 
