@@ -3,6 +3,7 @@ import {Friend} from "./friend";
 export type Chat = {
     id: number,
     name: string,
+    event_id: number,
     event_name: string,
     participants: Friend[],
     is_seen: boolean,

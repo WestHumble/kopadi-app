@@ -20,6 +20,7 @@ import eventImg from "../../../assets/images/emoji-beer-mug.png";
 import { Friend } from "../../types/friend";
 import { EventInvite } from "../../types/eventInvite";
 import { AuthContext } from "../../context/AuthContext";
+import {ChatContext} from "../../context/ChatContext";
 
 Geocoding.init(process.env.REACT_APP_GEOCODING_API_KEY);
 
@@ -30,14 +31,24 @@ const EventViewScreen = ({ route }) => {
   const { setEventById, loadAllEvents } = useContext(EventsContext);
   const navigation = useNavigation();
   const [event, setEvent] = useState<Event>(null);
+  const [chatExists, setChatExists] = useState(false);
   const { post } = useContext(ApiContext);
   const { userData, fetchUserData } = useContext(AuthContext);
   const [isLoadingUserData, setIsLoadingUserData] = useState<boolean>(false);
+  const { getChatList, chats } = useContext(ChatContext);
 
   useEffect(() => {
     setEvent(null);
     setEventById(eventId, setEvent);
   }, [eventId]);
+
+  useEffect(() => {
+    let chatExists = event && event.chat_id && chats.find(e => e.id === event.chat_id)
+    setChatExists(chatExists)
+    if (!chatExists && event && event.chat_id) {
+      getChatList()
+    }
+  }, [event, chats]);
 
   const joinEvent = () => {
     post(
@@ -72,6 +83,15 @@ const EventViewScreen = ({ route }) => {
   const onInviteFriendsPressed = () => {
     navigation.navigate("InviteFriendsToEvent", { eventId });
   };
+
+  const openChat = () => {
+    getChatList()
+    if (chatExists) {
+      navigation.navigate('Chat', {
+        chatId: event.chat_id
+      });
+    }
+  }
 
   if (!userData || !event) {
     if (event && !isLoadingUserData) {
@@ -166,6 +186,16 @@ const EventViewScreen = ({ route }) => {
               fgColor={undefined}
               additionalStyles={styles.addEventButton}
             />
+            {chatExists && (<CustomButton
+                text={"Czat"}
+                onPress={openChat}
+                type="PRIMARY"
+                bgColor={undefined}
+                fgColor={undefined}
+                additionalStylesText={{
+                  fontSize: 18,
+                }}
+            />)}
           </ScrollView>
         </View>
       </View>

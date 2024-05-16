@@ -37,6 +37,7 @@ export const ChatProvider = ({children}) => {
                     chatTmp.name = data.name;
                     chatTmp.participants = data.participants;
                     chatTmp.is_seen = data.is_seen;
+                    chatTmp.event_id = data.event_id;
                     chatTmp.last_message_date = data.last_message_date;
                     chatsCopy.push(chatTmp)
                 } else {
