@@ -17,6 +17,7 @@ import { EventInvite } from "../../types/eventInvite";
 import Avatar from "../Avatar";
 import refusalButton from "../../../assets/images/no.png";
 import acceptButton from "../../../assets/images/accept.png";
+import {useNavigation} from "@react-navigation/native";
 
 const API_ADDRESS = process.env.EXPO_PUBLIC_API_URL;
 const FriendInviteItem = ({ notification }) => {
@@ -101,6 +102,7 @@ const EventInviteItem = ({ notification }) => {
   const { post } = useContext(ApiContext);
   const { getPendingEventInvites, loadAllEvents, clearSearchEvents } =
     useContext(EventsContext);
+  const navigation = useNavigation();
   const acceptInvite = (eventInvite: EventInvite) => {
     post(
       "event-invite/update-status",
@@ -129,7 +131,11 @@ const EventInviteItem = ({ notification }) => {
   };
   return (
     <View style={styles.notificationContainer}>
-      <Text style={styles.name}>{notification.eventInvite.event.name}</Text>
+        <TouchableWithoutFeedback
+            onPress={() => navigation.navigate("EventView", { eventId: notification.eventInvite.event.id })}
+        >
+          <Text style={styles.name}>{notification.eventInvite.event.name}</Text>
+        </TouchableWithoutFeedback>
       <View style={styles.buttons}>
         <View style={styles.acceptButton}>
           <TouchableWithoutFeedback

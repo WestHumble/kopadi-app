@@ -5,7 +5,7 @@ import {
   useWindowDimensions,
   ScrollView,
   Alert,
-  ActivityIndicator,
+  ActivityIndicator, TouchableWithoutFeedback,
 } from "react-native";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import CustomInput from "../../components/CustomInput";
@@ -18,7 +18,7 @@ import { ChatContext } from "../../context/ChatContext";
 import { ApiContext } from "../../context/ApiContext";
 import * as Notifications from "expo-notifications";
 import { NavigationContext } from "../../context/NavigationContext";
-import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+import {useFocusEffect, useIsFocused, useNavigation} from "@react-navigation/native";
 import Avatar from "../../components/Avatar";
 
 const ChatMessageItem = ({ chat, chatMessage, displayFriend }) => {
@@ -64,6 +64,7 @@ const ChatScreen = ({ route }) => {
   const { height } = useWindowDimensions();
   const [message, setMessage] = useState<string>(null);
   const [sendingMessage, setSendingMessage] = useState<string>(null);
+  const navigation = useNavigation();
   const {
     setChatId,
     getChatById,
@@ -150,9 +151,11 @@ const ChatScreen = ({ route }) => {
     <>
       <View style={[styles.root, { height: height * 1 }]}>
         <View style={styles.windowTab}>
-          <Text style={styles.title} resizeMode="contain">
-            {chat.name}
-          </Text>
+            {chat.event_id ? (<TouchableWithoutFeedback
+                onPress={() => navigation.navigate("EventView", { eventId: chat.event_id })}
+            >
+              <Text style={styles.title} resizeMode="contain">{chat.name}</Text>
+            </TouchableWithoutFeedback>) : (<Text style={styles.title} resizeMode="contain">{chat.name}</Text>)}
           <ScrollView
             ref={scrollRef}
             contentOffset={{ x: 0, y: 9999 }}
