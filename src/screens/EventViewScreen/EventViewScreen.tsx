@@ -198,48 +198,40 @@ const EventViewScreen = ({ route }) => {
             </Text>
             <View style={styles.buttonsGroup}>
               {userData.id !== event.user_id && (
-                <CustomButton
-                  additionalStyles={styles.joinEventButton}
-                  additionalStylesText={{
-                    fontSize: 18,
-                  }}
-                  text={
-                    event.invite_status != "accepted"
-                      ? "Dołącz do wydarzenia"
-                      : "Opuść wydarzenie"
-                  }
-                  onPress={onPressJoinEvent}
-                  type="PRIMARY"
-                  bgColor={undefined}
-                  fgColor={undefined}
-                />
+                  <CustomButton
+                      additionalStyles={styles.joinEventButton}
+                      additionalStylesText={{
+                        fontSize: 18,
+                      }}
+                      text={
+                        event.invite_status != "accepted"
+                            ? "Dołącz do wydarzenia"
+                            : "Opuść wydarzenie"
+                      }
+                      onPress={onPressJoinEvent}
+                      type="PRIMARY"
+                      bgColor={undefined}
+                      fgColor={undefined}
+                  />
               )}
               <View style={styles.divButtonsScd}>
                 <View style={styles.addFriendButton}>
                   <Pressable onPress={onInviteFriendsPressed}>
                     <Image
-                      source={addFriendButtonImg}
-                      style={styles.refreshIcon}
+                        source={addFriendButtonImg}
+                        style={styles.refreshIcon}
                     />
                   </Pressable>
                 </View>
-                  <CustomButton
-                      text="Nawiguj"
-                      onPress={onDirectionButton}
-                      type="PRIMARY"
-                      bgColor={undefined}
-                      fgColor={undefined}
-                      additionalStyles={styles.addEventButton}
-                  />
                 {chatExists && (
-                  <View style={styles.addChatButton}>
-                    <Pressable onPress={openChat}>
-                      <Image
-                        source={addChatButtonImg}
-                        style={styles.chatIcon}
-                      />
-                    </Pressable>
-                  </View>
+                    <View style={styles.addChatButton}>
+                      <Pressable onPress={openChat}>
+                        <Image
+                            source={addChatButtonImg}
+                            style={styles.chatIcon}
+                        />
+                      </Pressable>
+                    </View>
                 )}
               </View>
             </View>
