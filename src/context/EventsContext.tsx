@@ -65,7 +65,7 @@ export const EventsProvider = ({children}) => {
         post('event/close-list', {
             latitude: region?.latitude ?? 52.4064,
             longitude: region?.longitude ?? 16.9252,
-            distanceInMeters: 1000
+            distanceInMeters: 10000
         }, (res) => {
             let other = res.data?.sort((e1, e2)=> new Date(e1.date.date) < new Date(e2.date.date) ? -1 : 1)
             setEventsOther(other)
@@ -76,7 +76,7 @@ export const EventsProvider = ({children}) => {
         post('event/logged-user-event-list?' + Date.now(), {
             latitude: region?.latitude?? 52.4064,
             longitude: region?.longitude?? 16.9252,
-            distanceInMeters: 1000
+            distanceInMeters: 10000
         }, (res) => {
             let eventsData = res.data
             let created = eventsData['created']?.sort((e1, e2)=> new Date(e1.date.date) < new Date(e2.date.date) ? -1 : 1)
@@ -93,7 +93,7 @@ export const EventsProvider = ({children}) => {
             searchPhrase: search,
             latitude: region?.latitude??userLocation?.coords.latitude ?? 52.4064,
             longitude: region?.longitude??userLocation?.coords.longitude ?? 16.9252,
-            distanceInMeters: 1000
+            distanceInMeters: 10000
         }, (res) => {
             let eventsData = res.data
             if (0 === Object.keys(eventsData).length) {
