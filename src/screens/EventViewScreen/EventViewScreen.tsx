@@ -24,6 +24,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { ChatContext } from "../../context/ChatContext";
 import addFriendButtonImg from "../../../assets/images/add-user.png";
 import addChatButtonImg from "../../../assets/images/chat.png";
+import { LocationContext } from "../../context/LocationContext";
 
 Geocoding.init(process.env.REACT_APP_GEOCODING_API_KEY);
 
@@ -32,6 +33,7 @@ const EventViewScreen = ({ route }) => {
 
   const { height } = useWindowDimensions();
   const { setEventById, loadAllEvents } = useContext(EventsContext);
+  const { mapViewRef } = useContext(LocationContext);
   const navigation = useNavigation();
   const [event, setEvent] = useState<Event>(null);
   const [chatExists, setChatExists] = useState(false);
@@ -78,6 +80,21 @@ const EventViewScreen = ({ route }) => {
         setEventById(eventId, setEvent, true);
       }
     );
+  };
+
+  const onLocationPressed = () => {
+    if (event && event.latlng && mapViewRef.current) {
+      mapViewRef.current.animateToRegion(
+        {
+          latitude: event.latlng.latitude,
+          longitude: event.latlng.longitude,
+          latitudeDelta: 0.14,
+          longitudeDelta: 0.16,
+        },
+        0
+      );
+      navigation.navigate("Home");
+    }
   };
 
   const onPressJoinEvent = () => {
@@ -152,9 +169,11 @@ const EventViewScreen = ({ route }) => {
             <Text style={styles.titleSectionAddress} resizeMode="contain">
               Lokalizacja wydarzenia
             </Text>
-            <Text style={styles.address} resizeMode="contain">
-              {event.address}
-            </Text>
+            <Pressable onPress={onLocationPressed}>
+              <Text style={styles.address} resizeMode="contain">
+                {event.address}
+              </Text>
+            </Pressable>
             <View style={styles.hr} />
             <Text style={styles.titleSectionDescription} resizeMode="contain">
               Opis wydarzenia

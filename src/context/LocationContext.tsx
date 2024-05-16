@@ -1,6 +1,7 @@
-import React, {createContext, useContext, useEffect, useState} from 'react';
+import React, {createContext, useContext, useEffect, useRef, useState} from 'react';
 import * as Location from "expo-location";
 import {ApiContext} from "./ApiContext";
+import MapView from "react-native-maps";
 
 export const LocationContext = createContext(null);
 
@@ -8,6 +9,7 @@ export const LocationProvider = ({children}) => {
     const [shareLocation, setShareLocation] = useState(false);
     const [userLocation, setUserLocation] = useState(null);
     const {post, userToken} = useContext(ApiContext)
+    const mapViewRef = useRef<MapView>(null);
     let lastUpdateDate = null;
 
     useEffect(() => {
@@ -53,7 +55,7 @@ export const LocationProvider = ({children}) => {
 
 
     return (
-        <LocationContext.Provider value={{userLocation, shareLocation, setShareLocation}}>
+        <LocationContext.Provider value={{userLocation, shareLocation, setShareLocation, mapViewRef}}>
             {children}
         </LocationContext.Provider>
     );
