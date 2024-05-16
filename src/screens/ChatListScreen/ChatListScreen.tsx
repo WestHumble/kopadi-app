@@ -5,74 +5,84 @@ import {
   useWindowDimensions,
   ScrollView,
 } from "react-native";
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CustomInput from "../../components/CustomInput";
-import {FriendsContext} from "../../context/FriendsContext";
+import { FriendsContext } from "../../context/FriendsContext";
 import FriendList from "../../components/FriendList";
-import {Friend} from "../../types/friend";
-import {ApiContext} from "../../context/ApiContext";
+import { Friend } from "../../types/friend";
+import { ApiContext } from "../../context/ApiContext";
 import friendList from "../../components/FriendList";
-import {ChatContext} from "../../context/ChatContext";
+import { ChatContext } from "../../context/ChatContext";
 import ChatList from "../../components/ChatList";
 import CustomButton from "../../components/CustomButton";
-import {useIsFocused, useNavigation} from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 
 const ChatListScreen = () => {
   const { height } = useWindowDimensions();
   const [searchPhrase, setSearchPhrase] = useState("");
   const { chats, getChatList } = useContext(ChatContext);
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const onNewChatPressed = () => {
     navigation.navigate("NewChat");
   };
 
-  const isFocused = useIsFocused()
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     if (isFocused) {
-      getChatList()
+      getChatList();
     }
-  }, [isFocused])
+  }, [isFocused]);
 
   return (
-      <>
-        <View style={[styles.root, { height: height * 1 }]}>
-          <View style={styles.windowTab}>
-            <ChatList data={[
-                {
-                  title: "Chaty",
-                  data: searchPhrase ? chats.filter(chat => {
-                    let matches = true;
-                    searchPhrase.split(' ').every(phrasePart => {
-                      if (!chat.name.toLowerCase().includes(phrasePart.toLowerCase())) {
-                        matches = false
-                        return false
-                      }
-                      return true
+    <>
+      <View style={[styles.root, { height: height * 1 }]}>
+        <View style={styles.windowTab}>
+          <ChatList
+            data={[
+              {
+                title: "Chaty",
+                data: searchPhrase
+                  ? chats.filter((chat) => {
+                      let matches = true;
+                      searchPhrase.split(" ").every((phrasePart) => {
+                        if (
+                          !chat.name
+                            .toLowerCase()
+                            .includes(phrasePart.toLowerCase())
+                        ) {
+                          matches = false;
+                          return false;
+                        }
+                        return true;
+                      });
+                      return matches;
                     })
-                    return matches
-                  }) : chats,
-                },
-              ]}/>
+                  : chats,
+              },
+            ]}
+          />
+          <View style={styles.chatDivInput}>
             <CustomInput
-                placeholder="Szukaj"
-                value={searchPhrase}
-                setValue={setSearchPhrase}
-                secureTextEntry={undefined}
-                additionalStyle={styles.searchInput}
+              placeholder="Szukaj"
+              value={searchPhrase}
+              setValue={setSearchPhrase}
+              secureTextEntry={undefined}
+              additionalStyle={styles.searchInput}
             />
             <CustomButton
-                text="+"
-                onPress={onNewChatPressed}
-                type="PRIMARY"
-                bgColor={undefined}
-                fgColor={undefined}
-                additionalStyles={styles.newChatButton}
+              text="Dodaj czat"
+              onPress={onNewChatPressed}
+              type="PRIMARY"
+              bgColor={undefined}
+              fgColor={undefined}
+              additionalStyles={styles.newChatButton}
             />
           </View>
         </View>
-      </>
+      </View>
+    </>
   );
 };
 
@@ -107,17 +117,19 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   newChatButton: {
-    position: "absolute",
-    bottom: "16%",
-    right: "5%",
-    borderWidth: 3,
     fontSize: 50,
-    width: 55,
-    height: 55,
-    borderRadius: 50,
-    zIndex: 99,
+    flex: 1 / 3,
   },
-  searchInput: {color: "#fff"},
+  searchInput: {
+    color: "#fff",
+    flex: 1,
+    marginRight: 10,
+  },
+  chatDivInput: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 });
 
 export default ChatListScreen;
