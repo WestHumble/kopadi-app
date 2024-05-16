@@ -293,27 +293,21 @@ const MapViewComponent = () => {
               description={marker.description}
               tracksViewChanges={false}
               onPress={() => {
-                navigation.navigate('DisplayProfile', {
+                navigation.navigate("DisplayProfile", {
                   userId: marker.id,
                   userName: marker.name,
                   userSurname: marker.surname,
-                })
+                });
               }}
             >
-              <Avatar
-                  style={{
-                    width: 50,
-                    height: 50,
-                    borderRadius: 25,
-                    marginRight: 10,
-                    padding: 1,
-                    shadowColor: "black",
-                    backgroundColor: "#F2B138",
-                  }}
+              <View style={styles.avatarDiv}>
+                <Avatar
+                  style={styles.avatar}
                   userId={marker.id}
                   userName={marker.name}
                   userSurname={marker.surname}
-              />
+                />
+              </View>
             </Marker>
           );
         })}
@@ -439,6 +433,22 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: "#131417",
     marginVertical: 5,
+  },
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 25,
+    marginRight: 0,
+    padding: 0,
+    backgroundColor: "#F2B138",
+  },
+  avatarDiv: {
+    width: 40,
+    height: 40,
+    borderRadius: 25,
+    marginRight: 0,
+    padding: 0,
+    backgroundColor: "#F2B138",
   },
 });
 
