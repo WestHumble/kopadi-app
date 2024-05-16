@@ -4,7 +4,7 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  Pressable,
+  Pressable, Platform, Linking,
 } from "react-native";
 import React, { useRef, useEffect, useState, useContext } from "react";
 import MapView, { Marker, PROVIDER_GOOGLE, Callout } from "react-native-maps";
@@ -34,11 +34,9 @@ const MapViewComponent = () => {
     clearSearchEvents,
     isSearchActive,
   } = useContext(EventsContext);
-  const { userLocation, mapViewRef } = useContext(LocationContext);
+  const { userLocation, mapViewRef, eventsRef, friendsRef } = useContext(LocationContext);
   const { friends } = useContext(FriendsContext);
   const { get, userToken } = useContext(ApiContext);
-  const eventsRef = useRef([]);
-  const friendsRef = useRef([]);
   const [isUserLocationHandled, setUserLocationHandled] = useState(false);
   const [region, setRegion] = useState({
     latitude: userLocation?.coords.latitude ?? 52.4064,
@@ -225,9 +223,6 @@ const MapViewComponent = () => {
         title={event.name}
         description={event.description}
         tracksViewChanges={false}
-        onPress={() => {
-          navigation.navigate("EventView", { eventId: event.id });
-        }}
         onCalloutPress={() => {
           navigation.navigate("EventView", { eventId: event.id });
         }}
@@ -270,6 +265,7 @@ const MapViewComponent = () => {
         followsUserLocation={true}
         rotateEnabled={false}
         ref={mapViewRef}
+        toolbarEnabled={false}
       >
         {(isSearchActive ? eventsCreatedSearch : eventsCreated).map((marker) =>
           renderMarker(marker, require("../../../assets/images/pin-green.png"))
@@ -292,7 +288,7 @@ const MapViewComponent = () => {
               title={marker.name}
               description={marker.description}
               tracksViewChanges={false}
-              onPress={() => {
+              onCalloutPress={() => {
                 navigation.navigate("DisplayProfile", {
                   userId: marker.id,
                   userName: marker.name,

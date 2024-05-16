@@ -10,6 +10,8 @@ export const LocationProvider = ({children}) => {
     const [userLocation, setUserLocation] = useState(null);
     const {post, userToken} = useContext(ApiContext)
     const mapViewRef = useRef<MapView>(null);
+    const eventsRef = useRef([]);
+    const friendsRef = useRef([]);
     let lastUpdateDate = null;
 
     useEffect(() => {
@@ -55,7 +57,7 @@ export const LocationProvider = ({children}) => {
 
 
     return (
-        <LocationContext.Provider value={{userLocation, shareLocation, setShareLocation, mapViewRef}}>
+        <LocationContext.Provider value={{userLocation, shareLocation, setShareLocation, mapViewRef, eventsRef, friendsRef }}>
             {children}
         </LocationContext.Provider>
     );

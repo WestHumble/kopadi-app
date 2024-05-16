@@ -5,7 +5,7 @@ import {
   Image,
   useWindowDimensions,
   ScrollView,
-  ActivityIndicator, Pressable,
+  ActivityIndicator, Pressable, Platform, Linking,
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import CustomInput from "../../components/CustomInput";
@@ -30,7 +30,7 @@ const EventViewScreen = ({ route }) => {
 
   const { height } = useWindowDimensions();
   const { setEventById, loadAllEvents } = useContext(EventsContext);
-  const { mapViewRef } = useContext(LocationContext);
+  const { mapViewRef, eventsRef } = useContext(LocationContext);
   const navigation = useNavigation();
   const [event, setEvent] = useState<Event>(null);
   const [chatExists, setChatExists] = useState(false);
@@ -78,14 +78,33 @@ const EventViewScreen = ({ route }) => {
     );
   };
 
+  const onDirectionButton = () => {
+    const lat = event.latlng.latitude;
+    const lng = event.latlng.longitude;
+    const scheme = Platform.select({ios: 'maps:0,0?q=', android: 'geo:0,0?q='});
+    const latLng = `${lat},${lng}`;
+    const label = event.name;
+    const url = Platform.select({
+      ios: `${scheme}${label}@${latLng}`,
+      android: `${scheme}${latLng}(${label})`
+    });
+
+    Linking.openURL(url)
+  }
+
   const onLocationPressed = () => {
-    if (event && event.latlng && mapViewRef.current) {
+    if (event && event.latlng && mapViewRef.current && eventsRef.current) {
       mapViewRef.current.animateToRegion({
         latitude: event.latlng.latitude,
         longitude: event.latlng.longitude,
         latitudeDelta: 0.14,
         longitudeDelta: 0.16,
       }, 0);
+      eventsRef.current.forEach((marker, id) => {
+        if (marker !== null && id === eventId) {
+          marker.showCallout();
+        }
+      });
       navigation.navigate("Home")
     }
   }
@@ -201,6 +220,14 @@ const EventViewScreen = ({ route }) => {
               bgColor={undefined}
               fgColor={undefined}
               additionalStyles={styles.addEventButton}
+            />
+            <CustomButton
+                text="Nawiguj"
+                onPress={onDirectionButton}
+                type="PRIMARY"
+                bgColor={undefined}
+                fgColor={undefined}
+                additionalStyles={styles.addEventButton}
             />
             {chatExists && (<CustomButton
                 text={"Czat"}
