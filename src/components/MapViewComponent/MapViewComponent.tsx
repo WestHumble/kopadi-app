@@ -34,10 +34,9 @@ const MapViewComponent = () => {
     clearSearchEvents,
     isSearchActive,
   } = useContext(EventsContext);
-  const { userLocation } = useContext(LocationContext);
+  const { userLocation, mapViewRef } = useContext(LocationContext);
   const { friends } = useContext(FriendsContext);
   const { get, userToken } = useContext(ApiContext);
-  const mapViewRef = useRef<MapView>(null);
   const eventsRef = useRef([]);
   const friendsRef = useRef([]);
   const [isUserLocationHandled, setUserLocationHandled] = useState(false);
