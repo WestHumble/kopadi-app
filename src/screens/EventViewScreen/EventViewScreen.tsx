@@ -6,6 +6,7 @@ import {
   useWindowDimensions,
   ScrollView,
   ActivityIndicator,
+  Pressable,
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import CustomInput from "../../components/CustomInput";
@@ -20,7 +21,9 @@ import eventImg from "../../../assets/images/emoji-beer-mug.png";
 import { Friend } from "../../types/friend";
 import { EventInvite } from "../../types/eventInvite";
 import { AuthContext } from "../../context/AuthContext";
-import {ChatContext} from "../../context/ChatContext";
+import { ChatContext } from "../../context/ChatContext";
+import addFriendButtonImg from "../../../assets/images/add-user.png";
+import addChatButtonImg from "../../../assets/images/chat.png";
 
 Geocoding.init(process.env.REACT_APP_GEOCODING_API_KEY);
 
@@ -43,10 +46,11 @@ const EventViewScreen = ({ route }) => {
   }, [eventId]);
 
   useEffect(() => {
-    let chatExists = event && event.chat_id && chats.find(e => e.id === event.chat_id)
-    setChatExists(chatExists)
+    let chatExists =
+      event && event.chat_id && chats.find((e) => e.id === event.chat_id);
+    setChatExists(chatExists);
     if (!chatExists && event && event.chat_id) {
-      getChatList()
+      getChatList();
     }
   }, [event, chats]);
 
@@ -85,13 +89,13 @@ const EventViewScreen = ({ route }) => {
   };
 
   const openChat = () => {
-    getChatList()
+    getChatList();
     if (chatExists) {
-      navigation.navigate('Chat', {
-        chatId: event.chat_id
+      navigation.navigate("Chat", {
+        chatId: event.chat_id,
       });
     }
-  }
+  };
 
   if (!userData || !event) {
     if (event && !isLoadingUserData) {
@@ -158,44 +162,45 @@ const EventViewScreen = ({ route }) => {
             <Text style={styles.description} resizeMode="contain">
               {event.description}
             </Text>
-
-            {userData.id !== event.user_id && (
-              <CustomButton
-                additionalStyles={{
-                  margin: 0,
-                }}
-                additionalStylesText={{
-                  fontSize: 18,
-                }}
-                text={
-                  event.invite_status != "accepted"
-                    ? "Dołącz do wydarzenia"
-                    : "Opuść wydarzenie"
-                }
-                onPress={onPressJoinEvent}
-                type="PRIMARY"
-                bgColor={undefined}
-                fgColor={undefined}
-              />
-            )}
-            <CustomButton
-              text="Zaproś znajomych"
-              onPress={onInviteFriendsPressed}
-              type="PRIMARY"
-              bgColor={undefined}
-              fgColor={undefined}
-              additionalStyles={styles.addEventButton}
-            />
-            {chatExists && (<CustomButton
-                text={"Czat"}
-                onPress={openChat}
-                type="PRIMARY"
-                bgColor={undefined}
-                fgColor={undefined}
-                additionalStylesText={{
-                  fontSize: 18,
-                }}
-            />)}
+            <View style={styles.buttonsGroup}>
+              {userData.id !== event.user_id && (
+                <CustomButton
+                  additionalStyles={styles.joinEventButton}
+                  additionalStylesText={{
+                    fontSize: 18,
+                  }}
+                  text={
+                    event.invite_status != "accepted"
+                      ? "Dołącz do wydarzenia"
+                      : "Opuść wydarzenie"
+                  }
+                  onPress={onPressJoinEvent}
+                  type="PRIMARY"
+                  bgColor={undefined}
+                  fgColor={undefined}
+                />
+              )}
+              <View style={styles.divButtonsScd}>
+                <View style={styles.addFriendButton}>
+                  <Pressable onPress={onInviteFriendsPressed}>
+                    <Image
+                      source={addFriendButtonImg}
+                      style={styles.refreshIcon}
+                    />
+                  </Pressable>
+                </View>
+                {chatExists && (
+                  <View style={styles.addChatButton}>
+                    <Pressable onPress={openChat}>
+                      <Image
+                        source={addChatButtonImg}
+                        style={styles.chatIcon}
+                      />
+                    </Pressable>
+                  </View>
+                )}
+              </View>
+            </View>
           </ScrollView>
         </View>
       </View>
@@ -241,7 +246,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingVertical: 0,
     bottom: 0,
-    fontSize: 18,
   },
   inputAddress: {
     color: "#fff",
@@ -322,6 +326,53 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#F2B138",
     marginTop: 20,
+  },
+  buttonsGroup: {
+    flexDirection: "column",
+  },
+  divButtonsScd: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 3,
+  },
+  refreshIcon: {
+    width: 20,
+    height: 20,
+    alignSelf: "center",
+    tintColor: "#F2B138",
+  },
+  addFriendButton: {
+    backgroundColor: "#1D1F24",
+    borderRadius: 20,
+    padding: 5,
+    borderWidth: 1,
+    borderColor: "#F2B138",
+    flex: 1 / 2,
+    height: 60,
+    alignContent: "center",
+    justifyContent: "center",
+    marginHorizontal: 3,
+  },
+  addChatButton: {
+    backgroundColor: "#1D1F24",
+    borderRadius: 20,
+    padding: 5,
+    borderWidth: 1,
+    borderColor: "#F2B138",
+    flex: 1 / 2,
+    height: 60,
+    alignContent: "center",
+    justifyContent: "center",
+    marginHorizontal: 3,
+  },
+  chatIcon: {
+    width: 20,
+    height: 20,
+    alignSelf: "center",
+    tintColor: "#F2B138",
+  },
+  joinEventButton: {
+    marginTop: 0,
   },
 });
 

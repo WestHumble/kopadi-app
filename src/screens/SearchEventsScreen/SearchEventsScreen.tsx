@@ -70,20 +70,6 @@ const SearchEventsScreen = () => {
               />
             </View>
           </View>
-          {/* <CustomInput
-            placeholder="Szukaj"
-            value={searchPhrase}
-            setValue={setSearchPhrase}
-            secureTextEntry={undefined}
-            additionalStyle={styles.searchInput}
-          />
-          <CustomButton
-            text="Szukaj"
-            onPress={onSearchPressed}
-            type="PRIMARY"
-            bgColor={undefined}
-            fgColor={undefined}
-          /> */}
         </View>
       </View>
     </>
