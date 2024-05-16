@@ -5,7 +5,10 @@ import {
   Image,
   useWindowDimensions,
   ScrollView,
-  ActivityIndicator, Pressable, Platform, Linking,
+  ActivityIndicator,
+  Pressable,
+  Platform,
+  Linking,
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import CustomInput from "../../components/CustomInput";
@@ -23,6 +26,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { ChatContext } from "../../context/ChatContext";
 import addFriendButtonImg from "../../../assets/images/add-user.png";
 import addChatButtonImg from "../../../assets/images/chat.png";
+import carButtonImg from "../../../assets/images/car.png";
 import { LocationContext } from "../../context/LocationContext";
 
 Geocoding.init(process.env.REACT_APP_GEOCODING_API_KEY);
@@ -84,31 +88,37 @@ const EventViewScreen = ({ route }) => {
   const onDirectionButton = () => {
     const lat = event.latlng.latitude;
     const lng = event.latlng.longitude;
-    const scheme = Platform.select({ios: 'maps:0,0?q=', android: 'geo:0,0?q='});
+    const scheme = Platform.select({
+      ios: "maps:0,0?q=",
+      android: "geo:0,0?q=",
+    });
     const latLng = `${lat},${lng}`;
     const label = event.name;
     const url = Platform.select({
       ios: `${scheme}${label}@${latLng}`,
-      android: `${scheme}${latLng}(${label})`
+      android: `${scheme}${latLng}(${label})`,
     });
 
-    Linking.openURL(url)
-  }
+    Linking.openURL(url);
+  };
 
   const onLocationPressed = () => {
     if (event && event.latlng && mapViewRef.current && eventsRef.current) {
-      mapViewRef.current.animateToRegion({
-        latitude: event.latlng.latitude,
-        longitude: event.latlng.longitude,
-        latitudeDelta: 0.14,
-        longitudeDelta: 0.16,
-      }, 0);
+      mapViewRef.current.animateToRegion(
+        {
+          latitude: event.latlng.latitude,
+          longitude: event.latlng.longitude,
+          latitudeDelta: 0.14,
+          longitudeDelta: 0.16,
+        },
+        0
+      );
       eventsRef.current.forEach((marker, id) => {
         if (marker !== null && id === eventId) {
           marker.showCallout();
         }
       });
-      navigation.navigate("Home")
+      navigation.navigate("Home");
     }
   };
 
@@ -198,41 +208,47 @@ const EventViewScreen = ({ route }) => {
             </Text>
             <View style={styles.buttonsGroup}>
               {userData.id !== event.user_id && (
-                  <CustomButton
-                      additionalStyles={styles.joinEventButton}
-                      additionalStylesText={{
-                        fontSize: 18,
-                      }}
-                      text={
-                        event.invite_status != "accepted"
-                            ? "Dołącz do wydarzenia"
-                            : "Opuść wydarzenie"
-                      }
-                      onPress={onPressJoinEvent}
-                      type="PRIMARY"
-                      bgColor={undefined}
-                      fgColor={undefined}
-                  />
+                <CustomButton
+                  additionalStyles={styles.joinEventButton}
+                  additionalStylesText={{
+                    fontSize: 18,
+                  }}
+                  text={
+                    event.invite_status != "accepted"
+                      ? "Dołącz do wydarzenia"
+                      : "Opuść wydarzenie"
+                  }
+                  onPress={onPressJoinEvent}
+                  type="PRIMARY"
+                  bgColor={undefined}
+                  fgColor={undefined}
+                />
               )}
               <View style={styles.divButtonsScd}>
                 <View style={styles.addFriendButton}>
                   <Pressable onPress={onInviteFriendsPressed}>
                     <Image
-                        source={addFriendButtonImg}
-                        style={styles.refreshIcon}
+                      source={addFriendButtonImg}
+                      style={styles.refreshIcon}
                     />
                   </Pressable>
                 </View>
+
                 {chatExists && (
-                    <View style={styles.addChatButton}>
-                      <Pressable onPress={openChat}>
-                        <Image
-                            source={addChatButtonImg}
-                            style={styles.chatIcon}
-                        />
-                      </Pressable>
-                    </View>
+                  <View style={styles.addChatButton}>
+                    <Pressable onPress={openChat}>
+                      <Image
+                        source={addChatButtonImg}
+                        style={styles.chatIcon}
+                      />
+                    </Pressable>
+                  </View>
                 )}
+                <View style={styles.carButton}>
+                  <Pressable onPress={onDirectionButton}>
+                    <Image source={carButtonImg} style={styles.refreshIcon} />
+                  </Pressable>
+                </View>
               </View>
             </View>
           </ScrollView>
@@ -407,6 +423,18 @@ const styles = StyleSheet.create({
   },
   joinEventButton: {
     marginTop: 0,
+  },
+  carButton: {
+    backgroundColor: "#1D1F24",
+    borderRadius: 20,
+    padding: 5,
+    borderWidth: 1,
+    borderColor: "#F2B138",
+    flex: 1 / 2,
+    height: 60,
+    alignContent: "center",
+    justifyContent: "center",
+    marginHorizontal: 3,
   },
 });
 
