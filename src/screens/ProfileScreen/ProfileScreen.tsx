@@ -3,7 +3,7 @@ import {
   Text,
   StyleSheet,
   useWindowDimensions,
-  ScrollView,
+  ScrollView, ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import CustomButton from "../../components/CustomButton";
@@ -23,7 +23,7 @@ const ProfileScreen = () => {
 
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
-  const { logout } = useContext(AuthContext);
+  const { logout, userData, fetchUserData } = useContext(AuthContext);
   const onShareLocationToggle = () => {
     setShareLocation(!shareLocation);
   };
@@ -44,12 +44,32 @@ const ProfileScreen = () => {
     navigation.navigate("AddEvent");
   };
 
+  const [isLoadingUserData, setIsLoadingUserData] = useState<boolean>(false);
+  if (!userData) {
+    if (!isLoadingUserData) {
+      fetchUserData();
+      setIsLoadingUserData(true);
+    }
+    return (
+        <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              backgroundColor: "#131417",
+              alignItems: "center",
+            }}
+        >
+          <ActivityIndicator size={"large"} />
+        </View>
+    );
+  }
+
   return (
     <>
       <View style={[styles.root, { height: height * 1 }]}>
         <View style={styles.windowTab}>
           <Text style={styles.title} resizeMode="contain">
-            Profil
+            Witaj {userData.name}!
           </Text>
           <ScrollView showsVerticalScrollIndicator={false}>
             <CustomButton
