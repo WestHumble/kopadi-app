@@ -41,10 +41,10 @@ const SignUpScreen = () => {
     );
   };
   const onTermsOfUsePressed = () => {
-    console.warn("Kliknięto warunki użytkowania");
+    navigation.navigate("Policy");
   };
   const onPrivatePolicyPressed = () => {
-    console.warn("Kliknięto politykę prywatności");
+    navigation.navigate("Policy");
   };
   const onBackToLoginPressed = () => {
     navigation.navigate("SignIn");
