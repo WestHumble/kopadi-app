@@ -41,7 +41,7 @@ const EventItem = ({ date, month, title, hour, id, invite_status }) => {
   );
 };
 
-function konwerterDaty(data) {
+function dateConverter(data) {
   const months = [
     "Sty",
     "Lut",
@@ -73,7 +73,7 @@ const EventList = ({ data }) => (
     renderItem={({ item }) => (
       <EventItem
         id={item.id}
-        month={konwerterDaty(new Date(item.date.date))}
+        month={dateConverter(new Date(item.date.date))}
         date={new Date(item.date.date).toLocaleString([], {
           day: "numeric",
         })}
