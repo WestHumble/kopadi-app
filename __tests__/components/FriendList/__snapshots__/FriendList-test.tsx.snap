@@ -136,7 +136,7 @@ exports[`renders multiple 1`] = `
                 {
                   "busy": undefined,
                   "checked": undefined,
-                  "disabled": undefined,
+                  "disabled": false,
                   "expanded": undefined,
                   "selected": undefined,
                 }
@@ -171,7 +171,7 @@ exports[`renders multiple 1`] = `
                 }
                 style={
                   {
-                    "backgroundColor": "#222",
+                    "backgroundColor": "#F2B138",
                     "borderRadius": 5,
                     "height": 50,
                     "marginRight": 10,
@@ -319,7 +319,7 @@ exports[`renders multiple 1`] = `
                 {
                   "busy": undefined,
                   "checked": undefined,
-                  "disabled": undefined,
+                  "disabled": false,
                   "expanded": undefined,
                   "selected": undefined,
                 }
@@ -354,7 +354,7 @@ exports[`renders multiple 1`] = `
                 }
                 style={
                   {
-                    "backgroundColor": "#222",
+                    "backgroundColor": "#F2B138",
                     "borderRadius": 5,
                     "height": 50,
                     "marginRight": 10,

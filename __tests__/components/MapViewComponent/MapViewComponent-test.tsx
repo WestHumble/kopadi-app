@@ -8,6 +8,18 @@ import {FriendsContext} from "../../../src/context/FriendsContext";
 import {ApiContext} from "../../../src/context/ApiContext";
 
 const mockedNavigate = jest.fn();
+jest.mock('@react-navigation/native', () => {
+  const actualNav = jest.requireActual('@react-navigation/native');
+  return {
+    ...actualNav,
+    useNavigation: () => ({
+      navigate: mockedNavigate,
+    }),
+    useIsFocused: () => ({
+      isFocused: true,
+    }),
+  };
+});
 jest.mock('react-native-maps', () => {
   const { View } = require('react-native');
   const React = require('react');
@@ -79,28 +91,6 @@ jest.mock('react-native-maps', () => {
     PROVIDER_GOOGLE: 'google',
   };
 });
-
-jest.mock('@react-navigation/native', () => {
-  const actualNav = jest.requireActual('@react-navigation/native');
-  return {
-    ...actualNav,
-    useNavigation: () => ({
-      navigate: mockedNavigate,
-    }),
-    useIsFocused: () => ({
-      isFocused: true,
-    }),
-  };
-});
-
-beforeAll(done => {
-  done()
-
-})
-
-afterAll(done => {
-  done()
-})
 test('renders correctly', () => {
   const eventsCreated = [];
   const eventsInvited = [];
@@ -112,13 +102,17 @@ test('renders correctly', () => {
   const userLocation = null;
   const friends = [];
   const userToken = null;
+
+  const eventsRef = {current: []}
+  const friendsRef = {current: []}
+  const mapViewRef = {current: null}
   const get = async (endpoint, params? = null, success = null, error = null, noAuth = false, customConfig = null)=> {}
   const loadCloseEvents = ()=>{}
   const clearSearchEvents = ()=>{}
 
   const tree = renderer.create(
       <ApiContext.Provider value={{get, userToken}}>
-        <LocationContext.Provider value={{userLocation}}>
+        <LocationContext.Provider value={{userLocation,eventsRef,friendsRef,mapViewRef}}>
           <FriendsContext.Provider value={{friends}}>
             <EventsContext.Provider value={{eventsCreated,
               eventsInvited,

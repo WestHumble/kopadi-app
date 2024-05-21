@@ -7,6 +7,17 @@ import {ApiContext} from "../../../src/context/ApiContext";
 import {EventsContext} from "../../../src/context/EventsContext";
 import {NavigationContext} from "../../../src/context/NavigationContext";
 
+const mockedNavigate = jest.fn();
+
+jest.mock('@react-navigation/native', () => {
+    const actualNav = jest.requireActual('@react-navigation/native');
+    return {
+        ...actualNav,
+        useNavigation: () => ({
+            navigate: mockedNavigate,
+        }),
+    };
+});
 test('renders empty', () => {
     const tree = renderer.create(<NotificationList inviteData={[]} />).toJSON();
     expect(tree).toMatchSnapshot();

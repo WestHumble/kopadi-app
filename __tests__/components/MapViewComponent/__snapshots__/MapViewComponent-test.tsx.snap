@@ -122,6 +122,7 @@ exports[`renders correctly 1`] = `
         "zIndex": -1,
       }
     }
+    toolbarEnabled={false}
     userInterfaceStyle="dark"
   />,
   <View

@@ -177,8 +177,10 @@ exports[`multiple chats 1`] = `
       <View
         style={
           {
+            "alignItems": "center",
             "backgroundColor": "#131417",
             "borderRadius": 20,
+            "flexDirection": "row",
             "marginVertical": 4,
             "padding": 16,
             "shadowColor": "black",
@@ -191,84 +193,64 @@ exports[`multiple chats 1`] = `
           }
         }
       >
-        <Text
-          style={
-            {
-              "color": "#fff",
-              "fontSize": 18,
-              "fontWeight": "bold",
-            }
-          }
-        >
-          name
-           
-          seen
-        </Text>
         <View
-          accessibilityState={
-            {
-              "busy": undefined,
-              "checked": undefined,
-              "disabled": undefined,
-              "expanded": undefined,
-              "selected": undefined,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
-            }
-          }
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
           style={
-            [
-              {
-                "alignItems": "center",
-                "borderRadius": 20,
-                "height": 60,
-                "justifyContent": "center",
-                "marginVertical": 5,
-                "padding": 0,
-                "width": "100%",
-              },
-              {
-                "backgroundColor": "#F2B138",
-              },
-              {},
-              undefined,
-            ]
+            {
+              "flex": 0.6666666666666666,
+              "flexDirection": "column",
+              "justifyContent": "space-between",
+            }
           }
         >
           <Text
             style={
-              [
-                {
-                  "fontWeight": "bold",
-                },
-                {
-                  "color": "white",
-                },
-                {},
-                undefined,
-              ]
+              {
+                "color": "#fff",
+                "fontSize": 18,
+                "fontWeight": "bold",
+              }
             }
           >
-            Otwórz
+            name
           </Text>
+        </View>
+        <View
+          style={
+            {
+              "flex": 0.3333333333333333,
+              "flexDirection": "row",
+              "justifyContent": "flex-end",
+            }
+          }
+        >
+          <Image
+            accessibilityState={
+              {
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": undefined,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            resizeMode="contain"
+            source={1}
+            style={
+              {
+                "height": 30,
+                "width": 30,
+              }
+            }
+          />
         </View>
       </View>
     </View>
@@ -280,8 +262,10 @@ exports[`multiple chats 1`] = `
       <View
         style={
           {
+            "alignItems": "center",
             "backgroundColor": "#131417",
             "borderRadius": 20,
+            "flexDirection": "row",
             "marginVertical": 4,
             "padding": 16,
             "shadowColor": "black",
@@ -294,84 +278,64 @@ exports[`multiple chats 1`] = `
           }
         }
       >
-        <Text
-          style={
-            {
-              "color": "#fff",
-              "fontSize": 18,
-              "fontWeight": "bold",
-            }
-          }
-        >
-          name
-           
-          seen
-        </Text>
         <View
-          accessibilityState={
-            {
-              "busy": undefined,
-              "checked": undefined,
-              "disabled": undefined,
-              "expanded": undefined,
-              "selected": undefined,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
-            }
-          }
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
           style={
-            [
-              {
-                "alignItems": "center",
-                "borderRadius": 20,
-                "height": 60,
-                "justifyContent": "center",
-                "marginVertical": 5,
-                "padding": 0,
-                "width": "100%",
-              },
-              {
-                "backgroundColor": "#F2B138",
-              },
-              {},
-              undefined,
-            ]
+            {
+              "flex": 0.6666666666666666,
+              "flexDirection": "column",
+              "justifyContent": "space-between",
+            }
           }
         >
           <Text
             style={
-              [
-                {
-                  "fontWeight": "bold",
-                },
-                {
-                  "color": "white",
-                },
-                {},
-                undefined,
-              ]
+              {
+                "color": "#fff",
+                "fontSize": 18,
+                "fontWeight": "bold",
+              }
             }
           >
-            Otwórz
+            name
           </Text>
+        </View>
+        <View
+          style={
+            {
+              "flex": 0.3333333333333333,
+              "flexDirection": "row",
+              "justifyContent": "flex-end",
+            }
+          }
+        >
+          <Image
+            accessibilityState={
+              {
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": undefined,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            resizeMode="contain"
+            source={1}
+            style={
+              {
+                "height": 30,
+                "width": 30,
+              }
+            }
+          />
         </View>
       </View>
     </View>
@@ -383,8 +347,10 @@ exports[`multiple chats 1`] = `
       <View
         style={
           {
+            "alignItems": "center",
             "backgroundColor": "#131417",
             "borderRadius": 20,
+            "flexDirection": "row",
             "marginVertical": 4,
             "padding": 16,
             "shadowColor": "black",
@@ -397,84 +363,64 @@ exports[`multiple chats 1`] = `
           }
         }
       >
-        <Text
-          style={
-            {
-              "color": "#fff",
-              "fontSize": 18,
-              "fontWeight": "bold",
-            }
-          }
-        >
-          name
-           
-          seen
-        </Text>
         <View
-          accessibilityState={
-            {
-              "busy": undefined,
-              "checked": undefined,
-              "disabled": undefined,
-              "expanded": undefined,
-              "selected": undefined,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
-            }
-          }
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
           style={
-            [
-              {
-                "alignItems": "center",
-                "borderRadius": 20,
-                "height": 60,
-                "justifyContent": "center",
-                "marginVertical": 5,
-                "padding": 0,
-                "width": "100%",
-              },
-              {
-                "backgroundColor": "#F2B138",
-              },
-              {},
-              undefined,
-            ]
+            {
+              "flex": 0.6666666666666666,
+              "flexDirection": "column",
+              "justifyContent": "space-between",
+            }
           }
         >
           <Text
             style={
-              [
-                {
-                  "fontWeight": "bold",
-                },
-                {
-                  "color": "white",
-                },
-                {},
-                undefined,
-              ]
+              {
+                "color": "#fff",
+                "fontSize": 18,
+                "fontWeight": "bold",
+              }
             }
           >
-            Otwórz
+            name
           </Text>
+        </View>
+        <View
+          style={
+            {
+              "flex": 0.3333333333333333,
+              "flexDirection": "row",
+              "justifyContent": "flex-end",
+            }
+          }
+        >
+          <Image
+            accessibilityState={
+              {
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": undefined,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            resizeMode="contain"
+            source={1}
+            style={
+              {
+                "height": 30,
+                "width": 30,
+              }
+            }
+          />
         </View>
       </View>
     </View>
@@ -561,8 +507,10 @@ exports[`one chat 1`] = `
       <View
         style={
           {
+            "alignItems": "center",
             "backgroundColor": "#131417",
             "borderRadius": 20,
+            "flexDirection": "row",
             "marginVertical": 4,
             "padding": 16,
             "shadowColor": "black",
@@ -575,84 +523,64 @@ exports[`one chat 1`] = `
           }
         }
       >
-        <Text
-          style={
-            {
-              "color": "#fff",
-              "fontSize": 18,
-              "fontWeight": "bold",
-            }
-          }
-        >
-          name
-           
-          seen
-        </Text>
         <View
-          accessibilityState={
-            {
-              "busy": undefined,
-              "checked": undefined,
-              "disabled": undefined,
-              "expanded": undefined,
-              "selected": undefined,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
-            }
-          }
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
           style={
-            [
-              {
-                "alignItems": "center",
-                "borderRadius": 20,
-                "height": 60,
-                "justifyContent": "center",
-                "marginVertical": 5,
-                "padding": 0,
-                "width": "100%",
-              },
-              {
-                "backgroundColor": "#F2B138",
-              },
-              {},
-              undefined,
-            ]
+            {
+              "flex": 0.6666666666666666,
+              "flexDirection": "column",
+              "justifyContent": "space-between",
+            }
           }
         >
           <Text
             style={
-              [
-                {
-                  "fontWeight": "bold",
-                },
-                {
-                  "color": "white",
-                },
-                {},
-                undefined,
-              ]
+              {
+                "color": "#fff",
+                "fontSize": 18,
+                "fontWeight": "bold",
+              }
             }
           >
-            Otwórz
+            name
           </Text>
+        </View>
+        <View
+          style={
+            {
+              "flex": 0.3333333333333333,
+              "flexDirection": "row",
+              "justifyContent": "flex-end",
+            }
+          }
+        >
+          <Image
+            accessibilityState={
+              {
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": undefined,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            resizeMode="contain"
+            source={1}
+            style={
+              {
+                "height": 30,
+                "width": 30,
+              }
+            }
+          />
         </View>
       </View>
     </View>

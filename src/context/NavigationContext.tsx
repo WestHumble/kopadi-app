@@ -1,4 +1,4 @@
-import React, {createContext} from 'react';
+import React, { createContext } from 'react';
 
 export const NavigationContext = createContext(null);
 export const NavigationProvider = ({children}) => {
