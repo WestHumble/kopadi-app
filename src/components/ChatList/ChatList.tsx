@@ -34,13 +34,6 @@ const ChatItem = ({ chat }) => {
             resizeMode="contain"
           />
         </TouchableWithoutFeedback>
-        {/* <CustomButton
-          text="Otwórz"
-          onPress={() => navigation.navigate("Chat", { chatId: chat.id })}
-          type="PRIMARY"
-          bgColor={undefined}
-          fgColor={undefined}
-        /> */}
       </View>
     </View>
   );
