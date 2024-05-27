@@ -16,7 +16,7 @@ jest.mock('@react-navigation/native', () => {
 });
 test('empty', () => {
   const tree = renderer.create(
-      <ChatList data={[
+      <EventList data={[
         {
           title: "Chaty",
           data: [],

@@ -19,6 +19,9 @@ import mime from "mime";
 import eventsRefreshImg from "../../../assets/images/refresh.png";
 import CustomInput from "../../components/CustomInput";
 import Avatar from "../../components/Avatar";
+import {LogBox} from 'react-native';
+
+LogBox.ignoreAllLogs();
 const EditProfileScreen = () => {
   const [image, setImage] = useState(null);
   const [saving, setSetSaving] = useState(false);

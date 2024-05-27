@@ -58,7 +58,7 @@ const ResetPasswordScreen = () => {
             placeholder="Podaj hasło"
             value={resetPassword}
             setValue={setResetPassword}
-            secureTextEntry={undefined}
+            secureTextEntry={true}
             additionalStyle={{
               color: "#fff",
             }}
@@ -67,7 +67,7 @@ const ResetPasswordScreen = () => {
             placeholder="Powtórz hasło"
             value={resetPasswordConfirm}
             setValue={setResetPasswordConfirm}
-            secureTextEntry={undefined}
+            secureTextEntry={true}
             additionalStyle={{
               color: "#fff",
             }}

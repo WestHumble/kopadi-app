@@ -22,11 +22,7 @@ exports[`empty 1`] = `
   onScrollEndDrag={[Function]}
   renderItem={[Function]}
   scrollEventThrottle={50}
-  stickyHeaderIndices={
-    [
-      0,
-    ]
-  }
+  stickyHeaderIndices={[]}
 >
   <View>
     <View
@@ -49,6 +45,8 @@ exports[`empty 1`] = `
               "color": "#fff",
               "fontSize": 21,
               "fontWeight": "bold",
+              "marginVertical": 4,
+              "paddingVertical": 8,
             }
           }
         >
@@ -77,7 +75,7 @@ exports[`empty 1`] = `
             }
           }
         >
-          Brak znajomych
+          Brak wydarzeń
         </Text>
       </View>
     </View>
