@@ -66,7 +66,7 @@ const InviteFriendsToEventScreen = ({ route }) => {
       "event/all-invited-users/" + event.id,
       null,
       (res) => {
-        setInviteSent([...inviteSent, ...res.data]);
+        setInviteSent([...res.data]);
       },
       (res) => {
         setInviteSent([]);
