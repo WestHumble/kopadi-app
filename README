@@ -1,3 +1,9 @@
+# First time setup
+
+Install yarn: npm install --global yarn
+Run to init project: yarn install
+Run project: yarn expo start --tunnel
+
 # React EXPO
 
 This repository contains code examples and documentation for React EXPO, a framework for building cross-platform mobile apps using React Native and Expo.
